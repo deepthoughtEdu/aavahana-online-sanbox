@@ -32,3 +32,7 @@ No production database or credentials are included. The API mock must stay local
 The GitHub repository is named `aavahana-online-sanbox` as supplied. That spelling is retained in the remote URL.
 
 The sandbox's daily-plan submit URL adds a `date` query parameter in `src/lib/services/aavahana/plan.service.ts`. The production service method signature is unchanged; the local mock needs the viewer's date to associate a submitted plan with its next read. Remove that query parameter when merging changes back to production.
+
+The sandbox also makes the speech-control capability check hydration-safe and gives the weekly-plan input a fixed opening message. The production snapshot rendered different HTML on the server and browser in those paths.
+
+To audit all static Aavahana pages in a browser, install Playwright Chromium once, run the app on port 3100, then run `node scripts/audit-routes.mjs`. The script reports page-load and JavaScript errors. It does not assert that every page has complete mock data.

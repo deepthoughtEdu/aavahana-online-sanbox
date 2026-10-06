@@ -1,6 +1,6 @@
 // src/lib/hooks/use-speech-recognition.ts
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useSyncExternalStore } from "react";
 import { toast } from "@/utils";
 
 // Constants
@@ -57,6 +57,11 @@ export function useSpeechRecognition() {
     typeof window !== "undefined"
       ? window.SpeechRecognition || window.webkitSpeechRecognition
       : null;
+  const isSupported = useSyncExternalStore(
+    () => () => {},
+    () => Boolean(window.SpeechRecognition || window.webkitSpeechRecognition),
+    () => false,
+  );
 
   // Helper function to handle recording stop with cleanup
   const handleRecordingStop = useCallback((showToast = false) => {
@@ -267,6 +272,6 @@ export function useSpeechRecognition() {
     stopRecording,
     toggleRecording,
     resetTranscript,
-    isSupported: !!SpeechRecognitionClass,
+    isSupported,
   };
 }

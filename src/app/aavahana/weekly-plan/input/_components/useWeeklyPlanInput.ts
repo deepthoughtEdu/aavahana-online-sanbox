@@ -71,7 +71,8 @@ export function useWeeklyPlanInput(): WeeklyPlanInputState {
   const [textPrompt, setTextPrompt] = useState('');
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
-  const [insight] = useState(() => insights[Math.floor(Math.random() * insights.length)]);
+  // Keep the first server render and the hydration render identical.
+  const insight = insights[0];
   const [loading, setLoading] = useState(false);
   // Suggestions now render on the Weekly Plan screen (not inline here).
   const aiSuggestions: string[] = [];

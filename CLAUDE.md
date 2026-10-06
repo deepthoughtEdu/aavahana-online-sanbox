@@ -11,3 +11,5 @@ Tailwind v4 uses `@import "tailwindcss"`; DaisyUI v5 uses `@plugin "daisyui"`. D
 Use the exact enum values in the relevant `src/types/` file. Enum values commonly use `snake_case`; do not substitute invented camelCase values. Use short, concrete UI labels and keep empty states consistent with nearby production components.
 
 Run `npm run type-check`, lint changed files, and build before sharing a change. The current sandbox's non-session API coverage is incomplete; the README states the limitation.
+
+For a route smoke test, run the app on port 3100 and execute `node scripts/audit-routes.mjs` after installing Playwright Chromium. The audit catches page errors across static Aavahana routes; it does not verify the data or mutations on each page.
