@@ -16,6 +16,7 @@ import type {
   SavePlanTemplateResponse,
 } from "@/types/aavahana/plan.types";
 import type { ProgramLabel } from "@/types/aavahana/pdgms.types";
+import { todayISO } from "@/utils/shared/date.utils";
 
 export class PlanService {
   /** Get daily plan for a specific date */
@@ -29,7 +30,8 @@ export class PlanService {
   static async submitDailyPlan(payload: {
     plan: DailyTask[];
   }): Promise<ApiResult<DailyPlanSubmitResponse>> {
-    return await api.post<DailyPlanSubmitResponse>("/v3/pdgms/loops/daily-plan/submit", payload, { label: "Submit Daily Plan", successMessage: "Daily plan submitted successfully!" });
+    // Sandbox deviation: identify the viewer's day explicitly for the local in-memory store.
+    return await api.post<DailyPlanSubmitResponse>(`/v3/pdgms/loops/daily-plan/submit?date=${todayISO()}`, payload, { label: "Submit Daily Plan", successMessage: "Daily plan submitted successfully!" });
   }
 
   /** Submit weekly plan with goals and transcript */

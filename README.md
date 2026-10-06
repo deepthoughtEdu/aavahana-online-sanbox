@@ -15,7 +15,7 @@ Open `http://localhost:3000/aavahana`. The root URL redirects there. The sandbox
 
 ## Current scope
 
-The production UI source and routes are present. `src/app/api/[...path]/route.ts` supplies a local session, employee record and empty calling-program list. Other production API requests return HTTP 501 until a matching fixture is added. Screens that depend on those endpoints can show an error or empty state; create and update flows are not yet simulated. This repository is therefore a source extraction and a working shell, not a complete behavioural copy of production.
+The production UI source and routes are present. `src/app/api/[...path]/route.ts` supplies a local session, employee record, empty calling-program list and a daily-plan flow. You can add tasks, submit today's plan, and read it back during the same server session. Other production API requests return HTTP 501 until a matching fixture is added. Screens that depend on those endpoints can show an error or empty state. This repository is therefore a source extraction with one working flow, not a complete behavioural copy of production.
 
 No production database or credentials are included. The API mock must stay local, and fixture data must be fictional. See [CONTEXT.md](CONTEXT.md) and [MOCK-DATA-GUIDE.md](MOCK-DATA-GUIDE.md) before adding data.
 
@@ -30,3 +30,5 @@ No production database or credentials are included. The API mock must stay local
 - `src/components/sandbox/SandboxShell.tsx`: local navigation shell
 
 The GitHub repository is named `aavahana-online-sanbox` as supplied. That spelling is retained in the remote URL.
+
+The sandbox's daily-plan submit URL adds a `date` query parameter in `src/lib/services/aavahana/plan.service.ts`. The production service method signature is unchanged; the local mock needs the viewer's date to associate a submitted plan with its next read. Remove that query parameter when merging changes back to production.
