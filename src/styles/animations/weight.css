@@ -1,0 +1,31 @@
+/* ============================================
+   WEIGHT — Hierarchy has temporal mass.
+
+   L4 Niyanta moves slowly because strategy carries weight.
+   L1 Aavahana moves fast because operators need speed.
+   The user develops body memory for operational altitude
+   before they consciously read a label.
+
+   HOW TO USE:
+   Apply .dt-weight-lN to the MODULE CONTAINER — not to individual elements.
+   The class sets --dt-weight, a CSS custom property.
+   Child elements that want to respect hierarchy weight must use
+   var(--dt-weight, <fallback>) in their own transition declarations.
+
+   This is ADDITIVE — it sets a variable, not an override.
+   It does not break existing animations on child elements.
+
+   Example:
+   <div class="dt-weight-l4">
+     <button style="transition: opacity var(--dt-weight, 180ms)">...</button>
+   </div>
+
+   The button will now transition at L4 speed (400ms) in that container.
+
+   Ontology: conceptual-model | ambient | transition | (work/intelligence surface)
+   ============================================ */
+
+.dt-weight-l1 { --dt-weight: var(--dt-duration-fast);        }  /* 120ms — Aavahana, operator paced */
+.dt-weight-l2 { --dt-weight: var(--dt-duration-base);        }  /* 180ms — Trinethra, standard */
+.dt-weight-l3 { --dt-weight: var(--dt-duration-deliberate);  }  /* 250ms — Mimamsaka, measured */
+.dt-weight-l4 { --dt-weight: var(--dt-duration-reveal);      }  /* 400ms — Niyanta, intelligence surfaces */

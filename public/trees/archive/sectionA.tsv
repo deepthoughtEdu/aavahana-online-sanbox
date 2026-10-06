@@ -1,0 +1,62 @@
+id	parent	type	text	condition	options	target
+A_START	-	start	What moved today?	-	-	-
+A_DELIVER	A_START	action	Mark each deliverable. Set the status and actual time, then submit.	-	-	-
+A_UNPLAN_CHECK	A_DELIVER	action	Check: did employee add any unplanned items?	-	yes|no	-
+A_UNPLAN_YES	A_UNPLAN_CHECK	bridge	Got it. {unplannedCount} unplanned items.	unplanned.length > 0	-	A_CP_CHECK
+A_UNPLAN_NO	A_UNPLAN_CHECK	decision	Agent probes for unplanned. Picks first applicable.	unplanned.length === 0	timeGap|incompleteItems|historyPattern|generic	-
+A_UP_TIME	A_UNPLAN_NO	question	You logged {totalActual}m against {totalPlanned}m planned. That is {gap}m more. Did any unplanned work come in?	totalActual > totalPlanned * 1.15	yes|no, just took longer	-
+A_UP_TIME_YES	A_UP_TIME	bridge	OK. Let's capture those.	answer === yes	-	A_CP_CHECK
+A_UP_TIME_NO	A_UP_TIME	bridge	OK. The work itself took longer. Good to know.	answer === no, just took longer	-	A_CP_CHECK
+A_UP_INC	A_UNPLAN_NO	question	{incompleteItem} is still open. Did something else pull your attention?	partial or not_done exist	yes, something came up|no, just didn't finish	-
+A_UP_INC_YES	A_UP_INC	bridge	OK. Let's capture those.	answer === yes, something came up	-	A_CP_CHECK
+A_UP_INC_NO	A_UP_INC	bridge	OK. It just needed more time. That happens.	answer === no, just didn't finish	-	A_CP_CHECK
+A_UP_HIST	A_UNPLAN_NO	question	Unplanned work showed up {n} of the last {days} days. That might be a pattern. Anything today?	unplanned in 3+ of last 5 reports	yes|no, clean today	-
+A_UP_HIST_YES	A_UP_HIST	bridge	OK. Let's capture those.	answer === yes	-	A_CP_CHECK
+A_UP_HIST_NO	A_UP_HIST	bridge	Clean day. The pattern did not repeat.	answer === no, clean today	-	A_CP_CHECK
+A_UP_GEN	A_UNPLAN_NO	question	Did anything come up that was not on the plan? Helping someone, a request, anything unexpected?	nothing else applies	yes|no	-
+A_UP_GEN_YES	A_UP_GEN	bridge	OK. Let's capture those.	answer === yes	-	A_CP_CHECK
+A_UP_GEN_NO	A_UP_GEN	bridge	Clean day. Your plan held.	answer === no	-	A_CP_CHECK
+A_CP_CHECK	A_DELIVER	action	Check: did employee mark any item as critical path?	after unplanned resolves	yes|no	-
+A_CP_YES	A_CP_CHECK	action	Critical path item: {cpItem.label}	isCriticalPath === true	-	-
+A_CP_YES_QA	A_CP_YES	question	Did {cpItem.label} meet QA spec?	-	met|not met|to verify|unsure|unknown	-
+A_CP_YES_QA_ACK	A_CP_YES_QA	bridge	{qaStatus}. Noted.	-	-	A_TENSION
+A_CP_NO	A_CP_CHECK	decision	Agent probes for critical path. Picks first applicable.	isCriticalPath === false	programData|timeAsymmetry|incompleteItems|askEmployee|generic	-
+A_PROBE_PROG	A_CP_NO	question	Your program depends on {programCpArea}. Does any of your work today connect to that?	programCpData exists	yes, {deliverable}|not sure|no	-
+A_PROBE_PROG_YES	A_PROBE_PROG	question	Did {cpItem.label} meet QA spec?	answer === yes, {deliverable}	met|not met|to verify|unsure|unknown	-
+A_PROBE_PROG_YES_ACK	A_PROBE_PROG_YES	bridge	{qaStatus}. Noted.	-	-	A_TENSION
+A_PROBE_PROG_UNSURE	A_PROBE_PROG	question	That is worth finding out. Which one felt most important?	answer === not sure	{pick a deliverable}|skip	-
+A_PROBE_PROG_UNSURE_PICK	A_PROBE_PROG_UNSURE	question	Did {cpItem.label} meet QA spec?	answer === {deliverable}	met|not met|to verify|unsure|unknown	-
+A_PROBE_PROG_UNSURE_PICK_ACK	A_PROBE_PROG_UNSURE_PICK	bridge	{qaStatus}. Noted.	-	-	A_TENSION
+A_PROBE_PROG_UNSURE_SKIP	A_PROBE_PROG_UNSURE	bridge	No critical path today. Noted.	answer === skip	-	A_TENSION_NOCP
+A_PROBE_PROG_NO	A_PROBE_PROG	question	OK. Which task felt most important to you today?	answer === no	{pick a deliverable}|skip	-
+A_PROBE_PROG_NO_PICK	A_PROBE_PROG_NO	question	Did {cpItem.label} meet QA spec?	answer === {deliverable}	met|not met|to verify|unsure|unknown	-
+A_PROBE_PROG_NO_PICK_ACK	A_PROBE_PROG_NO_PICK	bridge	{qaStatus}. Noted.	-	-	A_TENSION
+A_PROBE_PROG_NO_SKIP	A_PROBE_PROG_NO	bridge	No critical path today. Noted.	answer === skip	-	A_TENSION_NOCP
+A_PROBE_TIME	A_CP_NO	question	{largestItem} had the biggest estimate at {maxEstimate}. Does someone else's work depend on it?	one deliverable has 2x+ estimate	yes|no	-
+A_PROBE_TIME_YES	A_PROBE_TIME	question	Did {cpItem.label} meet QA spec?	answer === yes	met|not met|to verify|unsure|unknown	-
+A_PROBE_TIME_YES_ACK	A_PROBE_TIME_YES	bridge	{qaStatus}. Noted.	-	-	A_TENSION
+A_PROBE_TIME_NO	A_PROBE_TIME	question	OK. Which task felt most important today?	answer === no	{pick a deliverable}|skip	-
+A_PROBE_TIME_NO_PICK	A_PROBE_TIME_NO	question	Did {cpItem.label} meet QA spec?	answer === {deliverable}	met|not met|to verify|unsure|unknown	-
+A_PROBE_TIME_NO_PICK_ACK	A_PROBE_TIME_NO_PICK	bridge	{qaStatus}. Noted.	-	-	A_TENSION
+A_PROBE_TIME_NO_SKIP	A_PROBE_TIME_NO	bridge	No critical path today. Noted.	answer === skip	-	A_TENSION_NOCP
+A_PROBE_INC	A_CP_NO	question	{incompleteItem} is still open. If it moves to tomorrow, does someone else wait?	partial or not_done exist	yes, it would|no, it's independent	-
+A_PROBE_INC_YES	A_PROBE_INC	question	Did {cpItem.label} meet QA spec?	answer === yes, it would	met|not met|to verify|unsure|unknown	-
+A_PROBE_INC_YES_ACK	A_PROBE_INC_YES	bridge	{qaStatus}. Noted.	-	-	A_TENSION
+A_PROBE_INC_NO	A_PROBE_INC	bridge	OK. Independent task. No one is waiting.	answer === no, it's independent	-	A_TENSION_NOCP
+A_PROBE_ASK	A_CP_NO	question	Is any of today's work on a critical path? Something where the next step depends on yours?	no programData, no asymmetry, no incomplete	yes|no	-
+A_PROBE_ASK_YES	A_PROBE_ASK	question	Which one?	answer === yes	{pick a deliverable}	-
+A_PROBE_ASK_YES_QA	A_PROBE_ASK_YES	question	Did {cpItem.label} meet QA spec?	-	met|not met|to verify|unsure|unknown	-
+A_PROBE_ASK_YES_QA_ACK	A_PROBE_ASK_YES_QA	bridge	{qaStatus}. Noted.	-	-	A_TENSION
+A_PROBE_ASK_NO	A_PROBE_ASK	bridge	No critical path today. Noted.	answer === no	-	A_TENSION_NOCP
+A_PROBE_GEN	A_CP_NO	question	If you could only protect one deliverable today, which one matters most?	nothing else applies	{pick a deliverable}|they're all equal	-
+A_PROBE_GEN_PICK	A_PROBE_GEN	question	Did {cpItem.label} meet QA spec?	answer === {deliverable}	met|not met|to verify|unsure|unknown	-
+A_PROBE_GEN_PICK_ACK	A_PROBE_GEN_PICK	bridge	{qaStatus}. Noted.	-	-	A_TENSION
+A_PROBE_GEN_EQUAL	A_PROBE_GEN	bridge	All equal weight today. Noted.	answer === they're all equal	-	A_TENSION_NOCP
+A_TENSION	A_DELIVER	action	Today: {done} complete, {partial} in progress, {notDone} blocked. Plan {totalPlanned}m, actual {totalActual}m.	hasCpItem === true	-	-
+A_BRIDGE_B	A_TENSION	action	Pick bridge text for Section B.	-	notDone > 0|all done	-
+A_BRIDGE_B_NOTDONE	A_BRIDGE_B	bridge	{notDone} did not clear. Let's find out what blocked them.	notDone > 0	-	SECTION_B
+A_BRIDGE_B_DONE	A_BRIDGE_B	bridge	Everything cleared. Was anything harder than it needed to be?	notDone === 0	-	SECTION_B
+A_END_B	A_BRIDGE_B	end	Section B	-	-	-
+A_TENSION_NOCP	A_DELIVER	action	Today: {done} complete, {partial} in progress, {notDone} blocked. Plan {totalPlanned}m, actual {totalActual}m.	hasCpItem === false	-	-
+A_BRIDGE_C	A_TENSION_NOCP	bridge	No critical chain today. Your work was independent. Let's close out.	-	-	SECTION_C
+A_END_C	A_BRIDGE_C	end	Section C	-	-	-

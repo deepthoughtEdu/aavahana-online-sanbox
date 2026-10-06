@@ -1,0 +1,25 @@
+id	options	source
+A_UNPLAN_CHECK	yes|no	-
+A_UP_TIME	yes|no, just took longer	-
+A_UP_INC	yes, something came up|no, just didn't finish	-
+A_UP_HIST	yes|no, clean today	-
+A_UP_GEN	yes|no	-
+A_CP_CHECK	yes|no	-
+A_CP_YES_QA	met|not met|to verify|unsure|unknown	-
+A_PROBE_PROG	not sure|no	external:deliverables
+A_PROBE_PROG_YES	met|not met|to verify|unsure|unknown	-
+A_PROBE_PROG_UNSURE	skip	external:deliverables
+A_PROBE_PROG_UNSURE_PICK	met|not met|to verify|unsure|unknown	-
+A_PROBE_PROG_NO	skip	external:deliverables
+A_PROBE_PROG_NO_PICK	met|not met|to verify|unsure|unknown	-
+A_PROBE_TIME	yes|no	-
+A_PROBE_TIME_YES	met|not met|to verify|unsure|unknown	-
+A_PROBE_TIME_NO	skip	external:deliverables
+A_PROBE_TIME_NO_PICK	met|not met|to verify|unsure|unknown	-
+A_PROBE_INC	yes, it would|no, it's independent	-
+A_PROBE_INC_YES	met|not met|to verify|unsure|unknown	-
+A_PROBE_ASK	yes|no	-
+A_PROBE_ASK_YES	-	external:deliverables
+A_PROBE_ASK_YES_QA	met|not met|to verify|unsure|unknown	-
+A_PROBE_GEN	they're all equal	external:deliverables
+A_PROBE_GEN_PICK	met|not met|to verify|unsure|unknown	-

@@ -1,0 +1,165 @@
+/* ============================================
+   SCROLLBAR STYLING - MINIMAL
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(var(--b2));
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(var(--bc) / 0.3);
+  border-radius: var(--radius-sm);
+  border: 2px solid oklch(var(--b2));
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(var(--bc) / 0.4);
+}
+
+/* Animations — see animations.css */
+
+/* ============================================
+   LAYOUT TOKENS
+   ============================================ */
+
+/* Daily plan canvas — accounts for page header (104px) + bottom padding (24px) */
+.dt-daily-canvas { height: calc(100vh - 128px); }
+
+/* ============================================
+   VIRTUAL TOUR — v2 Design Tokens
+   ============================================ */
+
+.eyebrow {
+  font-size: 0.625rem;
+  font-weight: 900;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  margin-right: 10px;
+  vertical-align: middle;
+  opacity: 0.45;
+}
+
+.hex-grid {
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 28px 48px, 28px 48px;
+  background-position: 0 0, 14px 24px;
+}
+
+.dot-grid-light {
+  background-image: radial-gradient(#000 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.card-lift {
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(0, 41, 255, 0.12);
+}
+
+/* ── Ported from websitev2 (~/projects/websitev2/src/index.css), 2026-09-22 ──
+   The four above (.eyebrow, .hex-grid, .dot-grid-light, .card-lift) came across
+   earlier; these are the rest of the set BD Voice's calling desk needs. Values are
+   the website's, unchanged, except that the glow is expressed against the THEME's
+   primary rather than the website's hardcoded #0029FF, so it follows dt-light
+   instead of freezing a second blue into the app.
+
+   ⚠️ A WORK SURFACE USES THESE SPARINGLY. design-principles.md: on a work surface
+   the interface recedes and the work is foreground. These exist for the one or two
+   places a caller's eye must go — a live state, the button that logs the call —
+   not for decorating a table they read two hundred times a week. */
+
+/* A state that is happening right now, not a state that was recorded. */
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+.status-pulse { animation: statusPulse 1.8s ease-in-out infinite; }
+
+/* An expanding ring: something is waiting to be pressed. */
+@keyframes ringPulse {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  100% { transform: scale(1.5); opacity: 0;   }
+}
+.ring-pulse { animation: ringPulse 2s ease-out infinite; }
+
+/* The primary action, lifted. */
+.btn-glow {
+  position: relative;
+  transition: background-color 0.2s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+.btn-glow:hover {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--color-primary) 20%, transparent),
+              0 8px 32px color-mix(in srgb, var(--color-primary) 15%, transparent);
+  transform: translateY(-1px);
+}
+.btn-glow:active {
+  transform: translateY(0);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+/* Tabular figures for anything a caller compares down a column: counts, durations,
+   phone numbers. JetBrains Mono is already loaded on <html> as --font-mono. */
+.numeric {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── The BD work table ────────────────────────────────────────────────────────
+   Tarun, 2026-09-22: "the UI is not clean." The tables were daisyUI defaults — a
+   heavy header in body type, tight rows, a full grid of borders — which is a lot
+   of ink for a screen somebody reads two hundred times a week.
+
+   websitev2's proportions instead: the header recedes to a mono micro-label the
+   way .eyebrow does, the rows get air, and the only rule is a hairline between
+   them. The data is the darkest thing on the screen, which is the whole point of
+   a work surface. */
+.dt-work-table thead th {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-base-content) 45%, transparent);
+  background: transparent;
+  border-bottom: 1px solid var(--color-base-300);
+  padding-block: 0.625rem;
+}
+.dt-work-table tbody td {
+  padding-block: 0.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-base-300) 55%, transparent);
+  vertical-align: middle;
+}
+.dt-work-table tbody tr:last-child td { border-bottom: 0; }
+.dt-work-table tbody tr:hover { background: color-mix(in srgb, var(--color-primary) 3%, transparent); }
+
+/* ── BD surface control rows ──────────────────────────────────────────────────
+   ⚠️ daisyUI 5 gives `.select` and `.input` `width: 100%`. In a flex control row
+   that makes every control stretch and the row collapse into a vertical stack —
+   which is what BD Voice's Accounts header was doing, and why Tarun said the UI
+   was not clean. components.css records the same trap for `.input` and solved it
+   by pinning `w-44` on one screen; there are a dozen more.
+
+   One rule instead of a dozen hand-pinned widths: on the BD surfaces a control
+   sizes to its content. Anything that genuinely wants the full row still says so
+   with `w-full`, which wins on specificity. */
+.dt-bd-surface :is(.select, .input):not(.w-full):not([class*="w-"]) {
+  width: auto;
+}

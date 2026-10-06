@@ -1,0 +1,551 @@
+/* ============================================
+   DATATABLE - ELEGANT DESIGN
+   ============================================ */
+
+/* Reset rc-table default styles */
+.rc-table {
+  border-collapse: separate !important;
+  border-spacing: 0;
+  border: none !important; /* Remove default red border */
+  color: oklch(var(--bc));
+  font-size: 0.875rem;
+  width: 100%;
+  table-layout: auto; /* Allow natural width calculation */
+}
+
+.rc-table-container {
+  border: none !important; /* Remove container border */
+  overflow: visible; /* Prevent unnecessary scrollbars */
+}
+
+.rc-table-content {
+  border: none !important;
+  overflow-x: auto; /* Only show horizontal scroll when needed */
+  overflow-y: hidden; /* Vertical scroll handled by parent */
+}
+
+/* ============================================
+   TABLE STRUCTURE
+   ============================================ */
+
+/* Table Header - Sticky & Elegant */
+.rc-table-thead > tr > th {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+  background: oklch(var(--b2)) !important;
+  color: oklch(var(--bc) / 0.8);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--spacing-md) var(--spacing-sm);
+  border: none !important; /* Remove default borders */
+  border-bottom: 1px solid oklch(var(--bc) / 0.1) !important;
+  text-align: left;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Subtle shadow for depth */
+.rc-table-thead > tr > th::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: linear-gradient(
+    to bottom,
+    oklch(var(--bc) / 0.05),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Header cell hover */
+.rc-table-thead > tr > th:hover {
+  background: oklch(var(--b2) / 0.8) !important;
+}
+
+/* ============================================
+   TABLE BODY
+   ============================================ */
+
+/* Table rows */
+.rc-table-tbody > tr {
+  border: none !important;
+  transition: background-color 0.15s ease;
+}
+
+/* Table cells */
+.rc-table-tbody > tr > td {
+  padding: var(--spacing-md) var(--spacing-sm);
+  border: none !important; /* Remove default borders */
+  border-bottom: 1px solid oklch(var(--bc) / 0.05);
+  color: oklch(var(--bc));
+  font-size: 0.875rem;
+  background: oklch(var(--b1));
+  transition: background-color 0.15s ease;
+}
+
+/* Row hover effect */
+.rc-table-tbody > tr:hover > td {
+  background: oklch(var(--b2) / 0.3);
+}
+
+/* Clickable rows */
+.rc-table-tbody > tr.cursor-pointer:hover > td {
+  background: oklch(var(--b2) / 0.5);
+  cursor: pointer;
+}
+
+/* Last row - no bottom border */
+.rc-table-tbody > tr:last-child > td {
+  border-bottom: none;
+}
+
+/* ============================================
+   FIXED COLUMNS
+   ============================================ */
+
+/* Fixed left column */
+.rc-table-cell-fix-left,
+.rc-table-cell-fix-left-last {
+  position: sticky !important;
+  left: 0;
+  z-index: 9;
+  background: oklch(var(--b1)) !important;
+}
+
+.rc-table-thead .rc-table-cell-fix-left,
+.rc-table-thead .rc-table-cell-fix-left-last {
+  background: oklch(var(--b2)) !important;
+  z-index: 11 !important;
+}
+
+/* Shadow for fixed columns */
+.rc-table-cell-fix-left-last::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  transform: translateX(100%);
+  background: linear-gradient(
+    to right,
+    oklch(var(--bc) / 0.08),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Fixed right column */
+.rc-table-cell-fix-right,
+.rc-table-cell-fix-right-first {
+  position: sticky !important;
+  right: 0;
+  z-index: 9;
+  background: oklch(var(--b1)) !important;
+}
+
+.rc-table-thead .rc-table-cell-fix-right,
+.rc-table-thead .rc-table-cell-fix-right-first {
+  background: oklch(var(--b2)) !important;
+  z-index: 11 !important;
+}
+
+/* Shadow for fixed right columns */
+.rc-table-cell-fix-right-first::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 10px;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    to left,
+    oklch(var(--bc) / 0.08),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Hover effect for fixed columns */
+.rc-table-tbody > tr:hover .rc-table-cell-fix-left,
+.rc-table-tbody > tr:hover .rc-table-cell-fix-left-last,
+.rc-table-tbody > tr:hover .rc-table-cell-fix-right,
+.rc-table-tbody > tr:hover .rc-table-cell-fix-right-first {
+  background: oklch(var(--b2) / 0.5) !important;
+}
+
+/* ============================================
+   EXPANDABLE ROWS
+   ============================================ */
+
+/* Expand icon */
+.rc-table-row-expand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-sm);
+  background: oklch(var(--b2));
+  border: 1px solid oklch(var(--bc) / 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.rc-table-row-expand-icon:hover {
+  background: oklch(var(--b2) / 0.8);
+  border-color: oklch(var(--bc) / 0.3);
+}
+
+.rc-table-row-expand-icon-expanded {
+  transform: rotate(90deg);
+}
+
+/* Expanded row */
+.rc-table-expanded-row > td {
+  padding: var(--spacing-lg) var(--spacing-md) !important;
+  background: oklch(var(--b2) / 0.2) !important;
+}
+
+.rc-table-expanded-row:hover > td {
+  background: oklch(var(--b2) / 0.3) !important;
+}
+
+/* ============================================
+   ROW SELECTION
+   ============================================ */
+
+/* Selection checkbox */
+.rc-table-selection-column {
+  width: 48px;
+  text-align: center;
+}
+
+.rc-table-selection {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Selected row highlight */
+.rc-table-tbody > tr.rc-table-row-selected > td {
+  background: color-mix(in srgb, var(--color-primary) 8%, oklch(var(--b1)));
+}
+
+.rc-table-tbody > tr.rc-table-row-selected:hover > td {
+  background: color-mix(in srgb, var(--color-primary) 12%, oklch(var(--b1)));
+}
+
+/* ============================================
+   SORTING
+   ============================================ */
+
+.rc-table-column-sorter {
+  margin-left: var(--spacing-xs);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+}
+
+.rc-table-column-sorter:hover {
+  opacity: 0.8;
+}
+
+.rc-table-column-sorter-up,
+.rc-table-column-sorter-down {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: oklch(var(--bc) / 0.5);
+}
+
+.rc-table-column-sorter-up.active,
+.rc-table-column-sorter-down.active {
+  color: var(--color-primary);
+}
+
+/* ============================================
+   SUMMARY ROW
+   ============================================ */
+
+.rc-table-summary {
+  background: oklch(var(--b2) / 0.3);
+  border-top: 2px solid oklch(var(--bc) / 0.1);
+}
+
+.rc-table-summary > tr > td {
+  padding: var(--spacing-md) var(--spacing-sm);
+  font-weight: 600;
+  color: oklch(var(--bc) / 0.9);
+  border: none !important;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
+.rc-table-placeholder {
+  padding: var(--spacing-xl) var(--spacing-md);
+  text-align: center;
+  color: oklch(var(--bc) / 0.5);
+  background: oklch(var(--b1));
+  border: none !important;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+
+.rc-table-tbody > tr.rc-table-placeholder {
+  background: oklch(var(--b1));
+}
+
+.rc-table-tbody > tr.rc-table-placeholder:hover {
+  background: oklch(var(--b1));
+}
+
+/* ============================================
+   CELL ALIGNMENT
+   ============================================ */
+
+.rc-table-cell-align-left {
+  text-align: left;
+}
+
+.rc-table-cell-align-center {
+  text-align: center;
+}
+
+.rc-table-cell-align-right {
+  text-align: right;
+}
+
+/* ============================================
+   ELLIPSIS
+   ============================================ */
+
+.rc-table-cell-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+.rc-table-content {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(var(--bc) / 0.2) transparent;
+}
+
+.rc-table-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.rc-table-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rc-table-content::-webkit-scrollbar-thumb {
+  background: oklch(var(--bc) / 0.2);
+  border-radius: var(--radius-full);
+}
+
+.rc-table-content::-webkit-scrollbar-thumb:hover {
+  background: oklch(var(--bc) / 0.3);
+}
+
+/* ============================================
+   STRIPED ROWS (Optional)
+   ============================================ */
+
+.rc-table-striped .rc-table-tbody > tr:nth-child(even) > td {
+  background: oklch(var(--b1) / 0.5);
+}
+
+.rc-table-striped .rc-table-tbody > tr:nth-child(even):hover > td {
+  background: oklch(var(--b2) / 0.5);
+}
+
+/* ============================================
+   COMPACT MODE
+   ============================================ */
+
+.rc-table-compact .rc-table-thead > tr > th {
+  padding: var(--spacing-sm) var(--spacing-xs);
+  font-size: 0.75rem;
+}
+
+.rc-table-compact .rc-table-tbody > tr > td {
+  padding: var(--spacing-sm) var(--spacing-xs);
+  font-size: 0.8125rem;
+}
+
+/* ============================================
+   BORDERED VARIANT (Optional)
+   ============================================ */
+
+.rc-table-bordered .rc-table-thead > tr > th {
+  border-right: 1px solid oklch(var(--bc) / 0.05);
+}
+
+.rc-table-bordered .rc-table-thead > tr > th:last-child {
+  border-right: none;
+}
+
+.rc-table-bordered .rc-table-tbody > tr > td {
+  border-right: 1px solid oklch(var(--bc) / 0.05);
+}
+
+.rc-table-bordered .rc-table-tbody > tr > td:last-child {
+  border-right: none;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .rc-table {
+    font-size: 0.8125rem;
+  }
+
+  .rc-table-thead > tr > th {
+    padding: var(--spacing-sm) var(--spacing-xs);
+    font-size: 0.75rem;
+  }
+
+  .rc-table-tbody > tr > td {
+    padding: var(--spacing-sm) var(--spacing-xs);
+    font-size: 0.8125rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+.rc-table-thead > tr > th:focus-visible,
+.rc-table-tbody > tr > td:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+/* Screen reader only */
+.rc-table-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================
+   DARK MODE ADJUSTMENTS
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .rc-table-thead > tr > th {
+    background: oklch(var(--b2) / 0.5) !important;
+  }
+
+  .rc-table-tbody > tr:hover > td {
+    background: oklch(var(--b2) / 0.4);
+  }
+
+  .rc-table-cell-fix-left-last::after,
+  .rc-table-cell-fix-right-first::before {
+    background: linear-gradient(
+      to right,
+      oklch(var(--bc) / 0.1),
+      transparent
+    );
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes rc-table-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rc-table-tbody > tr {
+  animation: rc-table-fade-in 0.2s ease;
+}
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .rc-table-tbody > tr {
+    animation: none;
+  }
+
+  .rc-table-thead > tr > th,
+  .rc-table-tbody > tr > td,
+  .rc-table-row-expand-icon {
+    transition: none;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .rc-table {
+    border: 1px solid #000;
+  }
+
+  .rc-table-thead > tr > th {
+    background: #f5f5f5 !important;
+    border: 1px solid #000;
+  }
+
+  .rc-table-tbody > tr > td {
+    border: 1px solid #ddd;
+  }
+
+  .rc-table-row-expand-icon {
+    display: none;
+  }
+}
+
+.rc-table-body{
+  overflow: hidden;
+  border: none !important;
+  transition:none !important
+}
+.rc-table-header{
+  border: none !important;
+  background-color: #f5f5f5;
+}
+
+.rc-table-cell:not([style]){
+  text-align: left !important;
+}

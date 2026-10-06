@@ -1,0 +1,27 @@
+id	options	source
+Q1	speed|quality|wasted effort|waiting on someone|it went well	-
+B_CONSTRAINT	Budget|Talent|Internal Support|Assumptions|Permissions|skip	-
+B_CONSTRAINT_2	Budget|Talent|Internal Support|Assumptions|Permissions|skip	-
+B_CONSTRAINT_3	Budget|Talent|Internal Support|Assumptions|Permissions|skip	-
+B_CONSTRAINT_4	Budget|Talent|Internal Support|Assumptions|Permissions|skip	-
+E_CP_PROBE	yes, found a better way|no, standard approach	-
+E_NOCP_PROBE	yes, it is critical|actually no	-
+E_SOP_MARK	yes|skip	-
+E_CP_TIME	let's look|just took longer, no issue	-
+E_CP_UNPLAN	yes it did|no, separate	-
+E_CP_PATTERN	free text|dismiss	-
+E_CP_LAST	yes|same approach	-
+E_NOCP_WANT	yes|no	-
+E_NOCP_SMOOTH	yes, smooth|no, something came up	-
+E_SOP_YES	Budget|Talent|Internal Support|Assumptions|Permissions|skip	-
+E_CONSTRAINT	Budget|Talent|Internal Support|Assumptions|Permissions|skip	-
+CPICK	none of these	derived:constraints.micro
+CPICK_CONFIRM	none of these	derived:constraints.micro
+NAV	none of these	external:navigations.macro
+NAV_MACRO	none of these	external:navigations.micro
+NARR_INVITE	yes|not today	-
+NARR_YES	voice|text	-
+NARR_NUDGE_PATTERN	voice/text|really not today|skip	-
+NARR_NUDGE_NEW	thumbs up|thumbs down	-
+NARR_NUDGE_TIME	voice/text|skip	-
+SMOOTH_NOTE	continue|skip	-

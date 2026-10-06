@@ -1,0 +1,98 @@
+/* ============================================
+   AMBIENT — The system is attended.
+
+   The hospital monitoring station does not go dark between alarms.
+   Even when nothing is loading, the platform must feel active —
+   not frozen, not idle. The "nothing slips" promise requires
+   a perceptual substrate.
+
+   These animations run continuously at very low amplitude.
+   They are felt, not seen. The user notices when they stop.
+
+   All ambient classes:
+   — Period ≥ 6s (--dt-duration-ambient baseline)
+   — Amplitude ≤ 15% of resting value
+   — ease-in-out only (no sharp inflection in cycles)
+   — Must be inside prefers-reduced-motion kill switch (in index.css)
+
+   Ontology: conceptual-model | ambient | infinite | (surface varies)
+   ============================================ */
+
+/* ---- Sentinel ---- */
+/* Applied to dashboard headers, module nav bars.
+   Imperceptible opacity cycle. The platform is live.
+   Surface: brand-surface */
+
+@keyframes dtSentinel {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.94; }
+}
+
+.dt-sentinel {
+  animation: dtSentinel var(--dt-duration-ambient) ease-in-out infinite;
+}
+
+/* ---- Undercurrent ---- */
+/* A gradient that shifts its position slowly across a surface.
+   Only use on Niyanta (intelligence-surface) panels that already
+   have a gradient background. Communicates: intelligence is moving.
+   Surface: intelligence-surface
+
+   Requires the element to have a gradient background set.
+   Example: background: linear-gradient(135deg, var(--dt-navyMid), var(--dt-navy));
+*/
+
+@keyframes dtUndercurrent {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.dt-undercurrent {
+  background-size: 200% 200%;
+  animation: dtUndercurrent calc(var(--dt-duration-ambient) * 2) ease-in-out infinite;
+}
+
+/* ---- Vigil ---- */
+/* A single-pixel line that sweeps across the bottom of a panel,
+   then fades — repeats on a slow cycle.
+   Signals: this panel is under active monitoring.
+   Surface: work-surface (monitoring panels, Event Loop, live feeds) */
+
+@keyframes dtVigilSweep {
+  0%   { transform: scaleX(0); opacity: 0.6; transform-origin: left; }
+  70%  { transform: scaleX(1); opacity: 0.6; transform-origin: left; }
+  100% { transform: scaleX(1); opacity: 0;   transform-origin: left; }
+}
+
+.dt-vigil {
+  position: relative;
+}
+
+.dt-vigil::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--dt-teal);
+  animation: dtVigilSweep 8s var(--dt-ease-linear) infinite;
+  pointer-events: none;
+}
+
+/* ---- Digest ---- */
+/* A very subtle background lightening that fires every ~30s.
+   Communicates: the data in this panel just refreshed.
+   Apply via JS: toggle class on data refresh cycle.
+   Surface: data-surface (dashboard cards with live data) */
+
+@keyframes dtDigest {
+  0%   { background-color: transparent; }
+  8%   { background-color: rgba(255, 255, 255, 0.035); }
+  100% { background-color: transparent; }
+}
+
+.dt-digest {
+  animation: dtDigest 2.4s var(--dt-ease-precise) 1 forwards;
+}

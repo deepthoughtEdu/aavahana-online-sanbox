@@ -1,0 +1,116 @@
+/* ============================================
+   LOAD — Working. Not frozen.
+
+   The Scan    — Niyanta AI reading the content
+   Think       — AI processing (3 dots)
+   Shimmer     — skeleton loading
+   Spin        — button / inline spinner
+   Progress    — thin line across the bottom
+   ============================================ */
+
+/* ---- The Scan (Niyanta AI layer) ---- */
+/* A directional light sweeps the content. Intelligence is reading. */
+
+@keyframes dtScanMove {
+  0%   { background-position: -150% 0; }
+  100% { background-position:  250% 0; }
+}
+
+.dt-scan {
+  position: relative;
+  overflow: hidden;
+}
+
+.dt-scan::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--module-niyanta-glow) 45%,
+    rgba(124, 58, 237, 0.18) 50%,
+    var(--module-niyanta-glow) 55%,
+    transparent 100%
+  );
+  background-size: 60% 100%;
+  animation: dtScanMove var(--dt-duration-reveal) var(--dt-ease-linear) infinite;
+  pointer-events: none;
+}
+
+/* ---- Think (Niyanta processing) ---- */
+/* Three dots pulse in sequence. AI is working. */
+
+@keyframes dtThinkDot {
+  0%, 60%, 100% { transform: translateY(0);    opacity: 0.4; }
+  30%            { transform: translateY(-4px); opacity: 1;   }
+}
+
+.dt-thinking {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.dt-thinking > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--module-niyanta);
+  animation: dtThinkDot 1.4s ease-in-out infinite;
+}
+
+.dt-thinking > span:nth-child(2) { animation-delay: 0.2s; }
+.dt-thinking > span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ---- Shimmer (skeleton loading) ---- */
+
+@keyframes dtShimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.dt-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--dt-bgDeep) 25%,
+    var(--dt-border) 50%,
+    var(--dt-bgDeep) 75%
+  );
+  background-size: 800px 100%;
+  animation: dtShimmer 1.4s ease-in-out infinite;
+}
+
+/* ---- Spin (button / inline spinner) ---- */
+
+@keyframes dtSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.dt-spin {
+  animation: dtSpin var(--dt-duration-ritual) var(--dt-ease-linear) infinite;
+}
+
+/* ---- Progress (thin line — page / action loading) ---- */
+
+@keyframes dtProgress {
+  from { width: 0%;   opacity: 1; }
+  90%  { width: 100%; opacity: 1; }
+  100% { width: 100%; opacity: 0; }
+}
+
+.dt-progress {
+  position: relative;
+  overflow: hidden;
+}
+
+.dt-progress::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--dt-teal);
+  animation: dtProgress var(--dt-duration-ritual) var(--dt-ease-out) both;
+}

@@ -1,0 +1,173 @@
+/* ============================================
+   PRESS — The surface confirms contact.
+
+   Hover      — "yes, this is interactive"
+   Active     — "yes, I received the press"
+   Focus      — "you are here" (keyboard navigation)
+   Input      — "open, ready to receive"
+   Chevron    — state communicator (not decoration)
+   Voice      — microphone active
+   ============================================ */
+
+/* ---- Hover signifiers ---- */
+
+/* Card lift — primary interactive card */
+.dt-hover-lift {
+  transition:
+    transform    var(--dt-duration-snap) var(--dt-ease-precise),
+    box-shadow   var(--dt-duration-snap) var(--dt-ease-precise);
+}
+.dt-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+}
+
+/* Row/item rise — less prominent surfaces */
+.dt-hover-rise {
+  transition:
+    transform    var(--dt-duration-snap) var(--dt-ease-precise),
+    background   var(--dt-duration-snap) var(--dt-ease-precise);
+}
+.dt-hover-rise:hover {
+  transform: translateY(-1px);
+  background: var(--dt-bgDeep);
+}
+
+/* Teal ring — primary CTA, active links */
+.dt-hover-teal {
+  transition: box-shadow var(--dt-duration-snap) var(--dt-ease-precise);
+}
+.dt-hover-teal:hover {
+  box-shadow: 0 0 0 3px var(--dt-tealBorder);
+}
+
+/* Module-specific hover glows */
+.dt-hover-aavahana,
+.dt-hover-trinethra,
+.dt-hover-mimamsaka,
+.dt-hover-niyanta {
+  transition: box-shadow var(--dt-duration-snap) var(--dt-ease-precise);
+}
+.dt-hover-aavahana:hover  { box-shadow: 0 0 0 3px var(--module-aavahana-border); }
+.dt-hover-trinethra:hover { box-shadow: 0 0 0 3px var(--module-trinethra-border); }
+.dt-hover-mimamsaka:hover { box-shadow: 0 0 0 3px var(--dt-tealBorder); }
+.dt-hover-niyanta:hover   { box-shadow: 0 0 0 3px var(--module-niyanta-border); }
+
+/* ---- Press confirmation ---- */
+/* The surface depresses. The system received it. */
+
+.dt-btn:active {
+  transform: scale(0.97);
+  transition: transform 60ms var(--dt-ease-precise);
+}
+
+.dt-btn--ghost:active {
+  transform: scale(0.98);
+  background: var(--dt-bgDeep);
+}
+
+.dt-toggle__btn:active {
+  transform: scale(0.95);
+}
+
+.dt-stat-chip:active {
+  transform: scale(0.97);
+}
+
+.dt-choice-card:active {
+  transform: scale(0.99);
+  border-color: var(--dt-tealBorder);
+}
+
+/* ---- Focus rings (keyboard navigation) ---- */
+
+.dt-btn:focus-visible {
+  outline: 2px solid var(--dt-teal);
+  outline-offset: 2px;
+}
+
+.dt-filter-btn:focus-visible {
+  outline: 2px solid var(--dt-teal);
+  outline-offset: 1px;
+}
+
+.dt-tab:focus-visible {
+  outline: 2px solid var(--dt-teal);
+  outline-offset: -2px;
+  border-radius: 4px 4px 0 0;
+}
+
+/* Module-scoped focus rings */
+.dt-focus-aavahana:focus-visible  { outline: 2px solid var(--module-aavahana);  outline-offset: 2px; }
+.dt-focus-trinethra:focus-visible { outline: 2px solid var(--module-trinethra); outline-offset: 2px; }
+.dt-focus-niyanta:focus-visible   { outline: 2px solid var(--module-niyanta);   outline-offset: 2px; }
+
+/* ---- Input fields ---- */
+
+.dt-input {
+  background: var(--dt-bgDeep);
+  border: 1.5px solid var(--dt-border);
+  border-radius: 7px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--dt-text);
+  width: 100%;
+  transition:
+    border-color var(--dt-duration-snap) var(--dt-ease-precise),
+    box-shadow   var(--dt-duration-snap) var(--dt-ease-precise);
+}
+
+.dt-input::placeholder {
+  color: var(--dt-textDim);
+  transition: opacity var(--dt-duration-fast) var(--dt-ease-precise);
+}
+
+.dt-input:focus {
+  outline: none;
+  border-color: var(--dt-teal);
+  box-shadow: 0 0 0 3px var(--dt-tealDim);
+}
+
+.dt-input:focus::placeholder {
+  opacity: 0.4;
+}
+
+.dt-input--error {
+  border-color: var(--dt-red);
+}
+
+.dt-input--error:focus {
+  border-color: var(--dt-red);
+  box-shadow: 0 0 0 3px var(--dt-redDim);
+}
+
+.dt-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ---- Chevron rotation ---- */
+/* The arrow direction IS the state. It must move. */
+
+.dt-chevron {
+  display: inline-block;
+  transition: transform var(--dt-duration-fast) var(--dt-ease-precise);
+}
+
+/* Points right by default → rotates down when open */
+.dt-chevron--open { transform: rotate(90deg); }
+
+/* Points down by default → rotates up when open */
+.dt-chevron--flip.dt-chevron--open { transform: rotate(180deg); }
+
+/* ---- Voice / microphone active ---- */
+
+@keyframes voiceRipple {
+  0%   { box-shadow: 0 0 0 0   rgba(59, 130, 246, 0.7); }
+  70%  { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+}
+
+.voice-ripple-animation {
+  animation: voiceRipple 1.5s infinite;
+}

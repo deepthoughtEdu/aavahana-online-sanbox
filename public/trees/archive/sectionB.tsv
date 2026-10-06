@@ -1,0 +1,83 @@
+id	parent	type	text	condition	options	target
+START	-	start	Let's find the constraint.	-	-	-
+Q1	START	question	Think about {cpItem.label}. Where was the friction?	-	speed|quality|wasted effort|waiting on someone|it went well	-
+A1_FAST	Q1	answer	speed	-	-	-
+A1_QUAL	Q1	answer	quality	-	-	-
+A1_EFF	Q1	answer	wasted effort	-	-	-
+A1_DEP	Q1	answer	waiting on someone	-	-	-
+A1_NONE	Q1	answer	it went well	-	-	-
+ACK_FAST	A1_FAST	ack	{contextAckText}	-	-	-
+ACK_FAST_T1	ACK_FAST	ack	You planned {estimate}. It took {actual}. Where did the extra {gap} minutes go?	timeGap > 0	-	B_CONSTRAINT
+ACK_FAST_T2	ACK_FAST	ack	You finished on time. If you did it again, what would you change?	timeGap <= 0	-	B_CONSTRAINT
+ACK_FAST_T3	ACK_FAST	ack	You have done similar work in {bestTime} before. Today was {actual}. What was different?	history has faster instance	-	B_CONSTRAINT
+ACK_QUAL	A1_QUAL	ack	{contextAckText}	-	-	-
+ACK_QUAL_T1	ACK_QUAL	ack	QA spec was not met. What got in the way?	qaStatus === qa_not_met	-	B_CONSTRAINT_2
+ACK_QUAL_T2	ACK_QUAL	ack	QA is met, but you see room to improve. What would good look like?	qaStatus === qa_met	-	B_CONSTRAINT_2
+ACK_QUAL_T3	ACK_QUAL	ack	There is no QA spec for this. Is that part of the problem?	qaStatus === qa_unknown	-	B_CONSTRAINT_2
+ACK_QUAL_T4	ACK_QUAL	ack	Verification is unclear. What is making it hard to check?	qaStatus === qa_to_verify or qa_unsure	-	B_CONSTRAINT_2
+ACK_EFF	A1_EFF	ack	{contextAckText}	-	-	-
+ACK_EFF_T1	ACK_EFF	ack	{unplannedMins}m went to unplanned work. Did that take effort away from {cpItem}?	hasUnplanned	-	B_CONSTRAINT_3
+ACK_EFF_T2	ACK_EFF	ack	Where did effort go that did not move the work forward?	!hasUnplanned and high actualMins	-	B_CONSTRAINT_3
+ACK_EFF_T3	ACK_EFF	ack	Low time spent. What felt like it did not need doing?	low actualMins	-	B_CONSTRAINT_3
+ACK_DEP	A1_DEP	ack	{contextAckText}	-	-	-
+ACK_DEP_T1	ACK_DEP	ack	You have flagged {type} {n} times in {days} days. Same thing today?	recurring dependency in history	-	B_CONSTRAINT_4
+ACK_DEP_T2	ACK_DEP	ack	Who or what were you waiting on?	no dependency history	-	B_CONSTRAINT_4
+B_CONSTRAINT	ACK_FAST	question	{scopedConstraintQuestion}	-	5 macros|skip	-
+B_CONSTRAINT_2	ACK_QUAL	question	{scopedConstraintQuestion}	-	5 macros|skip	CPICK
+B_CONSTRAINT_3	ACK_EFF	question	{scopedConstraintQuestion}	-	5 macros|skip	CPICK
+B_CONSTRAINT_4	ACK_DEP	question	{scopedConstraintQuestion}	-	5 macros|skip	CPICK
+CPICK_SKIP_2	B_CONSTRAINT_2	bridge	OK. Moving on.	answer === skip	-	BRIDGE
+CPICK_SKIP_3	B_CONSTRAINT_3	bridge	OK. Moving on.	answer === skip	-	BRIDGE
+CPICK_SKIP_4	B_CONSTRAINT_4	bridge	OK. Moving on.	answer === skip	-	BRIDGE
+E_ENTRY	A1_NONE	decision	Is {cpItem} on the critical path?	-	yes|no	-
+E_CP_PROBE	E_ENTRY	question	{cpItem} is done and on the critical path. Did you find something that worked well?	isCriticalPath === true	yes, found a better way|no, standard approach	-
+E_NOCP_PROBE	E_ENTRY	question	Are you sure {cpItem} is on the critical path?	isCriticalPath === false	yes, it is critical|actually no	-
+E_SOP_MARK	E_CP_PROBE	question	Nice. Should we capture what made it work?	answer === yes, found a better way	yes|skip	-
+E_CP_DIG	E_CP_PROBE	decision	Agent checks context for probe.	answer === no, standard approach	timeGap > 20%|hasUnplanned|recurring constraint|nothing	-
+E_CP_TIME	E_CP_DIG	question	You planned {estimate}, took {actual}. The task is done. But where did the extra {gap} minutes go?	timeGap > 20%	let's look|just took longer, no issue	-
+E_CP_UNPLAN	E_CP_DIG	question	{unplannedMins}m went to unplanned work. Did that affect {cpItem}?	hasUnplanned	yes it did|no, separate	-
+E_CP_PATTERN	E_CP_DIG	question	Last time you did similar work, {constraint} came up. Today it did not. What changed?	recurring constraint in history	free text|dismiss	-
+E_CP_LAST	E_CP_DIG	question	If you did {cpItem} again tomorrow, would you do anything different?	nothing in context	yes|same approach	-
+E_NOCP_WANT	E_NOCP_PROBE	question	Would you like to name what constrained it?	answer === yes, it is critical	yes|no	-
+E_NOCP_FIX	E_NOCP_PROBE	action	Agent removes critical path flag.	answer === actually no	-	-
+E_NOCP_SMOOTH	E_NOCP_FIX	question	Was today a smooth day overall?	-	yes, smooth|no, something came up	-
+SMOOTH_NOTE	E_NOCP_SMOOTH	nudge	Anything you want to note about today? One line is enough.	answer === yes, smooth	-	-
+SMOOTH_EXIT	SMOOTH_NOTE	bridge	Good day. Let's close out.	-	-	SECTION_C_SMOOTH
+E_NOCP_ROUTE	E_NOCP_SMOOTH	action	Route to constraint picker.	answer === no, something came up	-	CPICK
+E_CP_TIME_YES	E_CP_TIME	action	Route to constraint picker.	answer === let's look	-	CPICK
+E_CP_TIME_NO	E_CP_TIME	bridge	OK. The work just took longer. Moving on.	answer === just took longer, no issue	-	BRIDGE
+E_CP_UNPLAN_YES	E_CP_UNPLAN	action	Route to constraint picker.	answer === yes it did	-	CPICK
+E_CP_UNPLAN_NO	E_CP_UNPLAN	bridge	OK. Separate issue. Moving on.	answer === no, separate	-	BRIDGE
+E_CP_PATTERN_OUT	E_CP_PATTERN	bridge	Good to know. Moving on.	-	-	BRIDGE
+E_CP_LAST_YES	E_CP_LAST	action	Route to constraint picker.	answer === yes	-	CPICK
+E_CP_LAST_NO	E_CP_LAST	bridge	Same approach. Nothing to change. Moving on.	answer === same approach	-	BRIDGE
+E_SOP_YES	E_SOP_MARK	question	What made it work? Pick the closest match.	answer === yes	5 macros|skip	-
+E_SOP_PICK	E_SOP_YES	ack	{sop.macroLabel}. Captured.	picks macro	-	BRIDGE
+E_SOP_PICK_SKIP	E_SOP_YES	bridge	OK. Moving on.	answer === skip	-	BRIDGE
+E_SOP_SKIP	E_SOP_MARK	bridge	OK. Moving on.	answer === skip	-	BRIDGE
+E_NOCP_WANT_YES	E_NOCP_WANT	action	Route to constraint picker.	answer === yes	-	CPICK
+E_NOCP_WANT_NO	E_NOCP_WANT	bridge	OK. No constraint to name. Moving on.	answer === no	-	BRIDGE
+CPICK	B_CONSTRAINT	question	What about {constraint.macroLabel} specifically?	picks macro	5 micros	-
+CPICK_SKIP	B_CONSTRAINT	bridge	OK. Moving on.	answer === skip	-	BRIDGE
+CPICK_MICRO	CPICK	ack	{constraint.microLabel}.	picks micro	-	-
+CPICK_SOCIAL	CPICK_MICRO	signal	{percent}% of your program saw this same constraint this week.	programSampleSize >= 5 and majority	-	NAV
+CPICK_OUTLIER	CPICK_MICRO	signal	Most of your program saw {topMacro}. You are seeing something different.	programSampleSize >= 5 and outlier	-	NAV
+NAV	CPICK_MICRO	question	How did you handle it?	-	5 macros|none of these	-
+NAV_MACRO	NAV	question	What specifically?	picks macro	5 micros	-
+NAV_NONE	NAV	bridge	OK. Moving on.	answer === none of these	-	NARR_INVITE
+NAV_MICRO	NAV_MACRO	ack	{navigation.microLabel}.	picks micro	-	-
+NAV_MICRO_ACK	NAV_MICRO	action	Enable: Tell your story.	-	-	-
+NARR_INVITE	NAV_MICRO_ACK	question	There is a story here. Want to capture it?	-	yes|not today	-
+NARR_YES	NARR_INVITE	nudge	You hit {constraint.microLabel} and used {navigation.microLabel}. Say more. Even one sentence helps.	answer === yes	voice|text	-
+NARR_NO	NARR_INVITE	decision	Agent checks: is there signal worth reflecting on?	answer === not today	recurring constraint|new navigation|large timeGap|no signal	-
+NARR_NUDGE_PATTERN	NARR_NO	question	{constraint.micro} has come up {n} times. One sentence on what keeps it coming back?	recurring constraint (3+ in 7d)	voice/text|really not today	-
+NARR_NUDGE_NEW	NARR_NO	question	First time using {navigation.micro}. How did it go?	new navigation (first use)	thumbs up|thumbs down	B_SUMMARY
+NARR_NUDGE_TIME	NARR_NO	question	{gap} minutes over plan. One word for why?	large timeGap	text (max 30 chars)	B_SUMMARY
+NARR_NUDGE_NONE	NARR_NO	bridge	OK. Moving on.	no signal	-	B_SUMMARY
+NARR_CONFIRM	NARR_YES	action	Here is what you said. You can edit it.	-	-	-
+NARR_PATTERN_YES	NARR_NUDGE_PATTERN	action	Route to confirm.	answer === voice/text	-	NARR_CONFIRM
+NARR_PATTERN_NO	NARR_NUDGE_PATTERN	bridge	OK. Moving on.	answer === really not today	-	B_SUMMARY
+B_SUMMARY	NARR_CONFIRM	ack	Constraint: {constraint.micro}. Navigation: {navigation.micro}.	-	-	-
+BRIDGE	B_SUMMARY	bridge	{bridgeText(improvementScope)}	-	-	-
+SECTION_C	BRIDGE	end	Section C	-	-	-
+SECTION_C_SMOOTH	SMOOTH_EXIT	end	Section C (smooth day)	-	-	-

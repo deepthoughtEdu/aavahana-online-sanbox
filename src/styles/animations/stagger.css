@@ -1,0 +1,31 @@
+/* ============================================
+   STAGGER — The Ritual.
+   Same form every time. Cadence is predictable.
+   PDGMS runs on rhythm, not chaos.
+
+   Usage:
+     <ul class="dt-stagger">
+       <li class="dt-rise">...</li>   ← auto-delayed
+       <li class="dt-rise">...</li>
+     </ul>
+
+   For JSX-controlled stagger, use dt-delay-N directly.
+   ============================================ */
+
+.dt-stagger > *:nth-child(1)   { animation-delay:   0ms; }
+.dt-stagger > *:nth-child(2)   { animation-delay:  55ms; }
+.dt-stagger > *:nth-child(3)   { animation-delay: 110ms; }
+.dt-stagger > *:nth-child(4)   { animation-delay: 165ms; }
+.dt-stagger > *:nth-child(5)   { animation-delay: 220ms; }
+.dt-stagger > *:nth-child(6)   { animation-delay: 275ms; }
+.dt-stagger > *:nth-child(7)   { animation-delay: 330ms; }
+.dt-stagger > *:nth-child(8)   { animation-delay: 385ms; }
+.dt-stagger > *:nth-child(n+9) { animation-delay: 440ms; }
+
+/* Explicit delay utilities */
+.dt-delay-1 { animation-delay:  55ms; }
+.dt-delay-2 { animation-delay: 110ms; }
+.dt-delay-3 { animation-delay: 165ms; }
+.dt-delay-4 { animation-delay: 220ms; }
+.dt-delay-5 { animation-delay: 275ms; }
+.dt-delay-6 { animation-delay: 330ms; }

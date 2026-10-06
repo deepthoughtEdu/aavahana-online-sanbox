@@ -1,0 +1,185 @@
+/* ============================================
+   COMMON COMPONENT BORDERS
+   ============================================ */
+
+/* Alert */
+.alert {
+  border: var(--border-default) solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* Badge */
+.badge-ghost {
+  border: var(--border-default) solid var(--border-light) !important;
+  background: transparent !important;
+}
+
+/* Dropdown */
+.dropdown-content,
+.menu {
+  border: var(--border-default) solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* Modal */
+.modal-box {
+  border: var(--border-default) solid var(--border-light) !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+/* MODALS CENTRE ON THE VIEWPORT. There is no sidebar offset, deliberately.
+
+   ⛔ Do not re-add one. This has now been through four versions and the offset
+   is the thing that was always wrong:
+
+     1. flat `padding-left: 19rem`      wide modals were squeezed into the
+                                        leftover space and clipped against the
+                                        right edge (`.modal` is `overflow: clip`)
+     2. shift as far as still fits      at 1536px an xl modal sat 232px from the
+                                        left and 24px from the right
+     3. all-or-nothing 9.5rem shift     geometrically correct — centred in the
+                                        content area, gutters equal once you
+                                        discount the sidebar — and Tarun still
+                                        read it as off-centre (2026-07-27)
+     4. no offset (this)                centred on the screen, which is what
+                                        "in the middle" actually means to a
+                                        person looking at the window
+
+   The lesson in 3 is the one worth keeping: "centred in the content area" is a
+   fact about the layout, not about what the eye sees. A modal is a viewport-level
+   overlay — it dims the sidebar and sits on top of it — so the viewport is what
+   it should be centred against. Being correct relative to the sidebar does not
+   look correct when the sidebar is behind a dark scrim.
+
+   So the only horizontal padding here is the gutter, applied evenly, and every
+   modal at every size sits dead centre with equal gaps.
+
+   --dt-modal-w still carries how wide the box may get. The size scale below is
+   the ONLY place a modal width is written down; it caps the box through
+   `max-w-[var(--dt-modal-w)]` in Modal.tsx. Raw `.modal-box` screens (crm/,
+   finance/) set their own max-w-* and never opt in, so they fall back to
+   daisyUI's own 32rem. The scale is NOT scoped to .dt-app-shell, because
+   sidebar-less public pages (login, invite) still need the box capped. */
+.dt-modal--sm { --dt-modal-w: 28rem; }
+.dt-modal--md { --dt-modal-w: 42rem; }
+.dt-modal--lg { --dt-modal-w: 56rem; }
+.dt-modal--xl { --dt-modal-w: 80rem; }
+
+.modal {
+  --dt-modal-gutter: 1.5rem;
+}
+
+/* The box is `sm:w-full` from 640px up, so without a gutter here it sits edge
+   to edge on tablet widths. Below 640 it is `w-11/12` and already inset.
+
+   Inline only. Vertical padding would fight the box's own max-height (92vh
+   here, 100vh in daisyUI) and clip it top and bottom instead. */
+@media (min-width: 640px) {
+  .modal {
+    padding-inline: var(--dt-modal-gutter);
+  }
+}
+
+/* The backdrop is a grid item, so the gutter padding above would leave a live,
+   undimmed strip down both edges. Take it out of flow so it covers the whole
+   viewport — the sidebar dims with everything else, and clicking anywhere
+   outside the box closes the modal.
+
+   `fixed`, not `absolute`: an absolutely positioned child resolves its insets
+   against the ancestor's PADDING box, which is precisely the box that padding
+   shrank, so `absolute` leaves the strip exactly where it was. `.modal` is
+   itself `position: fixed; inset: 0`, so pinning to the viewport lands on the
+   same rectangle with none of the padding.
+
+   Unscoped: public pages (login, invite) get the same gutter, so they need the
+   same treatment. */
+.modal .modal-backdrop {
+  position: fixed;
+  inset: 0;
+}
+
+/* COMMAND PALETTE
+
+   Rides daisyUI's `.modal` so it inherits the backdrop rule above — including the
+   reasoning in that comment block, which applies here verbatim: the palette is a
+   viewport-level overlay and must NOT carry a sidebar offset.
+
+   Top-anchored rather than centred. A search box the user is typing into wants to be
+   where the eye already is, and anchoring keeps the box still while the result count
+   changes underneath it — a vertically centred palette jumps on every keystroke.
+
+   Sits above the sidebar (z-500) and its mobile backdrop (z-400). */
+.dt-cmdk {
+  --dt-cmdk-w: 40rem;
+  --dt-cmdk-top: 12vh;
+  --dt-cmdk-list-h: 24rem;
+  z-index: 600;
+  align-items: flex-start;
+  padding-top: var(--dt-cmdk-top);
+}
+
+@media (max-width: 639px) {
+  .dt-cmdk {
+    --dt-cmdk-top: 4vh;
+    --dt-cmdk-list-h: 60vh;
+  }
+}
+
+.dt-cmdk-box {
+  width: 100%;
+  max-width: var(--dt-cmdk-w);
+  padding: 0;
+  overflow: hidden;
+}
+
+.dt-cmdk-list {
+  max-height: var(--dt-cmdk-list-h);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* forms.css:87 gives EVERY focused <input> a primary border at !important. The palette
+   draws its border on the wrapping field instead — so without this the two stack and the
+   input renders a second box inside the first. !important is required to win against it. */
+.dt-cmdk-input,
+.dt-cmdk-input:hover,
+.dt-cmdk-input:focus {
+  border: 0 !important;
+  outline: none !important;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Scroll lock for full-screen overlays (palette, mobile sidebar drawer). A class rather
+   than writing document.body.style.overflow from TypeScript, per the Design Surface
+   Law — the visual value stays in CSS. */
+.dt-scroll-locked {
+  overflow: hidden;
+}
+
+/* Join (button groups) */
+.join>* {
+  border: var(--border-default) solid var(--border-light) !important;
+}
+
+.join>*:not(:first-child) {
+  border-left: none !important;
+}
+
+/* Stats */
+.stat {
+  border: var(--border-default) solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* Avatar */
+.avatar>div {
+  border: var(--border-default) solid var(--border-light) !important;
+}
+
+/* Tabs */
+.tabs-boxed {
+  border: var(--border-default) solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+}

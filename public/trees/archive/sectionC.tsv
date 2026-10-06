@@ -1,0 +1,104 @@
+id	parent	type	text	condition	options	target
+C_START	-	start	Section C Entry (Act 3: Close)	-	-	-
+C_ROUTE	C_START	decision	Agent checks entry path	-	normal|smooth	-
+C_FW_ENTRY	C_ROUTE	question	What did you practice deliberately today?	entryPath === normal	pick framework|nothing deliberate	-
+C_FW_SMOOTH	C_ROUTE	question	Smooth day. Did you practice anything deliberately?	entryPath === smooth	yes|no	-
+C_FW_SMOOTH_YES	C_FW_SMOOTH	action	Route to framework picker	answer === yes	-	C_FW_MACRO
+C_FW_SMOOTH_NO	C_FW_SMOOTH	decision	Agent probes for hidden practice — picks first applicable	answer === no	efficiency|streak|effortless|generic	-
+C_SL2_EFF	C_FW_SMOOTH_NO	question	You finished in {actualH}h {actualM}m vs {plannedH}h {plannedM}m. What made that possible?	actual < planned	yes, I did something|not sure|no, just a light day	-
+C_SL2_STREAK	C_FW_SMOOTH_NO	question	Smooth {n} days running. That's not luck — what habit is holding?	smooth 2+ consecutive days	type your habit|not sure|just lucky I guess	-
+C_SL2_EFFORT	C_FW_SMOOTH_NO	question	Everything done. What felt effortless today?	all items done	[deliverable chips: "{label}" · {status} · {actualH}h {actualM}m]|nothing stood out	-
+C_SL2_GEN	C_FW_SMOOTH_NO	question	Any routine or habit that helped today?	nothing else applies	yes|no	-
+C_SL2_EFF_YES	C_SL2_EFF	action	Route to framework picker	answer === yes	-	C_FW_MACRO
+C_SL2_EFF_UNSURE	C_SL2_EFF	question	Worth thinking about. If you had to teach someone to replicate today, what would you say?	answer === not sure	type your answer|skip	-
+C_SL2_EFF_UNSURE_TEXT	C_SL2_EFF_UNSURE	action	Route to framework picker with hint	employee types answer	-	C_FW_MACRO
+C_SL2_EFF_UNSURE_SKIP	C_SL2_EFF_UNSURE	ack	No framework today — noted.	answer === skip	-	C_BRIDGE_FW_FEEL
+C_SL2_EFF_NO	C_SL2_EFF	ack	Light day, no deliberate practice — noted.	answer === no	-	C_BRIDGE_FW_FEEL
+C_SL2_STREAK_YES	C_SL2_STREAK	action	Route to framework picker with hint	employee types habit	-	C_FW_MACRO
+C_SL2_STREAK_UNSURE	C_SL2_STREAK	question	What's one thing you did today that you also did yesterday?	answer === not sure	type your answer|skip	-
+C_SL2_STREAK_UNSURE_TEXT	C_SL2_STREAK_UNSURE	action	Route to framework picker with hint	employee types answer	-	C_FW_MACRO
+C_SL2_STREAK_UNSURE_SKIP	C_SL2_STREAK_UNSURE	ack	No framework today — noted.	answer === skip	-	C_BRIDGE_FW_FEEL
+C_SL2_STREAK_LUCKY	C_SL2_STREAK	ack	Fair enough. Smooth streak continues.	answer === just lucky	-	C_BRIDGE_FW_FEEL
+C_SL2_EFFORT_PICK	C_SL2_EFFORT	action	Route to framework picker with hint	employee selects deliverable	-	C_FW_MACRO
+C_SL2_EFFORT_NONE	C_SL2_EFFORT	ack	No framework today — noted.	answer === nothing stood out	-	C_BRIDGE_FW_FEEL
+C_SL2_GEN_YES	C_SL2_GEN	action	Route to framework picker	answer === yes	-	C_FW_MACRO
+C_SL2_GEN_NO	C_SL2_GEN	ack	No framework today — noted.	answer === no	-	C_BRIDGE_FW_FEEL
+C_FW_SKIP	C_FW_ENTRY	decision	Agent probes for hidden practice — picks first applicable	answer === nothing deliberate	deliverable|constraint|history|generic	-
+C_SL1_DELIV	C_FW_SKIP	question	You finished {deliverable} today. That took {skill}. Isn't that {suggestedFramework} in practice?	doneItems with skill mapping exist	yes, that fits|not really|skip	-
+C_SL1_CONSTR	C_FW_SKIP	question	You hit {constraint} and navigated with {navigation}. That's deliberate. Which framework fits?	constraint + navigation captured	[framework chips: Strategy|Engineering|Operations|Quality|Growth]|none of them|skip	-
+C_SL1_HIST	C_FW_SKIP	question	Last time you did {similarWork}, you logged {framework}. Not today?	similar work in last 7d had framework	yes, same|different one|no, not today	-
+C_SL1_GEN	C_FW_SKIP	question	Even choosing what to focus on is a practice. What guided your priorities today?	nothing else applies	type your answer|nothing specific	-
+C_SL1_DELIV_YES	C_SL1_DELIV	action	Route to framework picker with suggestion	answer === yes	-	C_FW_MACRO
+C_SL1_DELIV_NO	C_SL1_DELIV	decision	Probe count check	answer === not really	probeCount < 2|probeCount >= 2	-
+C_SL1_DELIV_NO_MORE	C_SL1_DELIV_NO	action	Agent picks next applicable probe	probeCount < 2	-	C_FW_SKIP
+C_SL1_DELIV_NO_DONE	C_SL1_DELIV_NO	ack	No framework today — noted.	probeCount >= 2	-	C_BRIDGE_FW_FEEL
+C_SL1_DELIV_SKIP	C_SL1_DELIV	ack	No framework today — noted.	answer === skip	-	C_BRIDGE_FW_FEEL
+C_SL1_CONSTR_PICK	C_SL1_CONSTR	action	Route to framework picker	employee selects framework	-	C_FW_MACRO
+C_SL1_CONSTR_NONE	C_SL1_CONSTR	decision	Probe count check	answer === none of them	probeCount < 2|probeCount >= 2	-
+C_SL1_CONSTR_NONE_MORE	C_SL1_CONSTR_NONE	action	Agent picks next applicable probe	probeCount < 2	-	C_FW_SKIP
+C_SL1_CONSTR_NONE_DONE	C_SL1_CONSTR_NONE	ack	No framework today — noted.	probeCount >= 2	-	C_BRIDGE_FW_FEEL
+C_SL1_CONSTR_SKIP	C_SL1_CONSTR	ack	No framework today — noted.	answer === skip	-	C_BRIDGE_FW_FEEL
+C_SL1_HIST_SAME	C_SL1_HIST	action	Route to framework picker with pre-fill	answer === yes, same	-	C_FW_MACRO
+C_SL1_HIST_DIFF	C_SL1_HIST	action	Route to framework picker	answer === different one	-	C_FW_MACRO
+C_SL1_HIST_NO	C_SL1_HIST	decision	Probe count check	answer === no, not today	probeCount < 2|probeCount >= 2	-
+C_SL1_HIST_NO_MORE	C_SL1_HIST_NO	action	Agent picks next applicable probe	probeCount < 2	-	C_FW_SKIP
+C_SL1_HIST_NO_DONE	C_SL1_HIST_NO	ack	No framework today — noted.	probeCount >= 2	-	C_BRIDGE_FW_FEEL
+C_SL1_GEN_TEXT	C_SL1_GEN	action	Route to framework picker with hint	employee types answer	-	C_FW_MACRO
+C_SL1_GEN_NONE	C_SL1_GEN	ack	No framework today — noted.	answer === nothing specific	-	C_BRIDGE_FW_FEEL
+C_FW_MACRO	C_FW_ENTRY	question	Which framework did you practice?	answer === pick framework	Strategy|Engineering|Operations|Quality|Growth	-
+C_FW_MICRO	C_FW_MACRO	question	What specifically within {framework.macroLabel}?	picks macro	[5 micros for selected framework]	-
+C_FW_QTY	C_FW_MICRO	question	How many times did you apply {framework.microLabel} today?	picks micro	1-10 (stepper)	-
+C_FW_QTY_CHECK	C_FW_QTY	decision	Agent checks program sample size	-	signal|no signal	-
+C_FW_QTY_SIGNAL	C_FW_QTY_CHECK	signal	{percent}% of your program practiced {framework.macroLabel} too this week.	programSampleSize >= 5	-	C_FW_NARR
+C_FW_QTY_NO_SIGNAL	C_FW_QTY_CHECK	bridge	→ proceed to narrative	programSampleSize < 5	-	C_FW_NARR
+C_FW_NARR	C_FW_QTY_CHECK	question	Tell the story of applying {framework.microLabel}. What happened?	-	voice|text	-
+C_FW_NARR_RECORD	C_FW_NARR	action	Capture narrative (voice transcript or text input, min 180 chars)	-	-	-
+C_FW_NARR_SHORT	C_FW_NARR_RECORD	nudge	That's {charCount} characters. A bit more context would help — what was the outcome?	charCount < 180	continue|submit as is	-
+C_FW_NARR_SHORT_CONT	C_FW_NARR_SHORT	action	Return to narrative input	answer === continue	-	C_FW_NARR_RECORD
+C_FW_NARR_SHORT_SUBMIT	C_FW_NARR_SHORT	ack	Short narrative accepted.	answer === submit as is	-	-
+C_FW_CONFIRM	C_FW_NARR_RECORD	action	Mirror: {framework.macro} → {framework.micro} × {qty}. Narrative displayed, editable.	charCount >= 180	-	-
+C_FW_CONFIRM_SHORT	C_FW_NARR_SHORT_SUBMIT	action	Mirror: {framework.macro} → {framework.micro} × {qty}. Narrative displayed, editable.	-	-	-
+C_FW_ADD	C_FW_CONFIRM	question	Another framework?	-	yes, add another|no, that's all	-
+C_FW_ADD_SHORT	C_FW_CONFIRM_SHORT	question	Another framework?	-	yes, add another|no, that's all	-
+C_FW_ADD_YES	C_FW_ADD	action	Loop back to framework picker	answer === yes	-	C_FW_MACRO
+C_FW_ADD_NO	C_FW_ADD	ack	Done — {fwCount} framework(s) captured.	answer === no	-	C_BRIDGE_FW_FEEL
+C_FW_ADD_SHORT_YES	C_FW_ADD_SHORT	action	Loop back to framework picker	answer === yes	-	C_FW_MACRO
+C_FW_ADD_SHORT_NO	C_FW_ADD_SHORT	ack	Done — {fwCount} framework(s) captured.	answer === no	-	C_BRIDGE_FW_FEEL
+C_BRIDGE_FW_FEEL	C_FW_ADD_NO	bridge	Frameworks captured. Now: how are you feeling?	-	-	-
+C_FEEL_ENTRY	C_BRIDGE_FW_FEEL	question	How are you feeling?	-	Energized|Good|Neutral|Drained|Overwhelmed|skip	-
+C_FEEL_SKIP	C_FEEL_ENTRY	question	Even a quick check-in helps. Closest match?	answer === skip	Energized|Good|Neutral|Drained|Overwhelmed|really skip	-
+C_FEEL_SKIP_PICK	C_FEEL_SKIP	action	Route to feeling micro	picks macro	-	C_FEEL_MICRO
+C_FEEL_SKIP_CONFIRM	C_FEEL_SKIP	ack	No feeling logged — noted.	answer === really skip	-	C_SUMMARY
+C_FEEL_MACRO	C_FEEL_ENTRY	ack	Noted: {feeling.macroLabel}.	picks macro	-	-
+C_FEEL_MICRO	C_FEEL_MACRO	question	What specifically?	-	[5 micros for selected feeling]	-
+C_FEEL_MICRO_ACK	C_FEEL_MICRO	ack	Noted: {feeling.microLabel}.	picks micro	-	-
+C_FEEL_VALENCE	C_FEEL_MICRO_ACK	decision	Agent checks feeling valence	-	positive|neutral|negative	-
+C_FEEL_POS	C_FEEL_VALENCE	ack	Compassion: [from feeling-conversation table for {feeling.microLabel}]. Example: "That creative energy is gold — let it flow."	valence === positive	-	C_FEEL_SIGNAL_CHECK
+C_FEEL_NEU	C_FEEL_VALENCE	ack	Compassion: [from feeling-conversation table for {feeling.microLabel}]. Example: "Steady days build the foundation."	valence === neutral	-	C_FEEL_SIGNAL_CHECK
+C_FEEL_NEG	C_FEEL_VALENCE	ack	Compassion: [from feeling-conversation table for {feeling.microLabel}]. Example: "That weight is real. You're not alone in carrying it."	valence === negative	-	-
+C_FEEL_SIGNAL_CHECK	C_FEEL_POS	decision	Agent checks team mood signal availability	-	signal|no signal	-
+C_FEEL_SIGNAL	C_FEEL_SIGNAL_CHECK	signal	{percent}% of your team reported {feeling.macroLabel} this week.	teamSampleSize >= 5	-	C_SUMMARY
+C_FEEL_SIGNAL_SKIP	C_FEEL_SIGNAL_CHECK	bridge	→ proceed to summary	teamSampleSize < 5	-	C_SUMMARY
+C_SD_ENTRY	C_FEEL_NEG	decision	Stockdale loop — agent begins compassion sequence	-	always	-
+C_SD_COMPASSION	C_SD_ENTRY	nudge	{feeling.microLabel} — I hear you. That's hard.	-	-	-
+C_SD_BRUTAL	C_SD_COMPASSION	question	What specifically made today feel this way?	-	voice/text|I'd rather not	-
+C_SD_BRUTAL_SKIP	C_SD_BRUTAL	ack	That's okay. [compassion text for {feeling.microLabel}]	answer === I'd rather not	-	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_BRUTAL_ANS	C_SD_BRUTAL	action	Capture: brutal facts text	answer === voice/text	-	-
+C_SD_AGENCY	C_SD_BRUTAL_ANS	question	Of everything you just described — what's one thing within your control?	-	voice/text|I'd rather not	-
+C_SD_AGENCY_SKIP	C_SD_AGENCY	ack	That's okay. You named it — that matters.	answer === I'd rather not	-	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_AGENCY_ANS	C_SD_AGENCY	action	Capture: agency text	answer === voice/text	-	-
+C_SD_EVIDENCE	C_SD_AGENCY_ANS	ack	You identified {constraint}, navigated with {navigation}, delivered {doneCount} items. You didn't stop.	constraint and navigation exist	-	-
+C_SD_EVIDENCE_NOCONTEXT	C_SD_AGENCY_ANS	ack	You showed up, did the work, and you're still here reflecting. That's not nothing.	no constraint/navigation context	-	-
+C_SD_FAITH	C_SD_EVIDENCE	question	What would make tomorrow 10% better? Not perfect — just better.	-	voice/text|I'd rather not	-
+C_SD_FAITH_NOCONTEXT	C_SD_EVIDENCE_NOCONTEXT	question	What would make tomorrow 10% better? Not perfect — just better.	-	voice/text|I'd rather not	-
+C_SD_FAITH_SKIP	C_SD_FAITH	ack	That's okay. Tomorrow is a new day.	answer === I'd rather not	-	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_FAITH_SKIP_NC	C_SD_FAITH_NOCONTEXT	ack	That's okay. Tomorrow is a new day.	answer === I'd rather not	-	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_FAITH_ANS	C_SD_FAITH	action	Capture: faith text	answer === voice/text	-	-
+C_SD_FAITH_ANS_NC	C_SD_FAITH_NOCONTEXT	action	Capture: faith text	answer === voice/text	-	-
+C_SD_ANCHOR	C_SD_FAITH_ANS	ack	So: {feeling.microLabel} — but {faithAnswer}. Both are true.	-	-	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_ANCHOR_NC	C_SD_FAITH_ANS_NC	ack	So: {feeling.microLabel} — but {faithAnswer}. Both are true.	-	-	C_FEEL_NEG_SIGNAL_CHECK
+C_FEEL_NEG_SIGNAL_CHECK	C_SD_ANCHOR	decision	Agent checks team mood signal availability	-	signal|no signal	-
+C_FEEL_SIGNAL_NEG	C_FEEL_NEG_SIGNAL_CHECK	signal	{percent}% of your team reported {feeling.macroLabel} this week.	teamSampleSize >= 5	-	C_SUMMARY
+C_FEEL_SIGNAL_NEG_SKIP	C_FEEL_NEG_SIGNAL_CHECK	bridge	→ proceed to summary	teamSampleSize < 5	-	C_SUMMARY
+C_SUMMARY	C_FEEL_SIGNAL	ack	Summary: practiced {fwList}, feeling {feeling.microLabel}. Only shows captured fields.	-	-	-
+C_END	C_SUMMARY	end	→ Submit	-	-	-

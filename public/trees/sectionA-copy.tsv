@@ -1,0 +1,60 @@
+id	text
+A_START	What moved today?
+A_DELIVER	Mark each deliverable. Set the status and actual time, then submit.
+A_UNPLAN_CHECK	Check: did employee add any unplanned items?
+A_UNPLAN_YES	Got it. {unplannedCount} unplanned items.
+A_UP_TIME	You logged {totalActual}m against {totalPlanned}m planned. That is {gap}m more. Did any unplanned work come in?
+A_UP_TIME_YES	OK. Let's capture those.
+A_UP_TIME_NO	OK. The work itself took longer. Good to know.
+A_UP_INC	{incompleteItem} is still open. Did something else pull your attention?
+A_UP_INC_YES	OK. Let's capture those.
+A_UP_INC_NO	OK. It just needed more time. That happens.
+A_UP_HIST	Unplanned work showed up {n} of the last {days} days. That might be a pattern. Anything today?
+A_UP_HIST_YES	OK. Let's capture those.
+A_UP_HIST_NO	Clean day. The pattern did not repeat.
+A_UP_GEN	Did anything come up that was not on the plan? Helping someone, a request, anything unexpected?
+A_UP_GEN_YES	OK. Let's capture those.
+A_UP_GEN_NO	Clean day. Your plan held.
+A_CP_CHECK	Check: did employee mark any item as critical path?
+A_CP_YES	Critical path item: {cpItem.label}
+A_CP_YES_QA	Did {cpItem.label} meet QA spec?
+A_CP_YES_QA_ACK	{qaStatus}. Noted.
+A_PROBE_PROG	Your program depends on {programCpArea}. Does any of your work today connect to that?
+A_PROBE_PROG_YES	Did {cpItem.label} meet QA spec?
+A_PROBE_PROG_YES_ACK	{qaStatus}. Noted.
+A_PROBE_PROG_UNSURE	That is worth finding out. Which one felt most important?
+A_PROBE_PROG_UNSURE_PICK	Did {cpItem.label} meet QA spec?
+A_PROBE_PROG_UNSURE_PICK_ACK	{qaStatus}. Noted.
+A_PROBE_PROG_UNSURE_SKIP	No critical path today. Noted.
+A_PROBE_PROG_NO	OK. Which task felt most important to you today?
+A_PROBE_PROG_NO_PICK	Did {cpItem.label} meet QA spec?
+A_PROBE_PROG_NO_PICK_ACK	{qaStatus}. Noted.
+A_PROBE_PROG_NO_SKIP	No critical path today. Noted.
+A_PROBE_TIME	{largestItem} had the biggest estimate at {maxEstimate}. Does someone else's work depend on it?
+A_PROBE_TIME_YES	Did {cpItem.label} meet QA spec?
+A_PROBE_TIME_YES_ACK	{qaStatus}. Noted.
+A_PROBE_TIME_NO	OK. Which task felt most important today?
+A_PROBE_TIME_NO_PICK	Did {cpItem.label} meet QA spec?
+A_PROBE_TIME_NO_PICK_ACK	{qaStatus}. Noted.
+A_PROBE_TIME_NO_SKIP	No critical path today. Noted.
+A_PROBE_INC	{incompleteItem} is still open. If it moves to tomorrow, does someone else wait?
+A_PROBE_INC_YES	Did {cpItem.label} meet QA spec?
+A_PROBE_INC_YES_ACK	{qaStatus}. Noted.
+A_PROBE_INC_NO	OK. Independent task. No one is waiting.
+A_PROBE_ASK	Is any of today's work on a critical path? Something where the next step depends on yours?
+A_PROBE_ASK_YES	Which one?
+A_PROBE_ASK_YES_QA	Did {cpItem.label} meet QA spec?
+A_PROBE_ASK_YES_QA_ACK	{qaStatus}. Noted.
+A_PROBE_ASK_NO	No critical path today. Noted.
+A_PROBE_GEN	If you could only protect one deliverable today, which one matters most?
+A_PROBE_GEN_PICK	Did {cpItem.label} meet QA spec?
+A_PROBE_GEN_PICK_ACK	{qaStatus}. Noted.
+A_PROBE_GEN_EQUAL	All equal weight today. Noted.
+A_TENSION	Today: {done} complete, {partial} in progress, {notDone} remaining. Plan {totalPlanned}m, actual {totalActual}m.
+A_BRIDGE_B
+A_BRIDGE_B_NOTDONE	{notDone} did not clear. Let's find out what blocked them.
+A_BRIDGE_B_DONE	Everything cleared. Was anything harder than it needed to be?
+A_END_B	Section B
+A_TENSION_NOCP	Today: {done} complete, {partial} in progress, {notDone} remaining. Plan {totalPlanned}m, actual {totalActual}m.
+A_BRIDGE_C	No critical chain today. Your work was independent. Let's close out.
+A_END_C	Section C

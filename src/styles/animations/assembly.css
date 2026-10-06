@@ -1,0 +1,85 @@
+/* ============================================
+   ASSEMBLY — Structure composes itself.
+
+   Panels don't appear. They dock into position.
+   Sections lock into the grid.
+   The user sees the structure being assembled —
+   which encodes spatial hierarchy in the conceptual model.
+
+   Ontology: conceptual-model | lifecycle | one-shot | work-surface
+   ============================================ */
+
+/* ---- Dock left ---- */
+/* Side panel, filter drawer, detail pane arriving from left. */
+
+@keyframes dtDockLeft {
+  from { opacity: 0; transform: translateX(-20px) scale(0.98); }
+  to   { opacity: 1; transform: translateX(0)     scale(1); }
+}
+
+.dt-dock-left {
+  animation: dtDockLeft var(--dt-duration-deliberate) var(--dt-ease-stamp) both;
+}
+
+/* ---- Dock right ---- */
+/* Detail pane, context panel, supplementary drawer arriving from right. */
+
+@keyframes dtDockRight {
+  from { opacity: 0; transform: translateX(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateX(0)    scale(1); }
+}
+
+.dt-dock-right {
+  animation: dtDockRight var(--dt-duration-deliberate) var(--dt-ease-stamp) both;
+}
+
+/* ---- Lock ---- */
+/* Card or element settling into its grid position.
+   A micro-pulse of scale + brief teal border confirms placement. */
+
+@keyframes dtLock {
+  0%   { transform: scale(1.01); box-shadow: 0 0 0 1px var(--dt-tealBorder); }
+  60%  { transform: scale(0.995); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0   transparent; }
+}
+
+.dt-lock {
+  animation: dtLock var(--dt-duration-base) var(--dt-ease-stamp) both;
+}
+
+/* ---- Section build ---- */
+/* Accordion section, expandable content, collapsible panel opening.
+   Grows downward from its top edge. */
+
+@keyframes dtSectionBuild {
+  from { opacity: 0; transform: scaleY(0); }
+  to   { opacity: 1; transform: scaleY(1); }
+}
+
+.dt-section-build {
+  transform-origin: top;
+  animation: dtSectionBuild 300ms var(--dt-ease-cascade) both;
+}
+
+/* ---- Assemble ---- */
+/* Applied to a parent container. Children receive coordinated entrance
+   from their own edge — elements converge into structure.
+   Combine with dt-stagger on the parent for sequenced arrival.
+
+   Usage:
+   <div class="dt-assemble dt-stagger">
+     <div class="dt-rise">...</div>
+     <div class="dt-rise">...</div>
+   </div>
+
+   For spatial variance, pair individual children with dt-sweep,
+   dt-dock-left, or dt-dock-right based on their screen position. */
+
+@keyframes dtAssemble {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+.dt-assemble > * {
+  animation: dtAssemble var(--dt-duration-deliberate) var(--dt-ease-cascade) both;
+}

@@ -1,0 +1,26 @@
+id	options	source
+C_FW_ENTRY	didn't use any framework	external:frameworks.macro
+C_FW_SMOOTH	yes|no	-
+C_SL2_EFF	yes, I did something|not sure|no, just a light day	-
+C_SL2_STREAK	not sure|just lucky I guess	-
+C_SL2_EFFORT	nothing stood out	external:deliverables
+C_SL2_GEN	yes|no	-
+C_SL2_EFF_UNSURE	type your answer|skip	-
+C_SL2_STREAK_UNSURE	type your answer|skip	-
+C_SL1_DELIV	yes|maybe|no	-
+C_SL1_CONSTR	yes|it was instinct|not sure	-
+C_SL1_COMMIT	not yet	external:frameworks.macro
+C_FW_MACRO	-	external:frameworks.macro
+C_FW_MICRO	-	external:frameworks.micro
+C_FW_NARR	voice|text	-
+C_FW_NARR_RECORD	voice|text	-
+C_FW_NARR_SHORT	continue|submit as is	-
+C_FW_ADD	yes, add another|no, that's all	-
+C_FEEL_ENTRY	Energized|Good|Neutral|Drained|Overwhelmed|skip	-
+C_FEEL_SKIP	Energized|Good|Neutral|Drained|Overwhelmed|really skip	-
+C_FEEL_MICRO	-	derived:feelings.micro
+C_SD_COMPASSION	continue	-
+C_SD_BRUTAL	voice/text|I'd rather not	-
+C_SD_AGENCY	voice/text|I'd rather not	-
+C_SD_FAITH	voice/text|I'd rather not	-
+C_SD_FAITH_NOCONTEXT	voice/text|I'd rather not	-

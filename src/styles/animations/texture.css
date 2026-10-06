@@ -1,0 +1,185 @@
+/* ============================================
+   TEXTURE — The surface is alive.
+
+   Motion that exists at rest. Not decorative — semantic.
+   These are the fine details that separate a working
+   tool from a living one.
+
+   dt-breathe      — element is live (not loading, not static)
+   dt-depth        — element has layered presence (shadow breathe)
+   dt-glow-*       — surface carries ambient energy
+   dt-border-trace — active element: border slowly illuminates
+   dt-drift        — background intelligence, passive motion
+
+   dt-num-pop      — a value just changed
+   dt-badge-pop    — a count just incremented
+   dt-tick         — SVG checkmark draws itself
+   dt-cursor       — text is being written
+   dt-reveal-line  — section separator draws into view
+   ============================================ */
+
+/* ---- Breathe ---- */
+/* A live element at rest. Barely perceptible.
+   Use on status indicators, active tokens, live counts. */
+
+@keyframes dtBreathe {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.82; }
+}
+
+.dt-breathe {
+  animation: dtBreathe 3.5s ease-in-out infinite;
+}
+
+/* ---- Depth pulse ---- */
+/* Shadow expands and contracts — the element has presence, not just position. */
+
+@keyframes dtDepthPulse {
+  0%, 100% { box-shadow: 0 2px 8px  rgba(0, 0, 0, 0.05); }
+  50%       { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); }
+}
+
+.dt-depth {
+  animation: dtDepthPulse 4s ease-in-out infinite;
+}
+
+/* ---- Ambient glow ---- */
+/* Active / important surfaces carry light. */
+
+@keyframes dtGlowTeal {
+  0%, 100% { box-shadow: 0 0 8px  rgba(0, 51, 255, 0.07); }
+  50%       { box-shadow: 0 0 20px rgba(0, 51, 255, 0.18); }
+}
+
+@keyframes dtGlowAmber {
+  0%, 100% { box-shadow: 0 0 8px  rgba(201, 117, 0, 0.08); }
+  50%       { box-shadow: 0 0 18px rgba(201, 117, 0, 0.22); }
+}
+
+@keyframes dtGlowViolet {
+  0%, 100% { box-shadow: 0 0 8px  rgba(124, 58, 237, 0.08); }
+  50%       { box-shadow: 0 0 20px rgba(124, 58, 237, 0.20); }
+}
+
+@keyframes dtGlowGreen {
+  0%, 100% { box-shadow: 0 0 6px  rgba(46, 125, 50, 0.12); }
+  50%       { box-shadow: 0 0 16px rgba(46, 125, 50, 0.28); }
+}
+
+.dt-glow-teal   { animation: dtGlowTeal   3s   ease-in-out infinite; }
+.dt-glow-amber  { animation: dtGlowAmber  3.5s ease-in-out infinite; }
+.dt-glow-violet { animation: dtGlowViolet 3s   ease-in-out infinite; }
+.dt-glow-green  { animation: dtGlowGreen  3.2s ease-in-out infinite; }
+
+/* ---- Border trace ---- */
+/* A light slowly illuminates the border of an active element.
+   Use on panels that are "selected" or "in focus" but not loading. */
+
+@keyframes dtBorderTrace {
+  0%, 100% { box-shadow: inset 0 0 0 1px transparent; }
+  50%       { box-shadow: inset 0 0 0 1px var(--dt-tealBorder); }
+}
+
+.dt-border-trace {
+  animation: dtBorderTrace 2.5s ease-in-out infinite;
+}
+
+/* ---- Gradient drift ---- */
+/* A gradient that moves slowly — live/active background surfaces,
+   header areas that are "on", Niyanta panel backgrounds. */
+
+@keyframes dtDrift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+.dt-drift {
+  background-size: 200% 200%;
+  animation: dtDrift 10s ease infinite;
+}
+
+/* ---- Number pop ---- */
+/* A stat value just updated. One flash of scale + color, then settles.
+   Apply via JS: add class on value change, remove after animation ends. */
+
+@keyframes dtNumPop {
+  0%   { transform: scale(1);    color: inherit; }
+  40%  { transform: scale(1.14); color: var(--dt-teal); }
+  100% { transform: scale(1);    color: inherit; }
+}
+
+.dt-num-pop {
+  display: inline-block;
+  animation: dtNumPop var(--dt-duration-deliberate) var(--dt-ease-stamp);
+}
+
+/* ---- Badge pop ---- */
+/* A count badge just incremented. */
+
+@keyframes dtBadgePop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.28); }
+  100% { transform: scale(1); }
+}
+
+.dt-badge-pop {
+  display: inline-block;
+  animation: dtBadgePop var(--dt-duration-fast) var(--dt-ease-stamp);
+}
+
+/* ---- Tick ---- */
+/* SVG checkmark draws itself. Apply to <path> or <polyline>.
+   Requires: stroke-dasharray set to path length (default 20). */
+
+@keyframes dtTick {
+  from { stroke-dashoffset: 20; opacity: 0; }
+  20%  { opacity: 1; }
+  to   { stroke-dashoffset: 0;  opacity: 1; }
+}
+
+.dt-tick {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: dtTick var(--dt-duration-base) var(--dt-ease-stamp) forwards;
+}
+
+/* ---- Cursor blink ---- */
+/* Text is being written — AI output streaming, Niyanta composing. */
+
+@keyframes dtCursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.dt-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--dt-teal);
+  animation: dtCursorBlink 1.1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+/* Niyanta composing — violet cursor */
+.dt-cursor--niyanta {
+  background: var(--module-niyanta);
+}
+
+/* ---- Reveal line ---- */
+/* A section separator draws itself left→right as the section arrives. */
+
+@keyframes dtRevealLine {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.dt-reveal-line::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(to right, var(--dt-teal), transparent);
+  transform-origin: left;
+  animation: dtRevealLine var(--dt-duration-deliberate) var(--dt-ease-out) both;
+}

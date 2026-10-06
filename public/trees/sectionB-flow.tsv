@@ -1,0 +1,91 @@
+id	parent	type	condition	target
+START	-	start	-	-
+Q1	START	question	-	-
+A1_FAST	Q1	answer	answer === speed	-
+A1_QUAL	Q1	answer	answer === quality	-
+A1_EFF	Q1	answer	answer === wasted effort	-
+A1_DEP	Q1	answer	answer === waiting on someone	-
+A1_NONE	Q1	answer	answer === it went well	-
+ACK_FAST	A1_FAST	ack	-	-
+ACK_FAST_T3	ACK_FAST	ack	history has faster instance	B_CONSTRAINT
+ACK_FAST_T1	ACK_FAST	ack	timeGap > 0	B_CONSTRAINT
+ACK_FAST_T2	ACK_FAST	ack	timeGap <= 0	B_CONSTRAINT
+ACK_QUAL	A1_QUAL	ack	-	-
+ACK_QUAL_T1	ACK_QUAL	ack	qaStatus === qa_not_met	B_CONSTRAINT_2
+ACK_QUAL_T2	ACK_QUAL	ack	qaStatus === qa_met	B_CONSTRAINT_2
+ACK_QUAL_T3	ACK_QUAL	ack	qaStatus === qa_unknown	B_CONSTRAINT_2
+ACK_QUAL_T4	ACK_QUAL	ack	qaStatus === qa_to_verify or qa_unsure	B_CONSTRAINT_2
+ACK_EFF	A1_EFF	ack	-	-
+ACK_EFF_T1	ACK_EFF	ack	hasUnplanned	B_CONSTRAINT_3
+ACK_EFF_T2	ACK_EFF	ack	!hasUnplanned and high actualMins	B_CONSTRAINT_3
+ACK_EFF_T3	ACK_EFF	ack	low actualMins	B_CONSTRAINT_3
+ACK_EFF_T4	ACK_EFF	ack	nothing else applies	B_CONSTRAINT_3
+ACK_DEP	A1_DEP	ack	-	-
+ACK_DEP_T1	ACK_DEP	ack	recurring dependency in history	B_CONSTRAINT_4
+ACK_DEP_T2	ACK_DEP	ack	no dependency history	B_CONSTRAINT_4
+B_CONSTRAINT	ACK_FAST	question	-	-
+B_CONSTRAINT_2	ACK_QUAL	question	-	CPICK
+B_CONSTRAINT_3	ACK_EFF	question	-	CPICK
+B_CONSTRAINT_4	ACK_DEP	question	-	CPICK
+CPICK_SKIP_2	B_CONSTRAINT_2	bridge	answer === skip	BRIDGE
+CPICK_SKIP_3	B_CONSTRAINT_3	bridge	answer === skip	BRIDGE
+CPICK_SKIP_4	B_CONSTRAINT_4	bridge	answer === skip	BRIDGE
+E_ENTRY	A1_NONE	decision	-	-
+E_CP_PROBE	E_ENTRY	question	isCriticalPath === true	-
+E_NOCP_PROBE	E_ENTRY	question	isCriticalPath === false	-
+E_SOP_MARK	E_CP_PROBE	question	answer === yes, found a better way	-
+E_CP_DIG	E_CP_PROBE	decision	answer === no, standard approach	-
+E_CP_TIME	E_CP_DIG	question	timeGap > 20%	-
+E_CP_UNPLAN	E_CP_DIG	question	hasUnplanned	-
+E_CP_PATTERN	E_CP_DIG	question	recurring constraint in history	-
+E_CP_LAST	E_CP_DIG	question	nothing in context	-
+E_NOCP_WANT	E_NOCP_PROBE	question	answer === yes, it is critical	-
+E_NOCP_FIX	E_NOCP_PROBE	action	answer === actually no	-
+E_NOCP_SMOOTH	E_NOCP_FIX	question	-	-
+SMOOTH_NOTE	E_NOCP_SMOOTH	nudge	answer === yes, smooth	-
+SMOOTH_EXIT	SMOOTH_NOTE	bridge	-	SECTION_C_SMOOTH
+E_NOCP_ROUTE	E_NOCP_SMOOTH	action	answer === no, something came up	E_CONSTRAINT
+E_CP_TIME_YES	E_CP_TIME	action	answer === let's look	E_CONSTRAINT
+E_CP_TIME_NO	E_CP_TIME	bridge	answer === just took longer, no issue	BRIDGE
+E_CP_UNPLAN_YES	E_CP_UNPLAN	action	answer === yes it did	E_CONSTRAINT
+E_CP_UNPLAN_NO	E_CP_UNPLAN	bridge	answer === no, separate	BRIDGE
+E_CP_PATTERN_OUT	E_CP_PATTERN	bridge	-	BRIDGE
+E_CP_LAST_YES	E_CP_LAST	action	answer === yes	E_CONSTRAINT
+E_CP_LAST_NO	E_CP_LAST	bridge	answer === same approach	BRIDGE
+E_SOP_YES	E_SOP_MARK	question	answer === yes	-
+E_SOP_PICK	E_SOP_YES	ack	picks macro	BRIDGE
+E_SOP_PICK_SKIP	E_SOP_YES	bridge	answer === skip	BRIDGE
+E_SOP_SKIP	E_SOP_MARK	bridge	answer === skip	BRIDGE
+E_NOCP_WANT_YES	E_NOCP_WANT	action	answer === yes	E_CONSTRAINT
+E_NOCP_WANT_NO	E_NOCP_WANT	bridge	answer === no	BRIDGE
+E_CONSTRAINT	-	question	-	CPICK
+E_CONSTRAINT_SKIP	E_CONSTRAINT	bridge	answer === skip	BRIDGE
+CPICK	B_CONSTRAINT	question	picks macro	-
+CPICK_SKIP	B_CONSTRAINT	bridge	answer === skip	BRIDGE
+CPICK_CONFIRM	CPICK	question	answer === none of these	-
+CPICK_INSIST	CPICK_CONFIRM	bridge	answer === none of these	NARR_INVITE
+CPICK_RETRY_PICK	CPICK_CONFIRM	ack	picks micro	NAV
+CPICK_MICRO	CPICK	ack	picks micro	-
+CPICK_SOCIAL	CPICK_MICRO	signal	programSampleSize >= 5 and majority	NAV
+CPICK_OUTLIER	CPICK_MICRO	signal	programSampleSize >= 5 and outlier	NAV
+NAV	CPICK_MICRO	question	-	-
+NAV_NONE	NAV	bridge	answer === none of these	NARR_INVITE
+NAV_MACRO	NAV	question	picks macro	-
+NAV_MICRO_NONE	NAV_MACRO	bridge	answer === none of these	NARR_INVITE
+NAV_MICRO	NAV_MACRO	ack	picks micro	-
+NAV_MICRO_ACK	NAV_MICRO	action	-	-
+NARR_INVITE	NAV_MICRO_ACK	question	-	-
+NARR_YES	NARR_INVITE	nudge	answer === yes	-
+NARR_NO	NARR_INVITE	decision	answer === not today	-
+NARR_NUDGE_PATTERN	NARR_NO	question	recurring constraint (3+ in 7d)	-
+NARR_NUDGE_NEW	NARR_NO	question	new navigation (first use)	B_SUMMARY
+NARR_NUDGE_TIME	NARR_NO	question	large timeGap	B_SUMMARY
+NARR_NUDGE_NONE	NARR_NO	bridge	no signal	B_SUMMARY
+NARR_CONFIRM	NARR_YES	ack	-	-
+NARR_PATTERN_NO	NARR_NUDGE_PATTERN	bridge	answer === really not today	B_SUMMARY
+NARR_PATTERN_SKIP	NARR_NUDGE_PATTERN	bridge	answer === skip	B_SUMMARY
+NARR_PATTERN_YES	NARR_NUDGE_PATTERN	action	nothing else applies	NARR_CONFIRM
+B_SUMMARY	NARR_CONFIRM	ack	-	-
+BRIDGE	B_SUMMARY	bridge	-	SECTION_C
+SECTION_C	BRIDGE	end	-	-
+SECTION_C_SMOOTH	SMOOTH_EXIT	end	-	-

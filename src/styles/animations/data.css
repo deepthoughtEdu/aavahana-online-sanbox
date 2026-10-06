@@ -1,0 +1,89 @@
+/* ============================================
+   DATA — Numbers measure themselves.
+
+   Data does not appear. It computes itself for the user, now.
+   This is the perceptual proof that DT is running live
+   computation — not displaying cached reports.
+
+   Bar fill:   scaleX/Y from 0 → target. Uses --fill CSS custom property.
+               Usage: <div class="dt-bar-fill" style="--fill: 0.72">
+               --fill range: 0.0 → 1.0
+
+   Value settle: final computed value stamps into view with authority.
+
+   Delta:      a value changed direction. Up or down.
+               Apply via JS on data update; remove after animationend.
+
+   Ontology:
+   All classes: gulf-evaluation | lifecycle or state-change | one-shot | data-surface
+   ============================================ */
+
+/* ---- Bar fill — horizontal ---- */
+/* Progress bars, completion meters, ratio indicators. */
+/* Set --fill via inline style: style="--fill: 0.72" (= 72%) */
+
+@keyframes dtBarFill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(var(--fill, 1)); }
+}
+
+.dt-bar-fill {
+  transform-origin: left;
+  animation: dtBarFill 500ms var(--dt-ease-cascade) both;
+}
+
+/* ---- Bar fill — vertical ---- */
+/* Vertical bar charts, upward-growing indicators. */
+
+@keyframes dtBarFillV {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(var(--fill, 1)); }
+}
+
+.dt-bar-fill-v {
+  transform-origin: bottom;
+  animation: dtBarFillV 500ms var(--dt-ease-cascade) both;
+}
+
+/* ---- Value settle ---- */
+/* A final computed value arrives with authority.
+   Overshoots slightly, then settles — the system is confident. */
+
+@keyframes dtValueSettle {
+  0%   { transform: scale(1.08); }
+  60%  { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+
+.dt-value-settle {
+  display: inline-block;
+  animation: dtValueSettle 250ms var(--dt-ease-stamp) both;
+}
+
+/* ---- Delta up — positive change ---- */
+/* Value moved upward. Rises into position, brief green flash. */
+
+@keyframes dtDeltaUp {
+  0%   { transform: translateY(5px); opacity: 0; color: var(--dt-green); }
+  40%  { opacity: 1; color: var(--dt-green); }
+  100% { transform: translateY(0);  opacity: 1; color: inherit; }
+}
+
+.dt-delta-up {
+  display: inline-block;
+  animation: dtDeltaUp 200ms var(--dt-ease-out) both;
+}
+
+/* ---- Delta down — negative change ---- */
+/* Value moved downward. Drops into position, brief red flash. */
+
+@keyframes dtDeltaDown {
+  0%   { transform: translateY(-5px); opacity: 0; color: var(--dt-red); }
+  40%  { opacity: 1; color: var(--dt-red); }
+  100% { transform: translateY(0);   opacity: 1; color: inherit; }
+}
+
+.dt-delta-down {
+  display: inline-block;
+  animation: dtDeltaDown 200ms var(--dt-ease-out) both;
+}

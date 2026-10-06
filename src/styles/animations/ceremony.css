@@ -1,0 +1,158 @@
+/* ============================================
+   CEREMONY — Thresholds are marked.
+
+   In any professional institution, certain moments are marked:
+   the gavel, the signature, the stamp, the handshake.
+   PDGMS has its own rituals: iteration kickoff, handover,
+   sign-off, review completion, program close.
+
+   These must feel different from routine interaction.
+   Not flashier. Slower and more deliberate.
+
+   CEREMONY TRIGGER GATE — enforced by convention:
+   Every ceremony class fires ONLY on explicit user-initiated
+   state changes (button press, form submit, confirmation).
+   NEVER on page load, scroll, or hover.
+   NEVER repeated. NEVER ambient.
+
+   Requires: --dt-ease-ritual and --dt-duration-ceremony (from theme.css A1).
+   Ontology: conceptual-model/gulf-evaluation | ceremony | one-shot | (varies)
+   ============================================ */
+
+/* ---- Threshold ---- */
+/* Phase transition: setup→iteration, iteration→review, handover.
+   The current surface dims; new content rises slowly with authority.
+   Apply to the incoming content container.
+   Surface: work-surface */
+
+@keyframes dtThreshold {
+  0%   { opacity: 0; transform: scale(0.97) translateY(6px); }
+  100% { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+.dt-threshold {
+  animation: dtThreshold var(--dt-duration-ceremony) var(--dt-ease-ritual) both;
+}
+
+/* ---- Seal ---- */
+/* Approval stamp, sign-off, locked decision.
+   Scales to 1.03 briefly — the authority of a physical stamp.
+   Gold border flash at peak, then settles with deepened shadow.
+   Surface: work-surface */
+
+@keyframes dtSeal {
+  0%   { transform: scale(1);    box-shadow: none; }
+  30%  { transform: scale(1.03); box-shadow: 0 0 0 2px rgba(184, 120, 0, 0.5), 0 4px 20px rgba(0,0,0,0.12); }
+  70%  { transform: scale(0.99); box-shadow: 0 0 0 1px rgba(184, 120, 0, 0.2), 0 2px 10px rgba(0,0,0,0.08); }
+  100% { transform: scale(1);    box-shadow: none; }
+}
+
+.dt-seal {
+  animation: dtSeal 400ms var(--dt-ease-stamp) both;
+}
+
+/* ---- Curtain up ---- */
+/* Iteration board first load, major section first reveal.
+   Content clips upward from bottom — the curtain rises on the stage.
+   Surface: brand-surface / work-surface */
+
+@keyframes dtCurtainUp {
+  from { clip-path: inset(100% 0 0 0); opacity: 0.6; }
+  to   { clip-path: inset(0 0 0 0);    opacity: 1; }
+}
+
+.dt-curtain-up {
+  animation: dtCurtainUp 500ms var(--dt-ease-out) both;
+}
+
+/* ---- Engrave ---- */
+/* Iteration title, program name appearing for the first time.
+   Text scales from slightly above — as if being pressed into the surface.
+   Letter-spacing tightens from open to precise. Color settles.
+   Surface: brand-surface */
+
+@keyframes dtEngrave {
+  0%   { transform: scale(1.02); letter-spacing: 0.04em; opacity: 0.7; }
+  100% { transform: scale(1);    letter-spacing: normal; opacity: 1; }
+}
+
+.dt-engrave {
+  display: inline-block;
+  animation: dtEngrave 300ms var(--dt-ease-cascade) both;
+}
+
+/* ---- Procession ---- */
+/* Ceremony-grade list reveal — slower stagger than standard Ritual.
+   Handover item lists, sign-off checklists, closing ceremony items.
+   Standard ritual uses 55ms intervals; procession uses 100ms.
+   Wrap the list parent in .dt-procession.
+   Surface: work-surface */
+
+.dt-procession > *:nth-child(1)   { animation-delay:   0ms; }
+.dt-procession > *:nth-child(2)   { animation-delay: 100ms; }
+.dt-procession > *:nth-child(3)   { animation-delay: 200ms; }
+.dt-procession > *:nth-child(4)   { animation-delay: 300ms; }
+.dt-procession > *:nth-child(5)   { animation-delay: 400ms; }
+.dt-procession > *:nth-child(6)   { animation-delay: 500ms; }
+.dt-procession > *:nth-child(7)   { animation-delay: 600ms; }
+.dt-procession > *:nth-child(8)   { animation-delay: 700ms; }
+.dt-procession > *:nth-child(n+9) { animation-delay: 800ms; }
+
+/* ---- Streak flame ---- */
+/* The one sanctioned CONTINUOUS ceremony. A learning streak is a standing
+   achievement — so the flame burns for as long as it is held, then dies to a
+   cold ember the moment it lapses. This is the user's reason to return made
+   visible: a live fire they don't want to let go out.
+
+   The look-alive trick is desync — body, inner core, and glow each flicker on
+   a different prime-ish period so they never beat in lockstep (which is what
+   makes CSS fire read as mechanical). Higher amplitude than ambient is
+   intentional and correct here: fire is meant to be SEEN, not merely felt.
+
+   Apply: .dt-flame-body to the outer flame shape, .dt-flame-core to the inner
+   bright tongue, .dt-flame-glow to the soft halo behind. Reduced-motion freezes
+   all three to a steady burn (global kill switch in index.css).
+   Surface: achievement / progress
+   Ontology: ceremony | continuous-while-earned | (progress-surface) */
+
+@keyframes dtFlameBody {
+  0%   { transform: scale(1, 1)        skewX(0deg);    }
+  20%  { transform: scale(1.04, 0.97)  skewX(-1.5deg); }
+  40%  { transform: scale(0.97, 1.05)  skewX(1deg);    }
+  55%  { transform: scale(1.02, 0.99)  skewX(1.5deg);  }
+  70%  { transform: scale(0.98, 1.03)  skewX(-1deg);   }
+  88%  { transform: scale(1.03, 0.98)  skewX(0.5deg);  }
+  100% { transform: scale(1, 1)        skewX(0deg);    }
+}
+
+@keyframes dtFlameCore {
+  0%   { transform: scale(1, 1)       translateY(0);      opacity: 0.92; }
+  25%  { transform: scale(0.92, 1.08) translateY(-0.6px); opacity: 1;    }
+  50%  { transform: scale(1.05, 0.94) translateY(0.4px);  opacity: 0.85; }
+  75%  { transform: scale(0.95, 1.04) translateY(-0.3px); opacity: 1;    }
+  100% { transform: scale(1, 1)       translateY(0);      opacity: 0.92; }
+}
+
+@keyframes dtFlameGlow {
+  0%, 100% { opacity: 0.45; transform: scale(1);    }
+  45%      { opacity: 0.75; transform: scale(1.12); }
+  60%      { opacity: 0.55; transform: scale(1.05); }
+}
+
+.dt-flame-body {
+  transform-origin: bottom center;
+  animation: dtFlameBody 1100ms ease-in-out infinite;
+  will-change: transform;
+}
+
+.dt-flame-core {
+  transform-origin: bottom center;
+  animation: dtFlameCore 730ms ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.dt-flame-glow {
+  transform-origin: center;
+  animation: dtFlameGlow 1900ms ease-in-out infinite;
+  will-change: transform, opacity;
+}

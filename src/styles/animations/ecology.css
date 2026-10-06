@@ -1,0 +1,127 @@
+/* ============================================
+   ECOLOGY — Each status has its own energy.
+
+   Status is not just color. It is temporal character.
+   The user reads status by feeling before they read text.
+
+   Status map (matches backend snake_case):
+   idle      → completed / archived — dead still, no motion
+   active    → in_progress, on_track — slow confident breathe
+   waiting   → pending_review, awaiting_approval — border pulse
+   risk      → at_risk, flagged — oscillating amber border
+   blocked   → blocked — red pulse + periodic shake
+   overdue   → overdue, past_due — rapid red border cycle
+   ceremony  → just_completed, just_approved — gold sweep, one-shot
+
+   Frustration boundary:
+   All infinite classes: period ≥ 2.5s, amplitude minimal, ease-in-out.
+   dt-status-blocked shake fires every 8s — not continuously.
+   ============================================ */
+
+/* ---- Idle — completed / archived ---- */
+/* Stillness is data. A done item does not demand attention. */
+.dt-status-idle {
+  animation: none;
+  opacity: 0.72;
+}
+
+/* ---- Active — in_progress, on_track ---- */
+/* Slow, confident breathe. The item is being worked. */
+
+@keyframes dtStatusActive {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.88; }
+}
+
+.dt-status-active {
+  animation: dtStatusActive 4s ease-in-out infinite;
+}
+
+/* ---- Waiting — pending_review, awaiting_approval ---- */
+/* Border-right pulses teal. The item is waiting on someone else. */
+
+@keyframes dtStatusWaiting {
+  0%, 100% { box-shadow: inset -2px 0 0 transparent; }
+  50%       { box-shadow: inset -2px 0 0 var(--dt-teal); }
+}
+
+.dt-status-waiting {
+  animation: dtStatusWaiting 3s ease-in-out infinite;
+}
+
+/* ---- Risk — at_risk, flagged ---- */
+/* Border-left oscillates between amber shades. Needs attention. */
+
+@keyframes dtStatusRisk {
+  0%, 100% { box-shadow: inset 3px 0 0 var(--dt-amber); }
+  50%       { box-shadow: inset 3px 0 0 rgba(201, 117, 0, 0.4); }
+}
+
+.dt-status-risk {
+  animation: dtStatusRisk 2.5s ease-in-out infinite;
+}
+
+/* ---- Blocked ---- */
+/* Red pulse sustained + micro-shake every 8s. Persistent urgency, not aggression. */
+
+@keyframes dtStatusBlockedPulse {
+  0%, 100% { box-shadow: inset 3px 0 0 var(--dt-red); }
+  50%       { box-shadow: inset 3px 0 0 rgba(198, 40, 40, 0.35); }
+}
+
+@keyframes dtStatusBlockedShake {
+  0%, 92%, 100%  { transform: translateX(0); }
+  94%             { transform: translateX(-2px); }
+  96%             { transform: translateX(2px); }
+  98%             { transform: translateX(-1px); }
+}
+
+.dt-status-blocked {
+  animation:
+    dtStatusBlockedPulse 2.4s ease-in-out infinite,
+    dtStatusBlockedShake 8s  linear        infinite;
+}
+
+/* ---- Overdue ---- */
+/* Shorter cycle than risk — more urgency, still not aggressive. */
+
+@keyframes dtStatusOverdue {
+  0%, 100% { box-shadow: inset 3px 0 0 var(--dt-red); }
+  50%       { box-shadow: inset 3px 0 0 rgba(198, 40, 40, 0.25); }
+}
+
+.dt-status-overdue {
+  animation: dtStatusOverdue 1.8s ease-in-out infinite;
+}
+
+/* ---- Ceremony — just_completed, just_approved ---- */
+/* Gold shimmer sweeps left→right, single pass. The moment is marked. */
+/* Apply via JS: add class on state change, remove after animationend. */
+
+@keyframes dtStatusCeremony {
+  0%   { background-position: -200% center; opacity: 0; }
+  20%  { opacity: 1; }
+  100% { background-position:  200% center; opacity: 0; }
+}
+
+.dt-status-ceremony {
+  position: relative;
+  overflow: hidden;
+}
+
+.dt-status-ceremony::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--dt-goldBg) 40%,
+    rgba(184, 120, 0, 0.22) 50%,
+    var(--dt-goldBg) 60%,
+    transparent 100%
+  );
+  background-size: 60% 100%;
+  animation: dtStatusCeremony var(--dt-duration-ceremony) var(--dt-ease-linear) 1 forwards;
+  pointer-events: none;
+}

@@ -1,0 +1,37 @@
+/* ============================================
+   BUTTON STYLING
+   ============================================ */
+
+@utility btn {
+  @apply rounded-md;
+}
+
+.btn-sm {
+  height: 2.25rem !important;
+  min-height: 2.25rem !important;
+  font-size: 0.875rem !important;
+}
+
+/* Fixed-width icon buttons need DaisyUI's zero horizontal padding so their SVGs
+   are not squeezed to zero width by the text-button padding. */
+.btn-sm:not(.btn-square):not(.btn-circle) {
+  padding: 0 1rem !important;
+}
+
+/* ============================================
+   CLICKABILITY
+   ============================================ */
+
+/* Tailwind v4 dropped `cursor: pointer` from buttons in its base layer, so a
+   plain <button> reads as plain text. Put it back once, here, rather than
+   sprinkling cursor-pointer through every component. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+}

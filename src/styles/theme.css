@@ -1,0 +1,313 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  exclude: properties, radialprogress;
+  logs: false
+}
+
+/* ============================================
+   OSD DESIGN SYSTEM — Base Typography
+   ============================================ */
+@layer base {
+  body {
+    font-family: var(--font-base), 'DM Sans', 'Helvetica Neue', sans-serif;
+    color: #000000;
+  }
+}
+
+/* ============================================
+   Light Theme — OSD Design System
+   ============================================ */
+@plugin "daisyui/theme" {
+  name: "dt-light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+
+  /* Canvas & Surface */
+  --color-base-100: #ffffff;
+  --color-base-200: #f8f8f8;
+  --color-base-300: #e5e5e5;
+  --color-base-content: #000000;
+
+  /* Brand — OSD Teal/Blue */
+  --color-primary: #0033ff;
+  --color-primary-content: #ffffff;
+
+  /* Secondary — light gray */
+  --color-secondary: #e5e5e5;
+  --color-secondary-content: #000000;
+
+  /* Accent — Navy (dark identity headers) */
+  --color-accent: #000000;
+  --color-accent-content: #ffffff;
+
+  /* Neutral — muted text */
+  --color-neutral: #555555;
+  --color-neutral-content: #ffffff;
+
+  /* Status — Muted traffic lights */
+  --color-info: #0033ff;
+  --color-info-content: #ffffff;
+  --color-success: #2e7d32;
+  --color-success-content: #ffffff;
+  --color-warning: #e6a700;
+  --color-warning-content: #000000;
+  --color-error: #c62828;
+  --color-error-content: #ffffff;
+
+  /* Radii & Sizing */
+  --radius-selector: 0.4375rem;
+  --radius-field: 0.4375rem;
+  --radius-box: 0.5625rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+
+/* ============================================
+   OSD CSS CUSTOM PROPERTIES
+   ============================================ */
+:root {
+  /* ---- Colors ---- */
+  --dt-bg: #ffffff;
+  --dt-bgDeep: #f8f8f8;
+  --dt-navy: #000000;
+  --dt-navyMid: #111111;
+  --dt-navyLight: #1a1a1a;
+  --dt-teal: #0033ff;
+  --dt-tealLight: #809fff;
+  --dt-tealDim: rgba(0, 51, 255, 0.05);
+  --dt-tealBorder: rgba(0, 51, 255, 0.15);
+  --dt-text: #000000;
+  --dt-textMid: #000000;
+  --dt-textMuted: #555555;
+  --dt-textDim: #999999;
+  --dt-border: #e5e5e5;
+  --dt-borderMid: #d0d0d0;
+  --dt-green: #2e7d32;
+  --dt-greenDim: rgba(46, 125, 50, 0.08);
+  --dt-amber: #e6a700;
+  --dt-amberDim: rgba(230, 167, 0, 0.08);
+  --dt-red: #c62828;
+  --dt-redDim: rgba(198, 40, 40, 0.08);
+  --dt-white: #ffffff;
+
+  /* Sticky-note pastels */
+  --dt-stickyYellow: #fff9e6;
+  --dt-stickyBlue: #eef4ff;
+  --dt-stickyGreen: #eef7ef;
+  --dt-stickyPink: #fef0f4;
+  --dt-stickyLavender: #f3f0ff;
+
+  /* ---- Extended colors ---- */
+  --dt-surfaceAlt: #fafafa;                    /* tertiary surface / card insets */
+  --dt-textMuted-dark: #777777;                /* muted text on dark canvas — intentionally lighter than --dt-textMuted (#555) which fails contrast on black */
+  --dt-gold: #b87800;
+  --dt-goldDim: rgba(184, 120, 0, 0.08);
+  --dt-goldBg: #fffdf5;
+  --dt-greenBorder: rgba(46, 125, 50, 0.20);
+  --dt-amberBorder: rgba(230, 167, 0, 0.22);
+  --dt-redBorder: rgba(198, 40, 40, 0.18);
+
+  /* Faint row separator — lighter than --dt-border (#e5e5e5) for inner table rows */
+  --dt-borderSubtle:    #f0f0f0;
+
+  /* Extended accent palette — constraint/diagnostic/presentation contexts */
+  --dt-indigo:      #6366f1;
+  --dt-indigoDim:   rgba(99, 102, 241, 0.08);
+  --dt-purple:      #8b5cf6;
+  --dt-purpleDim:   rgba(139, 92, 246, 0.08);
+  --dt-pink:        #ec4899;
+  --dt-pinkDim:     rgba(236, 72, 153, 0.08);
+  --dt-rootcause:   #e8a040;
+  --dt-rootcauseDim:rgba(232, 160, 64, 0.08);
+
+  /* Deck presentation surfaces */
+  --dt-deckWarm:    #f0eee8;
+  --dt-deckDeep1:   #0a1628;
+  --dt-deckDeep2:   #071020;
+  --dt-deckDeep3:   #0c1220;
+
+  /* ---- Presentation deck role glows (radial-gradient overlays) ---- */
+  --dk-glow-problem:    rgba(198, 40, 40, 0.06);
+  --dk-glow-promise:    rgba(46, 125, 50, 0.05);
+  --dk-glow-rootcause:  rgba(230, 167, 0, 0.05);
+  --dk-glow-plan:       rgba(0, 51, 255, 0.04);
+  --dk-glow-evidence:   rgba(124, 58, 237, 0.04);
+
+  /* Deck pulse accent — set --dk-accent-glow via inline style with runtime accent color */
+  --dk-accent-glow: transparent;
+
+  /* ---- Event Loop dark header palette ---- */
+  /* The EL sprint header is a brand surface (navy bg) with its own label hierarchy */
+  --el-label:           #3a5570;   /* blue-gray label text on navy */
+  --el-muted:           #aaaaaa;   /* secondary text on navy */
+
+  /* ---- Module Identity (Brand surfaces only — maps to L1–L4 role hierarchy) ---- */
+  /* L1 Daily Ops */ --module-aavahana: #EA580C;
+  /* L2 Supervisor */ --module-trinethra: #059669;
+  /* L3 TPM Core = brand */ --module-mimamsaka: #0033ff;
+  /* L4 AI Shell */ --module-niyanta: #7C3AED;
+
+  /* Module derived variants */
+  --module-aavahana-light: #FB923C;
+  --module-aavahana-glow:  rgba(234, 88, 12, 0.12);
+  --module-aavahana-dim:   rgba(234, 88, 12, 0.08);
+  --module-aavahana-border:rgba(234, 88, 12, 0.22);
+
+  --module-trinethra-light: #34D399;
+  --module-trinethra-glow:  rgba(5, 150, 105, 0.12);
+  --module-trinethra-dim:   rgba(5, 150, 105, 0.08);
+  --module-trinethra-border:rgba(5, 150, 105, 0.22);
+
+  --module-niyanta-light: #A78BFA;
+  --module-niyanta-glow:  rgba(124, 58, 237, 0.12);
+  --module-niyanta-dim:   rgba(124, 58, 237, 0.08);
+  --module-niyanta-border:rgba(124, 58, 237, 0.22);
+
+  /* ---- Practice Domain Identity (5×5 grid horizontals) ---- */
+  /* H5 Decide */  --domain-decide:       #1a237e;
+                   --domain-decide-dim:   rgba(26, 35, 126, 0.07);
+                   --domain-decide-border:rgba(26, 35, 126, 0.18);
+  /* H4 Develop */ --domain-develop:      #0d47a1;
+                   --domain-develop-dim:  rgba(13, 71, 161, 0.07);
+                   --domain-develop-border:rgba(13, 71, 161, 0.18);
+  /* H3 Deliver */ --domain-deliver:      #2e7d32;
+                   --domain-deliver-dim:  rgba(46, 125, 50, 0.07);
+                   --domain-deliver-border:rgba(46, 125, 50, 0.18);
+  /* H2 Delight */ --domain-delight:      #e65100;
+                   --domain-delight-dim:  rgba(230, 81, 0, 0.07);
+                   --domain-delight-border:rgba(230, 81, 0, 0.18);
+  /* H1 Amplify */ --domain-amplify:      #880e4f;
+                   --domain-amplify-dim:  rgba(136, 14, 79, 0.07);
+                   --domain-amplify-border:rgba(136, 14, 79, 0.18);
+
+  /* ---- Vertical Levels (V1–V5 capability layers) ---- */
+  /* V5 Direction */  --vertical-v5:       #1b5e20;
+                      --vertical-v5-dim:   rgba(27, 94, 32, 0.07);
+                      --vertical-v5-border:rgba(27, 94, 32, 0.18);
+  /* V4 Strategy */   --vertical-v4:       #33691e;
+                      --vertical-v4-dim:   rgba(51, 105, 30, 0.07);
+                      --vertical-v4-border:rgba(51, 105, 30, 0.18);
+  /* V3 Tactics */    --vertical-v3:       #e65100;
+                      --vertical-v3-dim:   rgba(230, 81, 0, 0.07);
+                      --vertical-v3-border:rgba(230, 81, 0, 0.18);
+  /* V2 Operations */ --vertical-v2:       #4a148c;
+                      --vertical-v2-dim:   rgba(74, 20, 140, 0.07);
+                      --vertical-v2-border:rgba(74, 20, 140, 0.18);
+  /* V1 Execution */  --vertical-v1:       #bf360c;
+                      --vertical-v1-dim:   rgba(191, 54, 12, 0.07);
+                      --vertical-v1-border:rgba(191, 54, 12, 0.18);
+
+  /* ---- Status Semantic Aliases (CSS-accessible status signals) ---- */
+  /* Mirror of src/config/status.ts — update both if values change */
+  --status-green:   var(--dt-green);
+  --status-amber:   var(--dt-amber);
+  --status-red:     var(--dt-red);
+  --status-blue:    var(--dt-teal);
+  --status-neutral: var(--dt-textMuted);
+  --status-dim:     var(--dt-textDim);
+
+  /* ---- Border Radius ---- */
+  --radius-sm: 0.1875rem;   /* 3px */
+  --radius-md: 0.3125rem;   /* 5px */
+  --radius-lg: 0.5rem;      /* 8px */
+  --radius-xl: 0.5625rem;   /* 9px */
+  --radius-2xl: 0.75rem;    /* 12px */
+
+  /* ---- Border Width ---- */
+  --border-default: 1px;
+  --border-focus: 1.5px;
+
+  /* ---- Border Color Aliases (used by components.css DaisyUI overrides) ---- */
+  --border-light: var(--dt-border);    /* #e5e5e5 — subtle component borders */
+  --border-medium: var(--dt-borderMid); /* #d0d0d0 — stronger borders */
+
+  /* ---- Spacing — 4px base unit (canonical scale) ---- */
+  --spacing-xs: 0.25rem;   /* 4px  */
+  --spacing-sm: 0.5rem;    /* 8px  */
+  --spacing-md: 0.75rem;   /* 12px */
+  --spacing-lg: 1rem;      /* 16px */
+  --spacing-xl: 1.5rem;    /* 24px */
+
+  /* Extended spacing (sp-* mirrors T.sp* for CSS contexts) */
+  --sp-4:  0.25rem;  /* 4px  — canonical */
+  --sp-8:  0.5rem;   /* 8px  — canonical */
+  --sp-12: 0.75rem;  /* 12px — canonical */
+  --sp-16: 1rem;     /* 16px — canonical */
+  --sp-20: 1.25rem;  /* 20px — canonical */
+  --sp-24: 1.5rem;   /* 24px — canonical */
+  --sp-28: 1.75rem;  /* 28px — canonical */
+  --sp-32: 2rem;     /* 32px — canonical */
+  --sp-40: 2.5rem;   /* 40px — canonical */
+  /* Off-grid values (sp2/3/5/6/7/9/10/14/18/22) intentionally excluded — see design-principles.md */
+
+  /* ---- Font Sizes (--fs-* for inline style contexts) ---- */
+  --fs-8:  0.5rem;      /* 8px  */
+  --fs-9:  0.5625rem;   /* 9px  */
+  --fs-10: 0.625rem;    /* 10px */
+  --fs-11: 0.6875rem;   /* 11px */
+  --fs-12: 0.75rem;     /* 12px — text-xs  */
+  --fs-13: 0.8125rem;   /* 13px */
+  --fs-14: 0.875rem;    /* 14px — text-sm  */
+  --fs-15: 0.9375rem;   /* 15px */
+  --fs-16: 1rem;        /* 16px — text-base */
+  --fs-17: 1.0625rem;   /* 17px */
+  --fs-18: 1.125rem;    /* 18px — text-lg  */
+  --fs-20: 1.25rem;     /* 20px — text-xl  */
+  --fs-22: 1.375rem;    /* 22px */
+  --fs-24: 1.5rem;      /* 24px — text-2xl */
+  --fs-48: 3rem;        /* 48px — display  */
+
+  /* ---- Editorial / Talking Doc palette ---- */
+  /* Third surface type: warm editorial reading experience (serif, warm bg).
+     Distinct from Brand and Work surfaces. See design-principles.md.
+     All talking-doc components reference these via the P token object
+     in src/utils/shared/talking-doc.utils.ts. */
+  --td-bg:            #FDFCFA;
+  --td-surface:       #FFFFFF;
+  --td-surfaceHover:  #F8F6F3;
+  --td-text:          #1A1A1A;
+  --td-textSecondary: #6B6459;
+  --td-textMuted:     #A39E94;
+  --td-accent:        #0033FF;
+  --td-accentLight:   #EEF0FF;
+  --td-accentSoft:    #D6DBFF;
+  --td-forward:       #0033FF;
+  --td-forwardBg:     #F0F3FF;
+  --td-backward:      #B45309;
+  --td-backwardBg:    #FFF8F0;
+  --td-backwardSoft:  #F5D0A9;
+  --td-border:        #E8E4DE;
+  --td-borderLight:   #F0EDE8;
+  --td-gap:           #DC2626;
+  --td-gapBg:         #FEF2F2;
+  --td-gapBorder:     #FECACA;
+  --td-success:       #16A34A;
+  --td-successBg:     #F0FDF4;
+  --td-gold:          #92722A;
+  --td-goldBg:        #FFFBEB;
+
+  /* ---- Motion tokens ---- */
+  /* Duration scale — maps to L1→L4 role pacing */
+  --dt-duration-snap:       80ms;   /* immediate: button press, hover response */
+  --dt-duration-fast:      120ms;   /* L1 Aavahana — operator-paced, work surface */
+  --dt-duration-base:      180ms;   /* standard interactions across all surfaces */
+  --dt-duration-deliberate:250ms;   /* L3 Mimamsaka — program-level, measured */
+  --dt-duration-reveal:    400ms;   /* L4 Niyanta — AI reveal, intelligence surfaces */
+  --dt-duration-ritual:    600ms;   /* brand surface entrances, module identity */
+  --dt-duration-ambient:  6000ms;  /* sentinel, undercurrent, vigil — background intelligence */
+  --dt-duration-ceremony:  800ms;  /* threshold crossings, phase transitions */
+
+  /* Easing vocabulary */
+  --dt-ease-precise:  cubic-bezier(0.4, 0, 0.2, 1);     /* no overshoot — work surface standard */
+  --dt-ease-out:      cubic-bezier(0.16, 1, 0.3, 1);     /* fast start, clean settle */
+  --dt-ease-cascade:  cubic-bezier(0.0, 0.0, 0.2, 1);    /* decelerate — authority flows down */
+  --dt-ease-stamp:    cubic-bezier(0.34, 1.1, 0.64, 1);  /* micro-overshoot for commit/finality */
+  --dt-ease-linear:   linear;
+  --dt-ease-ritual:   cubic-bezier(0.0, 0.0, 0.1, 1);   /* ceremony grade — very slow decelerate */
+}

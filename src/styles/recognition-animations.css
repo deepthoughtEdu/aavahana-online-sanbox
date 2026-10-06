@@ -1,0 +1,391 @@
+/* src/styles/recognition-animations.css */
+
+/**
+ * ============================================
+ * RECOGNITION GAME ANIMATIONS
+ * No shadows - clean, modern animations
+ * ============================================
+ */
+
+/* ============================================
+   KEYFRAME DEFINITIONS
+   ============================================ */
+
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes success-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes error-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes count-up {
+  from {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rank-change {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    border-color: oklch(var(--p));
+    background-color: oklch(var(--p) / 0.05);
+  }
+  50% {
+    border-color: oklch(var(--p) / 0.5);
+    background-color: oklch(var(--p) / 0.1);
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.animate-float-up {
+  animation: float-up 1s ease-out forwards;
+}
+
+.animate-success-pulse {
+  animation: success-pulse 0.5s ease-in-out;
+}
+
+.animate-error-shake {
+  animation: error-shake 0.5s ease-in-out;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease-out;
+}
+
+.animate-slide-in-up {
+  animation: slide-in-up 0.4s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-count-up {
+  animation: count-up 0.3s ease-out;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.animate-rank-change {
+  animation: rank-change 0.4s ease-in-out;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   ANIMATION DELAYS
+   ============================================ */
+
+.animate-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animate-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animate-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animate-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* ============================================
+   HOVER EFFECTS (NO SHADOWS)
+   ============================================ */
+
+.hover-lift {
+  transition: transform 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  border-color: oklch(var(--p) / 0.4);
+}
+
+.hover-scale {
+  transition: transform 0.2s ease-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-glow {
+  transition: border-color 0.3s ease-out, background-color 0.3s ease-out;
+}
+
+.hover-glow:hover {
+  border-color: oklch(var(--p) / 0.6);
+  background-color: oklch(var(--p) / 0.05);
+}
+
+/* ============================================
+   TRANSITIONS
+   ============================================ */
+
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-fast {
+  transition: all 0.15s ease-out;
+}
+
+.transition-slow {
+  transition: all 0.5s ease-out;
+}
+
+/* ============================================
+   CREDIT DELTA DISPLAY
+   ============================================ */
+
+.credit-delta {
+  position: absolute;
+  top: -2rem;
+  right: 0;
+  font-weight: 700;
+  font-size: 1.25rem;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.credit-delta-positive {
+  color: oklch(var(--su));
+}
+
+.credit-delta-negative {
+  color: oklch(var(--er));
+}
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+
+.progress-bar {
+  width: 100%;
+  height: 0.5rem;
+  background-color: oklch(var(--b2));
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    oklch(var(--su)),
+    oklch(var(--su) / 0.7)
+  );
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px;
+}
+
+.progress-bar-fill-warning {
+  background: linear-gradient(
+    to right,
+    oklch(var(--wa)),
+    oklch(var(--wa) / 0.7)
+  );
+}
+
+.progress-bar-fill-error {
+  background: linear-gradient(
+    to right,
+    oklch(var(--er)),
+    oklch(var(--er) / 0.7)
+  );
+}
+
+/* ============================================
+   TIMER PULSE (when < 60s)
+   ============================================ */
+
+.timer-critical {
+  animation: pulse 1s ease-in-out infinite;
+  color: oklch(var(--er));
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* ============================================
+   RANK INDICATORS
+   ============================================ */
+
+.rank-up {
+  color: oklch(var(--su));
+  animation: rank-change 0.4s ease-in-out;
+}
+
+.rank-down {
+  color: oklch(var(--er));
+  animation: rank-change 0.4s ease-in-out;
+}
+
+.rank-same {
+  color: oklch(var(--bc) / 0.4);
+}
+
+/* ============================================
+   PANEL BACKGROUNDS (WHITE WITH GAPS)
+   ============================================ */
+
+.panel-yellow {
+  background: white;
+}
+
+.panel-green {
+  background: white;
+}
+
+.panel-brown {
+  background: white;
+}
+
+.panel-blue {
+  background: white;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: oklch(var(--b2));
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: oklch(var(--b3));
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: oklch(var(--bc) / 0.3);
+}

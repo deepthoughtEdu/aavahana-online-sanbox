@@ -1,0 +1,23 @@
+/* ============================================
+   EXIT — Things leaving.
+   Space closes after them.
+   ============================================ */
+
+@keyframes dtFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes dtScaleOut {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.97); }
+}
+
+@keyframes dtSinkOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(6px); }
+}
+
+.dt-fade-out  { animation: dtFadeOut  var(--dt-duration-base) var(--dt-ease-precise) both; }
+.dt-scale-out { animation: dtScaleOut var(--dt-duration-base) var(--dt-ease-precise) both; }
+.dt-sink-out  { animation: dtSinkOut  var(--dt-duration-base) var(--dt-ease-precise) both; }

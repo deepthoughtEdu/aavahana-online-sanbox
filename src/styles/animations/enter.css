@@ -1,0 +1,109 @@
+/* ============================================
+   ENTER — Things arriving.
+   Every entrance answers: "look here, something arrived."
+
+   The Rise     — work surface, cards, list items
+   The Drop     — menus, dropdowns, tooltips
+   The Sweep    — panels arriving with direction
+   The Cascade  — hierarchy flowing down L4→L1
+   Module       — brand identity entrances (slower, felt)
+   ============================================ */
+
+/* --- Keyframes --- */
+
+@keyframes dtRise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dtDrop {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dtFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes dtScaleIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes dtSweep {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes dtSweepRight {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes dtCascade {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Module identity entrances */
+
+@keyframes dtAavahanaEnter {
+  0%   { opacity: 0; transform: translateY(16px); border-left-color: transparent; }
+  60%  { opacity: 1; transform: translateY(0);    border-left-color: var(--module-aavahana); }
+  100% { opacity: 1; transform: translateY(0);    border-left-color: var(--module-aavahana); }
+}
+
+@keyframes dtTrinethraEnter {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes dtMimamsakaEnter {
+  0%   { opacity: 0; transform: scale(0.96) translateY(8px); }
+  100% { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+@keyframes dtNiyantaEnter {
+  0%   { opacity: 0; transform: scale(0.98); filter: blur(4px); }
+  60%  { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: scale(1);    filter: blur(0); }
+}
+
+/* Context / popover */
+@keyframes dtFadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* --- Classes --- */
+
+/* Work surface — cards, list items, panels */
+.dt-rise        { animation: dtRise          var(--dt-duration-base)        var(--dt-ease-out)     both; }
+
+/* Menus, dropdowns, tooltips — arrive from above */
+.dt-drop        { animation: dtDrop          var(--dt-duration-fast)        var(--dt-ease-cascade) both; }
+
+/* Overlays, secondary content */
+.dt-fade-in     { animation: dtFadeIn        var(--dt-duration-base)        var(--dt-ease-precise) both; }
+
+/* Modals, dialogs — scale from slightly inside */
+.dt-scale-in    { animation: dtScaleIn       var(--dt-duration-base)        var(--dt-ease-out)     both; }
+
+/* Panel arriving left — direction of progress */
+.dt-sweep       { animation: dtSweep         var(--dt-duration-base)        var(--dt-ease-out)     both; }
+
+/* Detail pane, secondary panel — arrives from right */
+.dt-sweep-right { animation: dtSweepRight    var(--dt-duration-base)        var(--dt-ease-out)     both; }
+
+/* Hierarchy reveal — strategy flows down */
+.dt-cascade     { animation: dtCascade       var(--dt-duration-deliberate)  var(--dt-ease-cascade) both; }
+
+/* Module identity entrances */
+.dt-aavahana-enter  { animation: dtAavahanaEnter  var(--dt-duration-deliberate) var(--dt-ease-out)     both; }
+.dt-trinethra-enter { animation: dtTrinethraEnter var(--dt-duration-deliberate) var(--dt-ease-cascade) both; }
+.dt-mimamsaka-enter { animation: dtMimamsakaEnter var(--dt-duration-deliberate) var(--dt-ease-stamp)   both; }
+.dt-niyanta-enter   { animation: dtNiyantaEnter   var(--dt-duration-reveal)     var(--dt-ease-out)     both; }
+
+/* Context / popover */
+.animate-fade-in { animation: dtFadeInScale var(--dt-duration-base) var(--dt-ease-out); }

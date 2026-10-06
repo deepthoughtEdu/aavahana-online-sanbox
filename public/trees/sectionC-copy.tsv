@@ -1,0 +1,61 @@
+id	text
+C_START	Section C Entry (Act 3: Close)
+C_FW_ENTRY	Did you use any framework or method to guide your thinking today?
+C_FW_SMOOTH	Smooth day. Did you practice anything deliberately?
+C_FW_SMOOTH_YES	Route to framework picker
+C_SL2_EFF	You finished in {actualH}h {actualM}m vs {plannedH}h {plannedM}m. What made that possible?
+C_SL2_STREAK	Smooth {n} days running. That's not luck — what habit is holding?
+C_SL2_EFFORT	Everything done. What felt effortless today?
+C_SL2_GEN	Any routine or habit that helped today?
+C_SL2_EFF_UNSURE	Worth thinking about. If you had to teach someone to replicate today, what would you say?
+C_SL2_EFF_UNSURE_SKIP	No framework today — noted.
+C_SL2_EFF_NO	Light day, no deliberate practice — noted.
+C_SL2_STREAK_UNSURE	What's one thing you did today that you also did yesterday?
+C_SL2_STREAK_UNSURE_SKIP	No framework today — noted.
+C_SL2_STREAK_LUCKY	Fair enough. Smooth streak continues.
+C_SL2_EFFORT_NONE	No framework today — noted.
+C_SL2_GEN_NO	No framework today — noted.
+C_SL1_DELIV	You finished {cpItem.label} — it was on the critical path. Did that involve any framework?
+C_SL1_CONSTR	You hit {constraint.microLabel} and navigated with {navigation.microLabel}. Did you use a framework to think through that, or was it instinct?
+C_SL1_COMMIT	No framework today. Which one would you try next time?
+C_SL1_COMMIT_ACK	Noted — you'll try {commitFramework} next time. We'll check in on that.
+C_SL1_COMMIT_NO	No commitment today — noted.
+C_FW_MACRO	Which framework did you use?
+C_FW_MICRO	What specifically within {framework.macroLabel}?
+C_FW_NARR	How did you use {framework.microLabel}? What happened?
+C_FW_NARR_RECORD	How did you use {framework.microLabel}? What happened?
+C_FW_NARR_SHORT	That's {charCount} characters. A bit more context would help — what was the outcome?
+C_FW_NARR_SHORT_SUBMIT	Short narrative accepted.
+C_FW_CONFIRM	{framework.macroLabel} → {framework.microLabel}. Narrative captured.
+C_FW_CONFIRM_SHORT	{framework.macroLabel} → {framework.microLabel}. Narrative captured.
+C_FW_ADD	Another framework?
+C_FW_ADD_NO	Done — {fwCount} framework(s) captured.
+C_BRIDGE_FW_FEEL	Frameworks captured. Now: how are you feeling?
+C_FEEL_ENTRY	How are you feeling?
+C_FEEL_SKIP	Even a quick check-in helps. Closest match?
+C_FEEL_SKIP_CONFIRM	No feeling logged — noted.
+C_FEEL_MACRO	Noted: {feeling.macroLabel}.
+C_FEEL_MICRO	What specifically?
+C_FEEL_MICRO_ACK	Noted: {feeling.microLabel}.
+C_FEEL_POS	That creative energy is gold — let it flow.
+C_FEEL_NEU	Steady days build the foundation.
+C_FEEL_NEG	That weight is real. You're not alone in carrying it.
+C_FEEL_SIGNAL	{percent}% of your team reported {feeling.macroLabel} this week.
+C_FEEL_SIGNAL_SKIP	Proceeding to summary.
+C_SD_COMPASSION	{feeling.microLabel} — I hear you. That's hard.
+C_SD_BRUTAL	What specifically made today feel this way?
+C_SD_BRUTAL_SKIP	That's okay. You showed up — that matters.
+C_SD_AGENCY	Of everything you just described — what's one thing within your control?
+C_SD_AGENCY_SKIP	That's okay. You named it — that matters.
+C_SD_EVIDENCE	You identified {constraint}, navigated with {navigation}, delivered {doneCount} items. You didn't stop.
+C_SD_EVIDENCE_NOCONTEXT	You showed up, did the work, and you're still here reflecting. That's not nothing.
+C_SD_FAITH	What would make tomorrow 10% better? Not perfect — just better.
+C_SD_FAITH_NOCONTEXT	What would make tomorrow 10% better? Not perfect — just better.
+C_SD_FAITH_SKIP	That's okay. Tomorrow is a new day.
+C_SD_FAITH_SKIP_NC	That's okay. Tomorrow is a new day.
+C_SD_ANCHOR	So: {feeling.microLabel} — but {faithAnswer}. Both are true.
+C_SD_ANCHOR_NC	So: {feeling.microLabel} — but {faithAnswer}. Both are true.
+C_FEEL_SIGNAL_NEG	{percent}% of your team reported {feeling.macroLabel} this week.
+C_FEEL_SIGNAL_NEG_SKIP	Proceeding to summary.
+C_SUMMARY	Summary: practiced {fwList}, feeling {feeling.microLabel}. Only shows captured fields.
+C_END	Day captured ✓ - see you tomorrow.

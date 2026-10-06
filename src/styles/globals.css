@@ -1,0 +1,64 @@
+/* ============================================
+   DT DESIGN SYSTEM - MAIN STYLESHEET
+   ============================================ */
+
+/* Import theme configuration and CSS variables */
+@import "./theme.css";
+
+/* Import DT design system utilities */
+@import "./dt.css";
+
+/* Import component-specific styles */
+@import "./forms.css";
+@import "./buttons.css";
+@import "./table.css";
+@import "./components.css";
+@import "./calendar.css";
+@import "./utilities.css";
+@import "./driver.css";
+@import "./recognition-animations.css";
+@import "./animations/index.css";
+@import "./ats-context.css";
+@import "./guide.css";
+@import "./spotlight.css";
+@import "./recordings.css";
+
+/* Animations — see animations/index.css (modular tree) */
+
+.scrollbar-hover {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+.scrollbar-hover::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+/* Show scrollbar on hover */
+.scrollbar-hover:hover {
+  scrollbar-width: thin;
+  /* Firefox */
+  -ms-overflow-style: auto;
+  /* IE and Edge */
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-track {
+  background: var(--dt-bgDeep);
+  border-radius: 4px;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  background: var(--dt-textDim);
+  border-radius: 4px;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb:hover {
+  background: var(--dt-textMuted);
+}

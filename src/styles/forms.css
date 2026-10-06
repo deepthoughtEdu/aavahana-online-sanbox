@@ -1,0 +1,179 @@
+/* ============================================
+   FORM UTILITIES
+   ============================================ */
+
+/* Form Section Title */
+.form-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: oklch(var(--bc));
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: var(--border-default) solid var(--border-light);
+}
+
+/* Form Label */
+.form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: oklch(var(--bc));
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Required Indicator */
+.form-required {
+  color: var(--color-error);
+  margin-left: var(--spacing-xs);
+}
+
+/* Form Hint Text */
+.form-hint {
+  font-size: 0.75rem;
+  color: oklch(var(--bc) / 0.6);
+  font-weight: 400;
+}
+
+/* Form Error Message */
+.form-error {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-error);
+  margin-top: var(--spacing-xs);
+  margin-left: var(--spacing-xs);
+}
+
+/* Input Error State */
+.input-error {
+  border-color: var(--color-error) !important;
+  border-width: var(--border-focus) !important;
+}
+
+/* File Input */
+.file-input {
+  border-radius: var(--radius-md) !important;
+  border: var(--border-default) solid var(--border-light) !important;
+  width: 100%;
+}
+
+.file-input:focus {
+  border-width: var(--border-focus) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Range Input */
+.range {
+  width: 100%;
+}
+
+/* ============================================
+   FORM INPUT OVERRIDES - FIXED BORDERS!
+   ============================================ */
+
+@utility input {
+  @apply w-full border-[1.5px] !rounded-md;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: border-color 0.15s ease;
+}
+
+input:hover:not(:disabled):not(:focus) {
+  border-color: var(--border-medium) !important;
+}
+
+input:focus {
+  outline: none !important;
+  border-width: var(--border-focus) !important;
+  border-color: var(--color-primary) !important;
+}
+
+input:disabled {
+  background-color: oklch(var(--b2));
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.input-sm {
+  height: 2.25rem !important;
+  min-height: 2.25rem !important;
+  padding: 0.375rem 0.75rem !important;
+  font-size: 0.875rem !important;
+}
+
+@utility select {
+  @apply w-full border-[1.5px] outline-0 !rounded-md;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: border-color 0.15s ease;
+}
+
+select:hover:not(:disabled):not(:focus) {
+  border-color: var(--border-medium) !important;
+}
+
+select:focus {
+  outline: none !important;
+  border-width: var(--border-focus) !important;
+  border-color: var(--color-primary) !important;
+}
+
+select:disabled {
+  background-color: oklch(var(--b2));
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.select-sm {
+  height: 2.25rem !important;
+  min-height: 2.25rem !important;
+  padding: 0.375rem 2rem 0.375rem 0.75rem !important;
+  font-size: 0.875rem !important;
+}
+
+@utility textarea {
+  @apply w-full border-[1.5px] !rounded-md;
+  /* FIXED: Removed border-0, added proper borders */
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: border-color 0.15s ease;
+  resize: vertical;
+}
+
+textarea:hover:not(:disabled):not(:focus) {
+  border-color: var(--border-medium) !important;
+}
+
+textarea:focus {
+  outline: none !important;
+  border-width: var(--border-focus) !important;
+  border-color: var(--color-primary) !important;
+}
+
+textarea:disabled {
+  background-color: oklch(var(--b2));
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.textarea-sm {
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.875rem !important;
+}
+
+/* ============================================
+   LABEL CONSISTENCY
+   ============================================ */
+
+.label-text {
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+.label-text-alt {
+  font-size: 0.688rem !important;
+}

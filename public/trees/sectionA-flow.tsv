@@ -1,0 +1,62 @@
+id	parent	type	condition	target
+A_START	-	start	-	-
+A_DELIVER	A_START	action	-	-
+A_UNPLAN_CHECK	A_DELIVER	decision	-	-
+A_UNPLAN_YES	A_UNPLAN_CHECK	bridge	unplanned.length > 0	A_CP_CHECK
+A_UNPLAN_NO	A_UNPLAN_CHECK	decision	unplanned.length === 0	-
+A_UP_TIME	A_UNPLAN_NO	question	totalActual > totalPlanned * 1.15	-
+A_UP_TIME_YES	A_UP_TIME	bridge	answer === yes	A_CP_CHECK
+A_UP_TIME_NO	A_UP_TIME	bridge	answer === no, just took longer	A_CP_CHECK
+A_UP_INC	A_UNPLAN_NO	question	partial or not_done exist	-
+A_UP_INC_YES	A_UP_INC	bridge	answer === yes, something came up	A_CP_CHECK
+A_UP_INC_NO	A_UP_INC	bridge	answer === no, just didn't finish	A_CP_CHECK
+A_UP_HIST	A_UNPLAN_NO	question	unplanned in 3+ of last 5 reports	-
+A_UP_HIST_YES	A_UP_HIST	bridge	answer === yes	A_CP_CHECK
+A_UP_HIST_NO	A_UP_HIST	bridge	answer === no, clean today	A_CP_CHECK
+A_UP_GEN	A_UNPLAN_NO	question	nothing else applies	-
+A_UP_GEN_YES	A_UP_GEN	bridge	answer === yes	A_CP_CHECK
+A_UP_GEN_NO	A_UP_GEN	bridge	answer === no	A_CP_CHECK
+A_CP_CHECK	A_DELIVER	decision	after unplanned resolves	-
+A_CP_YES	A_CP_CHECK	action	isCriticalPath === true	-
+A_CP_YES_QA	A_CP_YES	question	-	-
+A_CP_YES_QA_ACK	A_CP_YES_QA	bridge	-	A_TENSION
+A_CP_NO	A_CP_CHECK	decision	isCriticalPath === false	-
+A_PROBE_PROG	A_CP_NO	question	programCpData exists	-
+A_PROBE_PROG_YES	A_PROBE_PROG	question	answer === {deliverable}	-
+A_PROBE_PROG_YES_ACK	A_PROBE_PROG_YES	bridge	-	A_TENSION
+A_PROBE_PROG_UNSURE	A_PROBE_PROG	question	answer === not sure	-
+A_PROBE_PROG_UNSURE_PICK	A_PROBE_PROG_UNSURE	question	answer === {deliverable}	-
+A_PROBE_PROG_UNSURE_PICK_ACK	A_PROBE_PROG_UNSURE_PICK	bridge	-	A_TENSION
+A_PROBE_PROG_UNSURE_SKIP	A_PROBE_PROG_UNSURE	bridge	answer === skip	A_TENSION_NOCP
+A_PROBE_PROG_NO	A_PROBE_PROG	question	answer === no	-
+A_PROBE_PROG_NO_PICK	A_PROBE_PROG_NO	question	answer === {deliverable}	-
+A_PROBE_PROG_NO_PICK_ACK	A_PROBE_PROG_NO_PICK	bridge	-	A_TENSION
+A_PROBE_PROG_NO_SKIP	A_PROBE_PROG_NO	bridge	answer === skip	A_TENSION_NOCP
+A_PROBE_TIME	A_CP_NO	question	one deliverable has 2x+ estimate	-
+A_PROBE_TIME_YES	A_PROBE_TIME	question	answer === yes	-
+A_PROBE_TIME_YES_ACK	A_PROBE_TIME_YES	bridge	-	A_TENSION
+A_PROBE_TIME_NO	A_PROBE_TIME	question	answer === no	-
+A_PROBE_TIME_NO_PICK	A_PROBE_TIME_NO	question	answer === {deliverable}	-
+A_PROBE_TIME_NO_PICK_ACK	A_PROBE_TIME_NO_PICK	bridge	-	A_TENSION
+A_PROBE_TIME_NO_SKIP	A_PROBE_TIME_NO	bridge	answer === skip	A_TENSION_NOCP
+A_PROBE_INC	A_CP_NO	question	partial or not_done exist	-
+A_PROBE_INC_YES	A_PROBE_INC	question	answer === yes, it would	-
+A_PROBE_INC_YES_ACK	A_PROBE_INC_YES	bridge	-	A_TENSION
+A_PROBE_INC_NO	A_PROBE_INC	bridge	answer === no, it's independent	A_TENSION_NOCP
+A_PROBE_ASK	A_CP_NO	question	no programData, no asymmetry, no incomplete	-
+A_PROBE_ASK_YES	A_PROBE_ASK	question	answer === yes	-
+A_PROBE_ASK_YES_QA	A_PROBE_ASK_YES	question	-	-
+A_PROBE_ASK_YES_QA_ACK	A_PROBE_ASK_YES_QA	bridge	-	A_TENSION
+A_PROBE_ASK_NO	A_PROBE_ASK	bridge	answer === no	A_TENSION_NOCP
+A_PROBE_GEN	A_CP_NO	question	nothing else applies	-
+A_PROBE_GEN_PICK	A_PROBE_GEN	question	answer === {deliverable}	-
+A_PROBE_GEN_PICK_ACK	A_PROBE_GEN_PICK	bridge	-	A_TENSION
+A_PROBE_GEN_EQUAL	A_PROBE_GEN	bridge	answer === they're all equal	A_TENSION_NOCP
+A_TENSION	A_DELIVER	action	hasCpItem === true	-
+A_BRIDGE_B	A_TENSION	action	-	-
+A_BRIDGE_B_NOTDONE	A_BRIDGE_B	bridge	notDone > 0	SECTION_B
+A_BRIDGE_B_DONE	A_BRIDGE_B	bridge	notDone === 0	SECTION_B
+A_END_B	A_BRIDGE_B	end	-	-
+A_TENSION_NOCP	A_DELIVER	action	hasCpItem === false	-
+A_BRIDGE_C	A_TENSION_NOCP	bridge	-	SECTION_C
+A_END_C	A_BRIDGE_C	end	-	-

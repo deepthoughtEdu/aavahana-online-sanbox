@@ -1,0 +1,101 @@
+/* ============================================
+   CONNECT — Relationships draw themselves.
+
+   Program structure is a living network. Dependencies form.
+   Paths can be traced. Static lines communicate topology;
+   animated connections communicate causality.
+
+   INFRASTRUCTURE NOTE:
+   These classes target SVG elements. The CSS provides animation;
+   JSX is responsible for measuring path length and setting it
+   via inline style or a hook (e.g. pathRef.getTotalLength()).
+
+   SVG setup required for .dt-link-draw:
+   1. Measure path length: const len = pathEl.getTotalLength()
+   2. Set on element: style={{ strokeDasharray: len, '--path-length': len }}
+   3. Apply .dt-link-draw
+
+   Ontology: conceptual-model | lifecycle/state-change | one-shot | data-surface
+   ============================================ */
+
+/* ---- Link draw ---- */
+/* A dependency line or relationship arc draws itself.
+   Apply to <path> or <polyline> SVG elements.
+   Requires --path-length set via inline style. */
+
+@keyframes dtLinkDraw {
+  from { stroke-dashoffset: var(--path-length, 200); opacity: 0; }
+  15%  { opacity: 1; }
+  to   { stroke-dashoffset: 0; opacity: 1; }
+}
+
+.dt-link-draw {
+  stroke-dasharray: var(--path-length, 200);
+  stroke-dashoffset: var(--path-length, 200);
+  animation: dtLinkDraw var(--dt-duration-deliberate) var(--dt-ease-cascade) both;
+}
+
+/* ---- Link sever ---- */
+/* A dependency has been removed or broken.
+   Path fades out; stroke flashes red at midpoint.
+   Apply via JS on removal; clean up element after animationend. */
+
+@keyframes dtLinkSever {
+  0%   { opacity: 1; stroke: currentColor; }
+  40%  { opacity: 1; stroke: var(--dt-red); }
+  100% { opacity: 0; stroke: var(--dt-red); }
+}
+
+.dt-link-sever {
+  animation: dtLinkSever 300ms var(--dt-ease-precise) both;
+}
+
+/* ---- Connect dot ---- */
+/* Junction point appearing at a connection endpoint.
+   Apply to <circle> elements at path start/end points. */
+
+@keyframes dtConnectDot {
+  from { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.2); opacity: 1; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.dt-connect-dot {
+  transform-origin: center;
+  animation: dtConnectDot var(--dt-duration-base) var(--dt-ease-stamp) both;
+}
+
+/* ---- Trace path ---- */
+/* A highlight travels along an existing SVG path — "show critical path" action.
+   Implemented as a gradient overlay that moves along the path.
+   For full critical-path tracing, use a JS-driven approach (animateMotion).
+   This CSS class provides the visual highlight for simpler use cases. */
+
+@keyframes dtTracePath {
+  from { stroke-dashoffset: var(--path-length, 200); opacity: 0.7; }
+  to   { stroke-dashoffset: 0; opacity: 0; }
+}
+
+.dt-trace-path {
+  stroke-dasharray: var(--path-length, 200);
+  stroke-dashoffset: var(--path-length, 200);
+  stroke: var(--dt-teal);
+  stroke-width: 3;
+  fill: none;
+  animation: dtTracePath 800ms var(--dt-ease-cascade) both;
+}
+
+/* ---- Thread ---- */
+/* A vertical connector line extending downward.
+   Parent-child relationships, conversation threads, drill-down connectors.
+   Apply to a div acting as the vertical line between two elements. */
+
+@keyframes dtThread {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+.dt-thread {
+  transform-origin: top;
+  animation: dtThread var(--dt-duration-deliberate) var(--dt-ease-cascade) both;
+}

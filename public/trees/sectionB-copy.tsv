@@ -1,0 +1,82 @@
+id	text
+START	Let's find the constraint.
+Q1	Think about {cpItem.label}. Where was the friction?
+A1_FAST	speed
+A1_QUAL	quality
+A1_EFF	wasted effort
+A1_DEP	waiting on someone
+A1_NONE	it went well
+ACK_FAST	Speed. Let's look at the time.
+ACK_FAST_T1	You planned {estimate}. It took {actual}. Where did the extra {gap} minutes go?
+ACK_FAST_T2	You finished on time. If you did it again, what would you change?
+ACK_FAST_T3	You have done similar work in {bestTime} before. Today was {actual}. What was different?
+ACK_QUAL	Quality. Let's look at the output.
+ACK_QUAL_T1	QA spec was not met. What got in the way?
+ACK_QUAL_T2	QA is met, but you see room to improve. What would good look like?
+ACK_QUAL_T3	There is no QA spec for this. Is that part of the problem?
+ACK_QUAL_T4	Verification is unclear. What is making it hard to check?
+ACK_EFF	Wasted effort. Let's trace where time went.
+ACK_EFF_T1	{unplannedMins}m went to unplanned work. Did that take effort away from {cpItem}?
+ACK_EFF_T2	Where did effort go that did not move the work forward?
+ACK_EFF_T3	Low time spent. What felt like it did not need doing?
+ACK_EFF_T4	Wasted effort is frustrating. What specifically felt like it was not needed?
+ACK_DEP	Dependency. Let's look at what held you up.
+ACK_DEP_T1	You have flagged {type} {n} times in {days} days. Same thing today?
+ACK_DEP_T2	Who or what were you waiting on?
+B_CONSTRAINT	Where was the constraint?
+B_CONSTRAINT_2	Where was the constraint?
+B_CONSTRAINT_3	Where was the constraint?
+B_CONSTRAINT_4	Where was the constraint?
+CPICK_SKIP_2	OK. Moving on.
+CPICK_SKIP_3	OK. Moving on.
+CPICK_SKIP_4	OK. Moving on.
+E_CP_PROBE	{cpItem} is on the critical path. Did you find something that worked well?
+E_NOCP_PROBE	Was there anything critical today that held you back?
+E_SOP_MARK	Nice. Should we capture what made it work?
+E_CP_TIME	You planned {estimate}, took {actual}. The task is done. But where did the extra {gap} minutes go?
+E_CP_UNPLAN	{unplannedMins}m went to unplanned work. Did that affect {cpItem}?
+E_CP_PATTERN	Last time you did similar work, {constraint} came up. Today it did not. What changed?
+E_CP_LAST	If you did {cpItem} again tomorrow, would you do anything different?
+E_NOCP_WANT	Would you like to name what constrained it?
+E_NOCP_FIX	Got it. No critical path today.
+E_NOCP_SMOOTH	Was today a smooth day overall?
+SMOOTH_NOTE	Anything you want to note about today? One line is enough.
+SMOOTH_EXIT	Good day. Let's close out.
+E_CP_TIME_NO	OK. The work just took longer. Moving on.
+E_CP_UNPLAN_NO	OK. Separate issue. Moving on.
+E_CP_PATTERN_OUT	Good to know. Moving on.
+E_CP_LAST_NO	Same approach. Nothing to change. Moving on.
+E_SOP_YES	What made it work? Pick the closest match.
+E_SOP_PICK	{sop.macroLabel}. Captured.
+E_SOP_PICK_SKIP	OK. Moving on.
+E_SOP_SKIP	OK. Moving on.
+E_NOCP_WANT_NO	OK. No constraint to name. Moving on.
+E_CONSTRAINT	Where was the constraint?
+E_CONSTRAINT_SKIP	OK. Moving on.
+CPICK	What about {constraint.macroLabel} specifically?
+CPICK_SKIP	OK. Moving on.
+CPICK_CONFIRM	Are you sure? Which one comes closest?
+CPICK_INSIST	OK. No constraint micro to name.
+CPICK_RETRY_PICK	{constraint.microLabel}.
+CPICK_MICRO	{constraint.microLabel}.
+CPICK_SOCIAL	{programPercent}% of your program saw this same constraint this week.
+CPICK_OUTLIER	Most of your program saw {topMacro}. You are seeing something different.
+NAV	How did you handle it?
+NAV_MACRO	What specifically?
+NAV_NONE	OK. Moving on.
+NAV_MICRO_NONE	OK. Moving on.
+NAV_MICRO	{navigation.microLabel}.
+NAV_MICRO_ACK	Got it.
+NARR_INVITE	There is a story here. Want to capture it?
+NARR_YES	You hit {constraint.microLabel}. Say more about what happened. Even one sentence helps.
+NARR_NUDGE_PATTERN	{constraint.micro} has come up {n} times. One sentence on what keeps it coming back?
+NARR_NUDGE_NEW	First time using {navigation.micro}. How did it go?
+NARR_NUDGE_TIME	{gap} minutes over plan. One word for why?
+NARR_NUDGE_NONE	OK. Moving on.
+NARR_CONFIRM	Thank you, you marked {constraint.microLabel} as the constraint.
+NARR_PATTERN_NO	OK. Moving on.
+NARR_PATTERN_SKIP	OK. Moving on.
+B_SUMMARY	Constraint: {constraint.micro}. Navigation: {navigation.micro}.
+BRIDGE	{bridgeText(improvementScope)}
+SECTION_C	Section C
+SECTION_C_SMOOTH	Section C (smooth day)

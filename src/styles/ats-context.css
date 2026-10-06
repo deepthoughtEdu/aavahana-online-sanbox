@@ -1,0 +1,635 @@
+/* ============================================
+   ATS CONTEXT — v2 Design System (Full)
+   Sidebar layout · Animations · Interactions
+   ============================================ */
+
+/* --- Design Tokens --- */
+.ats-shell {
+  --ats-blue: #0029FF;
+  --ats-blue-hover: #0022DD;
+  --ats-blue-glow: rgba(0, 41, 255, 0.2);
+  --ats-blue-dim: rgba(0, 41, 255, 0.06);
+  --ats-blue-shadow: rgba(0, 41, 255, 0.12);
+  --ats-dark: #020617;
+  --ats-dark-surface: rgba(255, 255, 255, 0.03);
+  --ats-dark-border: rgba(255, 255, 255, 0.06);
+  --ats-text: #0f172a;
+  --ats-muted: #64748b;
+  --ats-border: #e2e8f0;
+  --ats-bg: #ffffff;
+  --ats-bg-soft: #f8fafc;
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-material: cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  color: var(--ats-text);
+}
+
+/* ============================================
+   LAYOUT — Sidebar + Content
+   ============================================ */
+
+.ats-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --- Sidebar --- */
+.ats-sidebar {
+  position: sticky;
+  top: 0;
+  width: 260px;
+  height: 100vh;
+  flex-shrink: 0;
+  background: var(--ats-dark);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 40;
+}
+
+.ats-sidebar-header {
+  padding: 32px 24px 24px;
+  border-bottom: 1px solid var(--ats-dark-border);
+}
+
+.ats-sidebar-brand {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.5625rem;
+  font-weight: 900;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 4px;
+}
+
+.ats-sidebar-title {
+  font-size: 1.125rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.ats-sidebar-nav {
+  padding: 16px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ats-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+
+.ats-nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: var(--ats-blue);
+  border-radius: 0 2px 2px 0;
+  transform: scaleY(0);
+  transition: transform 0.25s var(--ease-out-expo);
+}
+
+.ats-nav-item:hover {
+  color: rgba(255, 255, 255, 0.75);
+  background: var(--ats-dark-surface);
+}
+
+.ats-nav-item.is-active {
+  color: #ffffff;
+  font-weight: 700;
+  background: var(--ats-dark-surface);
+}
+
+.ats-nav-item.is-active::before {
+  transform: scaleY(1);
+}
+
+.ats-nav-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.2);
+  padding: 20px 24px 8px;
+}
+
+.ats-nav-icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.5;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.ats-nav-item.is-active .ats-nav-icon {
+  opacity: 1;
+}
+
+/* Sidebar footer */
+.ats-sidebar-footer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--ats-dark-border);
+  margin-top: auto;
+}
+
+.ats-sidebar-footer-text {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.15);
+  line-height: 1.6;
+}
+
+/* --- Content Area --- */
+.ats-content {
+  flex: 1;
+  min-width: 0;
+  background: var(--ats-bg);
+  overflow-y: auto;
+}
+
+.ats-content-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 56px 48px 80px;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.ats-eyebrow {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.625rem;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ats-blue);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ats-eyebrow::before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--ats-blue);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.ats-section-title {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--ats-text);
+  line-height: 1.1;
+}
+
+.ats-body {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--ats-muted);
+}
+
+.ats-metric {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--ats-blue);
+  line-height: 1;
+}
+
+.ats-metric-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ats-muted);
+  margin-top: 4px;
+}
+
+/* ============================================
+   CARDS — Lift interaction
+   ============================================ */
+
+.ats-card {
+  background: var(--ats-bg);
+  border: 1px solid var(--ats-border);
+  border-radius: 12px;
+  padding: 28px;
+  transition: transform 0.22s ease,
+              box-shadow 0.22s ease,
+              border-color 0.22s ease;
+}
+
+.ats-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px var(--ats-blue-shadow);
+  border-color: rgba(0, 41, 255, 0.15);
+}
+
+.ats-card-dark {
+  background: var(--ats-dark);
+  border: 1px solid var(--ats-dark-border);
+  border-radius: 12px;
+  padding: 28px;
+  color: #ffffff;
+}
+
+/* ============================================
+   GRID CELLS — Interactive table
+   ============================================ */
+
+.ats-grid-cell {
+  background: var(--ats-bg);
+  border: 1px solid var(--ats-border);
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 0.8125rem;
+  transition: all 0.22s var(--ease-material);
+  cursor: pointer;
+}
+
+.ats-grid-cell:hover {
+  border-color: var(--ats-blue);
+  background: var(--ats-blue-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--ats-blue-shadow);
+}
+
+.ats-grid-cell.is-selected {
+  border-color: var(--ats-blue);
+  background: var(--ats-blue-dim);
+  box-shadow: 0 0 0 3px var(--ats-blue-glow);
+}
+
+.ats-grid-cell .cell-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--ats-blue);
+  margin-bottom: 4px;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Entrance — staggered fade-up */
+@keyframes atsEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ats-enter {
+  animation: atsEnter 0.65s var(--ease-out-expo) both;
+}
+
+.ats-enter-d1 { animation-delay: 0.05s; }
+.ats-enter-d2 { animation-delay: 0.12s; }
+.ats-enter-d3 { animation-delay: 0.20s; }
+.ats-enter-d4 { animation-delay: 0.28s; }
+.ats-enter-d5 { animation-delay: 0.36s; }
+
+/* Scroll fade-in */
+.ats-fade-in {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.55s var(--ease-material),
+              transform 0.55s var(--ease-material);
+}
+
+.ats-fade-in.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Pulse for live indicators */
+@keyframes atsPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.ats-pulse {
+  animation: atsPulse 1.8s ease-in-out infinite;
+}
+
+/* Status dot glow */
+@keyframes atsRingPulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ============================================
+   INTERACTIVE — Buttons, Links
+   ============================================ */
+
+.ats-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: var(--ats-blue);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease,
+              box-shadow 0.3s ease,
+              transform 0.2s ease;
+}
+
+.ats-btn-primary:hover {
+  background: var(--ats-blue-hover);
+  box-shadow: 0 0 24px var(--ats-blue-glow),
+              0 8px 32px rgba(0, 41, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.ats-btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 0 12px var(--ats-blue-glow);
+}
+
+.ats-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--ats-blue);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--ats-blue);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ats-btn-ghost:hover {
+  background: var(--ats-blue-dim);
+  box-shadow: 0 0 16px var(--ats-blue-glow);
+}
+
+/* Arrow link — gap grows on hover */
+.ats-arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ats-blue);
+  cursor: pointer;
+  transition: gap 0.22s ease, color 0.22s ease;
+}
+
+.ats-arrow-link:hover {
+  gap: 12px;
+}
+
+.ats-arrow-link svg {
+  transition: transform 0.22s ease;
+}
+
+.ats-arrow-link:hover svg {
+  transform: translateX(2px);
+}
+
+/* Row hover (heritage list, etc.) */
+.ats-row-hover {
+  transition: background 0.15s ease;
+}
+
+.ats-row-hover:hover {
+  background: var(--ats-blue-dim);
+}
+
+/* Portrait circle — hover glow */
+.ats-portrait {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.ats-portrait:hover {
+  border-color: var(--ats-blue) !important;
+  box-shadow: 0 0 20px var(--ats-blue-glow);
+  transform: scale(1.06);
+}
+
+/* ============================================
+   BACKGROUND PATTERNS
+   ============================================ */
+
+.ats-dot-grid {
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.04) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+}
+
+.ats-hex-grid {
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 28px 48px, 28px 48px;
+  background-position: 0 0, 14px 24px;
+}
+
+/* ============================================
+   SECTION DIVIDERS
+   ============================================ */
+
+.ats-section-glow {
+  position: relative;
+}
+
+.ats-section-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 80px;
+  background: radial-gradient(ellipse, var(--ats-blue-glow) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* ============================================
+   PROGRESSION STRIP
+   ============================================ */
+
+.ats-progression-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 22px;
+  border-radius: 8px;
+  border: 1px solid var(--ats-border);
+  background: var(--ats-bg-soft);
+  min-width: 100px;
+  transition: all 0.22s ease;
+}
+
+.ats-progression-step:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--ats-blue-shadow);
+  border-color: rgba(0, 41, 255, 0.2);
+}
+
+.ats-progression-step.is-final {
+  background: var(--ats-blue-dim);
+  border-color: var(--ats-blue);
+}
+
+/* ============================================
+   TAGS / CHIPS
+   ============================================ */
+
+.ats-tag {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ats-blue);
+  background: var(--ats-blue-dim);
+  border: 1px solid rgba(0, 41, 255, 0.15);
+  border-radius: 4px;
+  padding: 4px 10px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.ats-tag:hover {
+  background: rgba(0, 41, 255, 0.1);
+  border-color: var(--ats-blue);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .ats-shell {
+    flex-direction: column;
+  }
+
+  .ats-sidebar {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    border-top: 1px solid var(--ats-dark-border);
+    z-index: 50;
+  }
+
+  .ats-sidebar-header,
+  .ats-sidebar-footer,
+  .ats-nav-label {
+    display: none;
+  }
+
+  .ats-sidebar-nav {
+    flex-direction: row;
+    padding: 0;
+    gap: 0;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .ats-nav-item {
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 16px;
+    font-size: 0.625rem;
+    white-space: nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ats-nav-item::before {
+    top: 0;
+    bottom: auto;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    height: 2px;
+    border-radius: 0 0 2px 2px;
+    transform: scaleX(0);
+  }
+
+  .ats-nav-item.is-active::before {
+    transform: scaleX(1);
+  }
+
+  .ats-content-inner {
+    padding: 32px 20px 100px;
+  }
+
+  .ats-section-title {
+    font-size: 1.5rem;
+  }
+
+  .ats-metric {
+    font-size: 2rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

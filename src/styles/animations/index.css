@@ -1,0 +1,75 @@
+/* ============================================
+   DT DESIGN SYSTEM — Motion Layer
+   Entry point. Import this file only.
+
+   Visual metaphors encoded in the branches:
+
+   THE RISE      — work arriving, ready to act on
+   THE COMMIT    — decision stamped, final
+   THE CASCADE   — strategy flows down L4→L1
+   THE SPRINT    — progress is directional
+   THE SCAN      — Niyanta reads and surfaces intelligence
+   THE FLAG      — demands intervention before escalation
+   THE RITUAL    — same form every time, cadence is predictable
+
+   Don Norman contract:
+   — Every entrance answers: "look here, something arrived."
+   — Every completion answers: "yes, the system heard you."
+   — Every alert answers: "this needs you before it escalates."
+   — Every loading answers: "working, not frozen."
+   — Every hover answers: "yes, this is interactive."
+   — Every press answers: "received."
+   — Every status answers: "I know what this item needs."
+   — Every ceremony answers: "this moment is different from routine."
+
+   Motion tokens: theme.css :root (--dt-duration-*, --dt-ease-*)
+
+   Branches:
+     enter    — things arriving
+     exit     — things leaving
+     press    — tactile interactions (hover, active, focus, inputs, chevron)
+     state    — status & data changes
+     load     — loading states
+     stagger  — rhythm & sequence
+     texture  — visual texture, fine detail
+     ecology  — status energy signatures (each status has temporal character)
+     data     — data ecology (bars fill, values settle, deltas signal)
+     assembly — structural composition (dock, lock, section-build)
+     ambient  — system intelligence at rest (sentinel, vigil, undercurrent)
+     ceremony — threshold crossings (seal, curtain-up, threshold, engrave)
+     connect  — connective tissue (link-draw, thread, trace-path)
+     weight   — hierarchy depth (L1 fast → L4 slow)
+   ============================================ */
+
+@import "./enter.css";
+@import "./exit.css";
+@import "./press.css";
+@import "./state.css";
+@import "./load.css";
+@import "./stagger.css";
+@import "./texture.css";
+@import "./ecology.css";
+@import "./data.css";
+@import "./assembly.css";
+@import "./ambient.css";
+@import "./ceremony.css";
+@import "./connect.css";
+@import "./weight.css";
+
+
+/* ============================================
+   REDUCED MOTION
+   Operators using accessibility tools must not be penalized.
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+  }
+
+  .dt-scan::after { display: none; }
+}

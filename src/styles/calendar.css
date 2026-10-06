@@ -1,0 +1,399 @@
+/* ============================================
+   COMPACT CALENDAR - MINIMAL DESIGN
+   ============================================ */
+
+/* Calendar Container */
+.compact-calendar {
+  border-radius: var(--radius-lg);
+  border: var(--border-default) solid var(--border-light);
+  overflow: hidden;
+  background: oklch(var(--b1));
+  max-width: 400px;
+  max-height: 520px;
+  margin: auto;
+}
+
+/* Calendar Header */
+.compact-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  background: oklch(var(--b2) / 0.3);
+  border-bottom: var(--border-default) solid var(--border-light);
+  gap: var(--spacing-sm);
+}
+
+.compact-calendar-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: oklch(var(--bc));
+}
+
+/* Weekday Headers */
+.compact-calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm) var(--spacing-md);
+  background: oklch(var(--b2) / 0.2);
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: oklch(var(--bc) / 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Calendar Days Grid */
+.compact-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  background: oklch(var(--b1));
+}
+
+/* Individual Day Cell - Minimal & Clean */
+.compact-calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  position: relative;
+  border: var(--border-default) solid var(--border-light);
+  height: 50px;
+  width: 50px;
+  background: oklch(var(--b1));
+  color: oklch(var(--bc));
+}
+
+.compact-calendar-day:hover:not(.blocked):not(.outside):not(.in-range):not(.selected) {
+  background: oklch(var(--b2) / 0.5);
+  border-color: var(--border-medium);
+}
+
+/* Outside month days */
+.compact-calendar-day.outside {
+  color: oklch(var(--bc) / 0.2);
+  background: transparent;
+  border-color: transparent;
+}
+
+.compact-calendar-day.outside:hover {
+  background: oklch(var(--b2) / 0.3);
+  border-color: var(--border-light);
+}
+
+/* Selected start/end dates */
+.compact-calendar-day.selected:not(.marked-deleted) {
+  background: var(--color-primary) !important;
+  color: var(--color-primary-content);
+  font-weight: 700;
+  border-color: var(--color-primary);
+}
+
+.compact-calendar-day.selected:hover {
+  background: color-mix(in srgb, var(--color-primary) 90%, black);
+}
+
+/* Days in selected range */
+.compact-calendar-day.in-range {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: oklch(var(--bc));
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+.compact-calendar-day:not(.selected):hover {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+  border-color: color-mix(in srgb, var(--color-primary) 40%, transparent) !important;
+}
+
+/* Sunday styling */
+.compact-calendar-day.sunday {
+  background: color-mix(in srgb, var(--color-info) 8%, transparent);
+  color: var(--color-info);
+  border-color: color-mix(in srgb, var(--color-info) 20%, transparent);
+}
+
+.compact-calendar-day.sunday:hover {
+  background: color-mix(in srgb, var(--color-info) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-info) 30%, transparent);
+}
+
+.compact-calendar-day.sunday:not(.holiday)::after {
+  content: '🏖️';
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  font-size: 2rem;
+  opacity: 0.3;
+  transform: translate(50%, -50%);
+  pointer-events: none;
+}
+
+/* Holiday styling */
+.compact-calendar-day.holiday {
+  background: color-mix(in srgb, var(--color-warning) 8%, transparent);
+  color: var(--color-info);
+  border-color: color-mix(in srgb, var(--color-warning) 20%, transparent);
+  font-weight: 600;
+}
+
+.compact-calendar-day.holiday:hover {
+  background: color-mix(in srgb, var(--color-warning) 15%, transparent);
+  border-color: color-mix(in srgb, var(--color-warning) 40%, transparent);
+}
+
+.compact-calendar-day.holiday::before {
+  content: '🎉';
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  font-size: 2rem;
+  opacity: 0.3 !important;
+  transform: translate(50%, -50%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Optional holiday */
+.compact-calendar-day.holiday.optional::before {
+  content: '☂️' !important;
+}
+
+/* Marked deleted days */
+.compact-calendar-day.marked-deleted {
+  background: color-mix(in srgb, var(--color-error) 8%, transparent);
+  color: var(--color-error);
+  text-decoration: line-through;
+  border: var(--border-default) dashed color-mix(in srgb, var(--color-error) 40%, transparent);
+  cursor: not-allowed;
+  font-weight: 600;
+}
+
+.compact-calendar-day.marked-deleted:hover {
+  background: color-mix(in srgb, var(--color-error) 12%, transparent);
+}
+
+.compact-calendar-day.marked-deleted::after {
+  content: '✗';
+  position: absolute;
+  color: var(--color-error);
+  font-weight: 700;
+  font-size: 0.875rem;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Blocked/disabled days */
+.compact-calendar-day.blocked {
+  color: oklch(var(--bc) / 0.15);
+  background: oklch(var(--b2) / 0.3);
+  cursor: not-allowed;
+  border-color: transparent;
+}
+
+.compact-calendar-day.blocked:hover {
+  background: oklch(var(--b2) / 0.3);
+}
+
+/* Today indicator */
+.compact-calendar-day.today:not(.selected) {
+  border-color: var(--color-warning) !important;
+  border-width: var(--border-focus);
+  font-weight: 600;
+  background-color: color-mix(in srgb, var(--color-warning) 25%, transparent);
+}
+
+/* Combined states */
+.compact-calendar-day.selected.holiday {
+  background: var(--color-primary);
+  color: var(--color-primary-content);
+  border-color: var(--color-warning);
+  border-width: 2px;
+}
+
+.compact-calendar-day.in-range.holiday {
+  background: color-mix(in srgb, var(--color-warning) 15%, transparent);
+  border-color: color-mix(in srgb, var(--color-warning) 35%, transparent);
+}
+
+.compact-calendar-day.in-range.sunday {
+  background: color-mix(in srgb, var(--color-info) 15%, transparent);
+  border-color: color-mix(in srgb, var(--color-info) 30%, transparent);
+}
+
+/* Time Inputs Section */
+.compact-time-inputs {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: oklch(var(--b2) / 0.3);
+  border-top: var(--border-default) solid var(--border-light);
+}
+
+.compact-time-inputs .form-control {
+  flex: 1;
+}
+
+/* Calendar legend */
+.compact-calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: oklch(var(--b2) / 0.2);
+  border-top: var(--border-default) solid var(--border-light);
+  font-size: 0.75rem;
+}
+
+.compact-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.compact-legend-box {
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--radius-sm);
+  border: var(--border-default) solid;
+  flex-shrink: 0;
+}
+
+.compact-legend-box.selected {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.compact-legend-box.holiday {
+  background: color-mix(in srgb, var(--color-warning) 20%, transparent);
+  border-color: var(--color-warning);
+}
+
+.compact-legend-box.sunday {
+  background: color-mix(in srgb, var(--color-info) 20%, transparent);
+  border-color: var(--color-info);
+}
+
+.compact-legend-box.deleted {
+  background: color-mix(in srgb, var(--color-error) 20%, transparent);
+  border-color: var(--color-error);
+  border-style: dashed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .compact-calendar-day {
+    font-size: 0.75rem;
+    height: 40px;
+    width: 40px;
+  }
+
+  .compact-calendar-day::before,
+  .compact-calendar-day::after {
+    font-size: 0.5rem;
+  }
+
+  .compact-calendar-header {
+    padding: var(--spacing-sm);
+  }
+
+  .compact-calendar-title {
+    font-size: 0.75rem;
+  }
+
+  .compact-calendar-days {
+    gap: 2px;
+    padding: var(--spacing-sm);
+  }
+}
+
+/* ============================================
+   REACT-DAY-PICKER v9 — Holiday + Sunday modifiers
+   --------------------------------------------
+   Holidays come from the org calendar; the LeaveCalendar wrapper applies the
+   `rdp-day_holiday` class to the <td>. Sundays use `rdp-day_sunday`. Both
+   render a small emoji in the day cell so applicants can spot "you won't be
+   charged" days at a glance — matching the legacy calendar's indicators.
+
+   rdp's own selectors (`.rdp-selected .rdp-day_button`) have decent
+   specificity and the button is a circle (border-radius: 100%) so colouring
+   the button itself looks fine. We anchor the ::after on the <td> instead of
+   the button so the emoji doesn't get clipped by the circle.
+   ============================================ */
+.rdp-day.rdp-day_holiday {
+  position: relative;
+}
+
+.rdp-day.rdp-day_sunday {
+  position: relative;
+}
+
+.rdp-day.rdp-day_holiday > .rdp-day_button:not([disabled]) {
+  background-color: color-mix(in srgb, var(--color-warning) 20%, transparent);
+  color: var(--color-warning);
+  font-weight: 700;
+}
+
+.rdp-day.rdp-day_holiday > .rdp-day_button:not([disabled]):hover {
+  background-color: color-mix(in srgb, var(--color-warning) 32%, transparent);
+}
+
+.rdp-day.rdp-day_sunday > .rdp-day_button:not([disabled]) {
+  background-color: color-mix(in srgb, var(--color-info) 14%, transparent);
+  color: var(--color-info);
+  font-weight: 700;
+}
+
+.rdp-day.rdp-day_sunday > .rdp-day_button:not([disabled]):hover {
+  background-color: color-mix(in srgb, var(--color-info) 24%, transparent);
+}
+
+/* Emoji indicator — anchored on the <td> so the round button can't clip it,
+   sits in the bottom-right corner of the cell. */
+.rdp-day.rdp-day_holiday::after,
+.rdp-day.rdp-day_sunday::after {
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  font-size: 0.8rem;
+  line-height: 1;
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.rdp-day.rdp-day_holiday::after {
+  content: "🎉";
+}
+
+.rdp-day.rdp-day_sunday::after {
+  content: "🏖️";
+}
+
+/* A Sunday holiday: keep just the 🎉 — they shouldn't stack. */
+.rdp-day.rdp-day_holiday.rdp-day_sunday::after {
+  content: "🎉";
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+.compact-calendar-day:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.compact-calendar-day[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

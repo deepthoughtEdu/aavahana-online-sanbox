@@ -1,0 +1,89 @@
+id	parent	type	condition	target
+C_START	-	start	-	-
+C_ROUTE	C_START	decision	-	-
+C_FW_ENTRY	C_ROUTE	question	entryPath === normal	-
+C_FW_SMOOTH	C_ROUTE	question	entryPath === smooth	-
+C_FW_SMOOTH_YES	C_FW_SMOOTH	action	answer === yes	C_FW_MACRO
+C_FW_SMOOTH_NO	C_FW_SMOOTH	decision	answer === no	-
+C_SL2_EFF	C_FW_SMOOTH_NO	question	actual < planned	-
+C_SL2_STREAK	C_FW_SMOOTH_NO	question	smooth 2+ consecutive days	-
+C_SL2_EFFORT	C_FW_SMOOTH_NO	question	all items done	-
+C_SL2_GEN	C_FW_SMOOTH_NO	question	nothing else applies	-
+C_SL2_EFF_YES	C_SL2_EFF	action	answer === yes, I did something	C_FW_MACRO
+C_SL2_EFF_UNSURE	C_SL2_EFF	question	answer === not sure	-
+C_SL2_EFF_UNSURE_TEXT	C_SL2_EFF_UNSURE	action	employee types answer	C_FW_MACRO
+C_SL2_EFF_UNSURE_SKIP	C_SL2_EFF_UNSURE	ack	answer === skip	C_BRIDGE_FW_FEEL
+C_SL2_EFF_NO	C_SL2_EFF	ack	answer === no, just a light day	C_BRIDGE_FW_FEEL
+C_SL2_STREAK_UNSURE	C_SL2_STREAK	question	answer === not sure	-
+C_SL2_STREAK_UNSURE_TEXT	C_SL2_STREAK_UNSURE	action	employee types answer	C_FW_MACRO
+C_SL2_STREAK_UNSURE_SKIP	C_SL2_STREAK_UNSURE	ack	answer === skip	C_BRIDGE_FW_FEEL
+C_SL2_STREAK_LUCKY	C_SL2_STREAK	ack	answer === just lucky I guess	C_BRIDGE_FW_FEEL
+C_SL2_STREAK_YES	C_SL2_STREAK	action	employee types habit	C_FW_MACRO
+C_SL2_EFFORT_NONE	C_SL2_EFFORT	ack	answer === nothing stood out	C_BRIDGE_FW_FEEL
+C_SL2_EFFORT_PICK	C_SL2_EFFORT	action	employee selects deliverable	C_FW_MACRO
+C_SL2_GEN_YES	C_SL2_GEN	action	answer === yes	C_FW_MACRO
+C_SL2_GEN_NO	C_SL2_GEN	ack	answer === no	C_BRIDGE_FW_FEEL
+C_FW_SKIP	C_FW_ENTRY	decision	answer === didn't use any framework	-
+C_SL1_DELIV	C_FW_SKIP	question	cpItem exists	-
+C_SL1_DELIV_YES	C_SL1_DELIV	action	answer === yes	C_FW_MACRO
+C_SL1_DELIV_MAYBE	C_SL1_DELIV	action	answer === maybe	C_FW_MACRO
+C_SL1_DELIV_NO	C_SL1_DELIV	action	answer === no	C_SL1_PROBE2
+C_SL1_PROBE2	C_FW_SKIP	decision	nothing else applies	-
+C_SL1_CONSTR	C_SL1_PROBE2	question	constraint + navigation captured AND framework is null	-
+C_SL1_CONSTR_YES	C_SL1_CONSTR	action	answer === yes	C_FW_MACRO
+C_SL1_CONSTR_UNSURE	C_SL1_CONSTR	action	answer === not sure	C_FW_MACRO
+C_SL1_CONSTR_NO	C_SL1_CONSTR	action	answer === it was instinct	C_SL1_COMMIT
+C_SL1_COMMIT	C_SL1_PROBE2	question	nothing else applies	-
+C_SL1_COMMIT_NO	C_SL1_COMMIT	ack	answer === not yet	C_BRIDGE_FW_FEEL
+C_SL1_COMMIT_PICK	C_SL1_COMMIT	action	picks macro	C_SL1_COMMIT_ACK
+C_SL1_COMMIT_ACK	C_SL1_COMMIT	ack	-	C_BRIDGE_FW_FEEL
+C_FW_MACRO	C_FW_ENTRY	question	employee selects framework	-
+C_FW_MICRO	C_FW_MACRO	question	picks macro	-
+C_FW_NARR	C_FW_MICRO	question	picks micro	-
+C_FW_NARR_RECORD	C_FW_NARR	question	-	-
+C_FW_NARR_SHORT	C_FW_NARR_RECORD	nudge	charCount < 180	-
+C_FW_NARR_SHORT_CONT	C_FW_NARR_SHORT	action	answer === continue	C_FW_NARR_RECORD
+C_FW_NARR_SHORT_SUBMIT	C_FW_NARR_SHORT	ack	answer === submit as is	-
+C_FW_CONFIRM	C_FW_NARR_RECORD	action	charCount >= 180	C_FW_ADD
+C_FW_CONFIRM_SHORT	C_FW_NARR_SHORT_SUBMIT	action	-	C_FW_ADD
+C_FW_ADD	C_FW_CONFIRM	question	-	-
+C_FW_ADD_YES	C_FW_ADD	action	answer === yes, add another	C_FW_MACRO
+C_FW_ADD_NO	C_FW_ADD	ack	answer === no, that's all	C_BRIDGE_FW_FEEL
+C_BRIDGE_FW_FEEL	C_FW_ADD_NO	bridge	-	-
+C_FEEL_ENTRY	C_BRIDGE_FW_FEEL	question	-	-
+C_FEEL_SKIP	C_FEEL_ENTRY	question	answer === skip	-
+C_FEEL_SKIP_PICK	C_FEEL_SKIP	action	picks macro	C_FEEL_MICRO
+C_FEEL_SKIP_CONFIRM	C_FEEL_SKIP	ack	answer === really skip	C_SUMMARY
+C_FEEL_MACRO	C_FEEL_ENTRY	ack	picks macro	-
+C_FEEL_MICRO	C_FEEL_MACRO	question	-	-
+C_FEEL_MICRO_ACK	C_FEEL_MICRO	ack	picks micro	-
+C_FEEL_VALENCE	C_FEEL_MICRO_ACK	decision	-	-
+C_FEEL_POS	C_FEEL_VALENCE	ack	valence === positive	C_FEEL_SIGNAL_CHECK
+C_FEEL_NEU	C_FEEL_VALENCE	ack	valence === neutral	C_FEEL_SIGNAL_CHECK
+C_FEEL_NEG	C_FEEL_VALENCE	ack	valence === negative	-
+C_FEEL_SIGNAL_CHECK	C_FEEL_POS	decision	-	-
+C_FEEL_SIGNAL	C_FEEL_SIGNAL_CHECK	signal	teamSampleSize >= 5	C_SUMMARY
+C_FEEL_SIGNAL_SKIP	C_FEEL_SIGNAL_CHECK	bridge	teamSampleSize < 5	C_SUMMARY
+C_SD_ENTRY	C_FEEL_NEG	decision	-	-
+C_SD_COMPASSION	C_SD_ENTRY	nudge	-	-
+C_SD_BRUTAL	C_SD_COMPASSION	question	-	-
+C_SD_BRUTAL_SKIP	C_SD_BRUTAL	ack	answer === I'd rather not	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_BRUTAL_ANS	C_SD_BRUTAL	action	answer === voice/text	-
+C_SD_AGENCY	C_SD_BRUTAL_ANS	question	-	-
+C_SD_AGENCY_SKIP	C_SD_AGENCY	ack	answer === I'd rather not	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_AGENCY_ANS	C_SD_AGENCY	action	answer === voice/text	-
+C_SD_EVIDENCE	C_SD_AGENCY_ANS	ack	constraint and navigation exist	-
+C_SD_EVIDENCE_NOCONTEXT	C_SD_AGENCY_ANS	ack	no constraint/navigation context	-
+C_SD_FAITH	C_SD_EVIDENCE	question	-	-
+C_SD_FAITH_NOCONTEXT	C_SD_EVIDENCE_NOCONTEXT	question	-	-
+C_SD_FAITH_SKIP	C_SD_FAITH	ack	answer === I'd rather not	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_FAITH_SKIP_NC	C_SD_FAITH_NOCONTEXT	ack	answer === I'd rather not	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_FAITH_ANS	C_SD_FAITH	action	answer === voice/text	-
+C_SD_FAITH_ANS_NC	C_SD_FAITH_NOCONTEXT	action	answer === voice/text	-
+C_SD_ANCHOR	C_SD_FAITH_ANS	ack	-	C_FEEL_NEG_SIGNAL_CHECK
+C_SD_ANCHOR_NC	C_SD_FAITH_ANS_NC	ack	-	C_FEEL_NEG_SIGNAL_CHECK
+C_FEEL_NEG_SIGNAL_CHECK	C_SD_ANCHOR	decision	-	-
+C_FEEL_SIGNAL_NEG	C_FEEL_NEG_SIGNAL_CHECK	signal	teamSampleSize >= 5	C_SUMMARY
+C_FEEL_SIGNAL_NEG_SKIP	C_FEEL_NEG_SIGNAL_CHECK	bridge	teamSampleSize < 5	C_SUMMARY
+C_SUMMARY	C_FEEL_SIGNAL	ack	-	-
+C_END	C_SUMMARY	end	-	-

@@ -1,0 +1,121 @@
+/* ============================================
+   STATE — The system tells you something changed.
+
+   The Commit  — decision stamped, final, authoritative
+   The Flag    — intervention required before escalation
+   Pulse       — sustained attention (item remains blocked)
+   Flash       — status changed on screen (one-shot)
+   ============================================ */
+
+/* ---- The Commit ---- */
+/* A decision has been made. Not a bounce — a micro-overshoot that settles. */
+
+@keyframes dtStamp {
+  0%   { opacity: 0; transform: scale(1.06); }
+  60%  { opacity: 1; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes dtResolve {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(0.94); }
+  60%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Status badge / approval mark — stamps into view */
+.dt-stamp   { animation: dtStamp   var(--dt-duration-base)        var(--dt-ease-stamp) both; }
+
+/* Task completion — the element resolves, settles into done */
+.dt-resolve { animation: dtResolve var(--dt-duration-deliberate)   var(--dt-ease-stamp); }
+
+/* ---- The Flag ---- */
+/* Sharp horizontal signal. Fires once. Not aggressive — precise. */
+/* Note: .dt-anim-flag — distinct from .dt-flag badge component in dt.css */
+
+@keyframes dtFlagShake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-3px); }
+  40%       { transform: translateX(3px); }
+  60%       { transform: translateX(-2px); }
+  80%       { transform: translateX(2px); }
+}
+
+@keyframes dtFlagRing {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(198, 40, 40, 0); }
+  50%       { box-shadow: 0 0 0 4px rgba(198, 40, 40, 0.18); }
+}
+
+.dt-anim-flag {
+  animation:
+    dtFlagShake 400ms var(--dt-ease-precise) 1,
+    dtFlagRing  1.6s  ease-in-out            3;
+}
+
+/* ---- Sustained pulse (items that remain blocked) ---- */
+
+@keyframes dtPulseRed {
+  0%, 100% { box-shadow: 0 0 5px  rgba(198, 40, 40, 0.37); }
+  50%       { box-shadow: 0 0 14px #c62828, 0 0 28px rgba(198, 40, 40, 0.5); }
+}
+
+@keyframes dtPulseAmber {
+  0%, 100% { box-shadow: 0 0 5px  rgba(201, 117, 0, 0.25); }
+  50%       { box-shadow: 0 0 12px #c97500, 0 0 22px rgba(201, 117, 0, 0.37); }
+}
+
+@keyframes dtPulseBlue {
+  0%, 100% { box-shadow: 0 0 5px  rgba(0, 51, 255, 0.20); }
+  50%       { box-shadow: 0 0 12px rgba(0, 51, 255, 0.5), 0 0 24px rgba(0, 51, 255, 0.25); }
+}
+
+.dt-pulse-red   { animation: dtPulseRed   2.4s ease-in-out infinite; }
+.dt-pulse-amber { animation: dtPulseAmber 3.2s ease-in-out infinite; }
+.dt-pulse-blue  { animation: dtPulseBlue  2.8s ease-in-out infinite; }
+
+/* ---- Status flash (inline status updates) ---- */
+/* When status changes on screen, the change must register. One flash, settles. */
+
+@keyframes dtFlashDone {
+  0%   { background-color: inherit; }
+  25%  { background-color: var(--dt-greenDim); }
+  100% { background-color: inherit; }
+}
+
+@keyframes dtFlashFlag {
+  0%   { background-color: inherit; }
+  25%  { background-color: var(--dt-amberDim); }
+  100% { background-color: inherit; }
+}
+
+@keyframes dtFlashBlocked {
+  0%   { background-color: inherit; }
+  25%  { background-color: var(--dt-redDim); }
+  100% { background-color: inherit; }
+}
+
+.dt-flash-done    { animation: dtFlashDone    600ms var(--dt-ease-precise); }
+.dt-flash-flag    { animation: dtFlashFlag    600ms var(--dt-ease-precise); }
+.dt-flash-blocked { animation: dtFlashBlocked 600ms var(--dt-ease-precise); }
+
+/* ---- Presentation deck keyframes (migrated from deck.constants.ts runtime injection) ---- */
+
+@keyframes dk-pulse-accent {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50%       { box-shadow: 0 0 28px 4px var(--dk-accent-glow); }
+}
+
+@keyframes dk-pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(198, 40, 40, 0); }
+  50%       { box-shadow: 0 0 24px 4px rgba(198, 40, 40, 0.18); }
+}
+
+@keyframes dk-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+@keyframes dk-fadein {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
